@@ -1,0 +1,20 @@
+
+with TMP_COUNT as 
+(
+	Select SYSDATE as audit_date, field1, field2, field3
+	from ( 
+		Select SYSDATE as audit_date, field1, field2, field3
+		from OWNER.TIRES WHERE lastprocessedDTP > sysdate - 90 ) 
+		group by audit_date, field1, field2, field3
+	) 
+	
+) 
+
+Select to_char(A.audit_date,'YYYYMMDD') AS EX, field1, field2, field3
+from TMP_COUNT A 
+LEFT OUTER JOIN TMP_COUNT B ON A.field1 -7 < B.field1 
+and A.field2 > B.field2 and A.field3 = B.field3 left outer join TMP_COUNT B on A.WEEK_NO -7 < B.WEEK_NO and A.WEEK_NO > B.WEEK_NO 
+where A.audit_date >= sysdate - 90
+
+group by A.audit_date, A.field1, A.field2, A.field3 desc
+
