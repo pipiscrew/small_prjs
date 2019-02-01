@@ -65,8 +65,9 @@ foreach($rows_sql as $row_key){
         {
             $rows[$x][$table_columns[$i]] = $row_key[$table_columns[$i]];         
         }
-    } else 
-        $prin_details = true;
+    }
+
+    $prin_details = true;
 
     //when is null, doesnt create cell @ fputcsv
     if ($row_key["team1_points"] === NULL) {
@@ -135,7 +136,7 @@ rewind($fp); // Set the pointer back to the start
 $csv_contents = stream_get_contents($fp); // Fetch the contents of our CSV
 fclose($fp); // Close our pointer and free up memory and /tmp space
 
-$filename ="ingame_".$start_dt."__".$end_dt.".csv";
+$filename ="ingame_".$start_dt."__".$end_dt.".xls";
 header('Content-type: application/ms-excel');
 header('Content-Disposition: attachment; filename='.$filename);
 echo $csv_contents;
