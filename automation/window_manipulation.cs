@@ -110,6 +110,8 @@ class Program
 					int Y = Cursor.Position.Y;
 					mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
 
+					System.Threading.Thread.Sleep(1000);
+
 					////SendKeys.SendWait("{TAB}");
 					//https://stackoverflow.com/a/13557790
 					SendKeys.SendWait(message.Replace("*","+{ENTER}"));
