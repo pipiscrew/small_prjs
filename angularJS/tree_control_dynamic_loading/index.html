@@ -1,0 +1,32 @@
+<!doctype html>
+<html ng-app="plunker" >
+<head>
+  <meta charset="utf-8">
+  <title>AngularJS Plunker</title>
+
+  
+  <script>document.write("<base href=\"" + document.location + "\" />");</script>
+  
+    <link rel="stylesheet" type="text/css" href="css/tree-control.css">
+    <link rel="stylesheet" type="text/css" href="css/tree-control-attribute.css">
+	
+	
+  
+  <script src="angular.min.js"></script>
+  <script src="angular-route.min.js"></script>
+  <script src="angular-tree-control.js"></script>
+  <script src="app.js"></script>
+  
+  <script>
+
+  </script>
+</head>
+<body ng-controller="UnitListCtrl">
+	
+ <treecontrol class="tree-classic" tree-model="treedata" expanded-nodes="expandedNodes" on-selection="doSelect(node)" options="opts">
+     {{node.label}}
+ </treecontrol>	
+ <div ng-view></div>
+</div>  
+</body>
+</html>
