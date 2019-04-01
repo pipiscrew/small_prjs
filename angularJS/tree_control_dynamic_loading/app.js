@@ -63,7 +63,7 @@ app.controller('UnitListCtrl', function($scope, $http, $location) {
       console.log("2");
     }
     
-    //when is 4 is node, folder is when < 4
+    //when 4 is node, when < 4 is folder
     $scope.opts = {
         isLeaf: function(node) {
             return node.IsFolder==4;
