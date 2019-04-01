@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+<head>
+    <title>Employee List</title>
+    <script src="assets/angular.min.js"></script>
+    <script src="assets/angular-resource.min.js"></script>
+    <script src="assets/ui-bootstrap-tpls-0.13.4.min.js"></script>
+    <script src="assets/ng-table.min.js"></script>
+    <script src="app.js"></script>
+    <link href="assets/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="assets/ng-table.min.css">
+</head>
+
+<body>
+    <div ng-controller="UnitListCtrl as vm">
+
+        <div class="container">
+                <table ng-table="vm.tableParams" class="table table-bordered table-striped table-condensed">
+                        <tr ng-repeat="row in $data track by row.id">
+                          
+                          <td data-title="'Installation At'" filter="{label: 'text'}" sortable="'label'">{{row.label}}</td>
+                          <!-- <td data-title="'Admin Email'" filter="{adminEmail: 'text'}" sortable="'adminEmail'">{{row.adminEmail}}</td>
+                          <td data-title="'Powered By'" filter="{poweredBy: 'text'}" sortable="'poweredBy'">{{row.poweredBy}}</td>
+                          <td data-title="'Powered By Icon'" filter="{poweredByIcon: 'text'}" sortable="'poweredByIcon'">{{row.poweredByIcon}}</td> -->
+                        </tr>
+                        
+                      </table>
+
+        </div>
+    </div>
+</body>
+</html>
