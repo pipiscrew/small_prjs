@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		
+		<title>AngularJS Test</title>
+		
+		<link href="Libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="Libs/ui-bootstrap/ui-bootstrap-csp.css" rel="stylesheet" />
+
+		<script>
+			window.APP = {"ApiUrl":"https://xmen.gr/Api/","Version":"1.0","Debug":false,"AppUrl":"https://xmen.gr/", "RootFolder" : "/", "VersionCode" : "1.0"};
+		</script>
+
+	</head>
+	
+	<body>
+	
+
+
+<div ui-view> </div>
+
+	
+	<script src="Libs/angular.min.js"></script>
+	
+	
+	<!-- LIBS -->
+	<script src="Libs/ui-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src="Libs/uiRouter/angular-ui-router.min.js"></script>
+	
+	
+	<!-- BASE -->
+	<script src="App/app.module.js"></script>
+	<script src="App/_common/error.controller.js"></script>
+	<script src="App/_common/app.controller.js"></script>
+
+
+	
+	<!-- ROUTES -->
+	<script src="App/_common/providers/routehelper.provider.js"></script>
+	<script src="App/_common/configs/routes.config.js"></script>		
+
+  <!--  SERVER REQUIRED -->
+	
+	</body>
+</html>
