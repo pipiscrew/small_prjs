@@ -1,0 +1,39 @@
+<div ng-controller="PortalController"> 
+
+		<ul class="nav nav-pills" id="tabContainer"> 
+			<li class="active">
+				<a href="#companies" data-toggle="tab">Χρήστες</a>
+			</li>
+			<li>
+				<a href="#a" data-toggle="tab">Κατηγορίες</a>
+			</li>
+			<li>
+				<a href="#b" data-toggle="tab">BestOf</a>
+			</li>
+			<li>
+				<a href="#c" data-toggle="tab">Στελέχη</a>
+			</li>
+			<li>
+				<a href="#d" data-toggle="tab">Αλλαγές</a>
+			</li>
+			<li>
+				<a href="#e" data-toggle="tab">Αποστολές</a>
+			</li>
+			<li>
+				<a href="#f" data-toggle="tab">Εξαγωγή</a>
+			</li>
+		</ul>
+
+		<!-- TABS Content [START] -->
+		<div id="tabsContent" class="tab-content">
+
+			<div class="tab-pane fade in active" id="companies">
+					<a href="#/useredit">Edit User</a>
+					
+					<br>
+					
+					<button ng-click="go('/useredit')">user of scope function</button>
+			</div>
+
+		</div>
+</div>

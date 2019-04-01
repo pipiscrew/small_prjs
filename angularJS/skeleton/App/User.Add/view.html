@@ -1,0 +1,16 @@
+<div ng-controller="UserEditController"> 
+      <form class="form-signin" ng-submit="vm.SaveUser()">
+	  
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="umail" class="sr-only">Email address</label>
+        <input type="email" name="umail" class="form-control" placeholder="Email address" ng-model="vm.User" required autofocus>
+        <label for="upassword" class="sr-only">Password</label>
+        <input type="password" name="upassword" id="upassword" class="form-control" placeholder="Password" ng-model="vm.Password" required>
+        <label for="utelephone" class="sr-only">Telephone</label>
+        <input name="utelephone" id="utelephone" class="form-control" placeholder="Telephone" ng-model="vm.Telephone" required>
+        <label for="uaddress" class="sr-only">Address</label>
+        <input name="uaddress" id="uaddress" class="form-control" placeholder="address" ng-model="vm.address" required>
+		
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Save User</button>
+      </form>
+</div>

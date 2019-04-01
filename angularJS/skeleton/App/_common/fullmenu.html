@@ -1,0 +1,50 @@
+﻿<ul class="sidebar-menu">
+
+    <li ng-if="isInRole('Admin') || isInRole('SecretaryXMEN')" ng-class="{active:vm.$state.includes('app.dashboard.*')}">
+        <a ui-sref="app.dashboard.view" ui-sref-opts="{reload:true}">
+            <i class="fa fa-line-chart"></i><span>Dashboard</span>
+        </a>
+    </li>
+
+    <li ng-if="(isInRole('Doctor') XMEN ) || isInRole('Pharmacy') || (isInRole('Committee') XMEN) || isInRole('Auditor') || isInRole('SecretaryXMEN') || isInRole('BasicSecretaryXMEN')" class="header">
+        TITLE1
+    </li>
+
+    <li ng-if="(isInRole('Doctor')  )" class="menutab-hep" ng-class="{'active':vm.$state.includes('app.patients.*.*', {disease:'hep'})}">
+        <a ui-sref="app.patients.overview({disease:'hep'})" ui-sref-opts="{reload:true}">
+            <i class="fa fa-hospital-o"></i><span>ITEM1</span>
+        </a>
+    </li>
+
+    <li ng-if="(isInRole('Doctor') )" class="menutab-hep" ng-class="{'active':vm.$state.includes('app.CARs.overview.*.*', {disease:'hep'})}">
+        <a ui-sref="app.CARs.overview({disease:'hep'})" ui-sref-opts="{reload:true}">
+            <i class="fa fa-files-o"></i><span>ITEM2</span>
+        </a>
+    </li>
+
+    <li ng-if="isInRole('Admin')" class="header">
+        TITLE2
+    </li>
+    <li ng-if="isInRole('Admin')" ng-class="{active:vm.$state.includes('app.reports.overview')}">
+        <a ui-sref="app.reports.overview" ui-sref-opts="{reload:true}">
+            <i class="fa fa-bar-chart"></i><span>ITEM3</span>
+        </a>
+    </li>
+
+    <li class="header">
+        TITLE3
+    </li>
+
+    <li ng-if="isInRole('Doctor') || isInRole('Auditor')" ng-class="{active:vm.$state.includes('app.profile.*')}">
+        <a ui-sref="app.profile.view" ui-sref-opts="{reload:true}">
+            <i class="fa fa-user"></i><span>ITEM4</span>
+        </a>
+    </li>
+
+    <li ng-if="isInRole('Admin')" ng-class="{active:vm.$state.includes('app.CARsmng.*')}">
+        <a ui-sref="app.CARsmng.overview" ui-sref-opts="{reload:true}">
+            <i class="fa fa-files-o"></i><span>ITEM5</span>
+        </a>
+    </li>
+
+</ul>

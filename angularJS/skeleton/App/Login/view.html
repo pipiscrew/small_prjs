@@ -1,0 +1,12 @@
+<div ng-controller="LoginController"> 
+      <form class="form-signin" ng-submit="vm.Login()">
+	  
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="umail" class="sr-only">Email address</label>
+        <input type="email" name="umail" class="form-control" placeholder="Email address" ng-model="vm.User" required autofocus>
+        <label for="upassword" class="sr-only">Password</label>
+        <input type="password" name="upassword" id="upassword" class="form-control" placeholder="Password" ng-model="vm.Password" required>
+ 
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+</div>
