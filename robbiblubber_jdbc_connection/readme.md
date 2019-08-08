@@ -3,6 +3,7 @@
 bitbucket repositories - https://bitbucket.org/%7Beccaa04e-8f94-40b3-a78a-7305e37074a6%7D/
 
 **rule** - the project must not running into folder with space (ex. c:\this is a test\test.csproj)
+
 **good to know** - dlls Robbiblubber.compiled under frm472, but you can use it also under frm4.5 (omg?)
 
 at the time of writing, the Robbiblubber.libraries last updated 2018/10. With a quick read, he is using a **thing** called **server** where execute commands (what developer has wrote to .net project) via :
