@@ -26,7 +26,7 @@ protected void _LaunchHost(object param)
 }
 ```
 
-some times you have to use JDBCConnection when you working with other vendors and needed to exchange data on secure environment (here just LOL)..
+some times you have to use JDBCConnection when you working with other vendors and needed to exchange data on secure environment (here just LOL, these strings passing to Process stay at system memory)..
 
 --
 
