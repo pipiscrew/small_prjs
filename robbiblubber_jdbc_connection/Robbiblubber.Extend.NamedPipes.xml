@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Robbiblubber.Extend.NamedPipes</name>
+    </assembly>
+    <members>
+        <member name="T:Robbiblubber.Extend.NamedPipes.NpStringConsole">
+            <summary>This class implements a named pipe string console.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringConsole._In">
+            <summary>Stream.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringConsole._Out">
+            <summary>Stream.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringConsole._Reader">
+            <summary>Stream reader.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringConsole._Writer">
+            <summary>Stream writer.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.#ctor(System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="pipeName">Pipe name.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.CreateClient(System.String)">
+            <summary>Creates and starts a client console.</summary>
+            <param name="pipeName">Pipe name.</param>
+            <returns>Console.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.CreateServer(System.String)">
+            <summary>Creates and starts a server listener.</summary>
+            <param name="pipeName">Pipe name.</param>
+            <returns>Listener.</returns>
+        </member>
+        <member name="P:Robbiblubber.Extend.NamedPipes.NpStringConsole.PipeName">
+            <summary>Gets or sets the pipe name.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.StartClient(System.String)">
+            <summary>Starts a client console.</summary>
+            <param name="pipeName">Pipe name.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.StartServer(System.String)">
+            <summary>Starts a server console.</summary>
+            <param name="pipeName">Pipe name.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.Stop">
+            <summary>Stops the console.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.Send(System.String)">
+            <summary>Sends data.</summary>
+            <param name="data">Data.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.Receive">
+            <summary>Receives data.</summary>
+            <returns>Data.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringConsole.Execute(System.String)">
+            <summary>Sends a request to the remote client and returns the answer.</summary>
+            <param name="request">Request.</param>
+            <returns>Answer.</returns>
+        </member>
+        <member name="T:Robbiblubber.Extend.NamedPipes.NpStringReceivedEventHandler">
+            <summary>Event handler for receiving string data from named pipes.</summary>
+            <param name="sender">Sender.</param>
+            <param name="e">Event arguments.</param>
+        </member>
+        <member name="T:Robbiblubber.Extend.NamedPipes.NpStringEventArgs">
+            <summary>This class contains named pipe string event data.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringEventArgs.#ctor(System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="data">Data.</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.NamedPipes.NpStringEventArgs.Data">
+            <summary>Gets the string event data.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringEventArgs.ToString">
+            <summary>Returns a string representation of this instance.</summary>
+            <returns>String.</returns>
+        </member>
+        <member name="T:Robbiblubber.Extend.NamedPipes.NpStringListener">
+            <summary>This class implements a named pipe string listener.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringListener._In">
+            <summary>Stream.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringListener._Out">
+            <summary>Stream.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringListener._Reader">
+            <summary>Stream reader.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringListener._Writer">
+            <summary>Stream writer.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.NamedPipes.NpStringListener._T">
+            <summary>Worker thread.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener.#ctor(System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="pipeName">Pipe name.</param>
+        </member>
+        <member name="E:Robbiblubber.Extend.NamedPipes.NpStringListener.StringReceived">
+            <summary>This event is raised when the listener has received a string.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener.CreateClient(System.String)">
+            <summary>Creates and starts a client listener.</summary>
+            <param name="pipeName">Pipe name.</param>
+            <returns>Listener.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener.CreateServer(System.String)">
+            <summary>Creates and starts a server listener.</summary>
+            <param name="pipeName">Pipe name.</param>
+            <returns>Listener.</returns>
+        </member>
+        <member name="P:Robbiblubber.Extend.NamedPipes.NpStringListener.PipeName">
+            <summary>Gets or sets the pipe name.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener.StartClient(System.String)">
+            <summary>Starts a client listener.</summary>
+            <param name="pipeName">Pipe name.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener.StartServer(System.String)">
+            <summary>Starts a server listener.</summary>
+            <param name="pipeName">Pipe name.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener.Stop">
+            <summary>Stops the listener.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener.Send(System.String)">
+            <summary>Sends data.</summary>
+            <param name="data">Data.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener._Start">
+            <summary>Starts the worker thread.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.NamedPipes.NpStringListener._Run">
+            <summary>Inbound thread worker method.</summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,692 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Robbiblubber.Extend.SQL.JDBC.Data</name>
+    </assembly>
+    <members>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand">
+            <summary>This class implements a SQLP command.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand._Handle">
+            <summary>Command handle.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.#ctor(Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection,System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="connection">Connection.</param>
+            <param name="commandText">Command text.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.#ctor(Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="connection">Connection.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand._Prepare">
+            <summary>Prepares the statement execution.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand._Close">
+            <summary>Closes the connection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.CommandText">
+            <summary>Gets or sets the command text.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.CommandTimeout">
+            <summary>Gets or sets the command timeout.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.CommandType">
+            <summary>Gets or sets the command type.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.System#Data#IDbCommand#Connection">
+            <summary>Gets or sets the connection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.Connection">
+            <summary>Gets or sets the connection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.System#Data#IDbCommand#Parameters">
+            <summary>Gets the command paramters.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.Parameters">
+            <summary>Gets the command paramters.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.System#Data#IDbCommand#Transaction">
+            <summary>Gets or sets the current transactions.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.Transaction">
+            <summary>Gets or sets the current transactions.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.System#Data#IDbCommand#UpdatedRowSource">
+            <summary>Gets or sets the update row source.</summary>
+            <remarks>This is not supported.</remarks>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.Cancel">
+            <summary>Cancels the command.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.CreateParameter">
+            <summary>Creates a parameter.</summary>
+            <returns>Parameter.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.ExecuteNonQuery">
+            <summary>Executes a non-query statement.</summary>
+            <returns>Returns the number of rows modified.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.System#Data#IDbCommand#ExecuteReader">
+            <summary>Executes a query and returns the results as a data reader.</summary>
+            <returns>Data reader.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.ExecuteReader">
+            <summary>Executes a query and returns the results as a data reader.</summary>
+            <returns>Data reader.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.System#Data#IDbCommand#ExecuteReader(System.Data.CommandBehavior)">
+            <summary>Executes a query and returns the results as a data reader.</summary>
+            <param name="behavior">Command behavior.</param>
+            <returns>Data reader.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.ExecuteReader(System.Data.CommandBehavior)">
+            <summary>Executes a query and returns the results as a data reader.</summary>
+            <param name="behavior">Command behavior.</param>
+            <returns>Data reader.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.ExecuteScalar">
+            <summary>Executes a query and returns a single result.</summary>
+            <returns>Result.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.Prepare">
+            <summary>Prepares the statement.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand.Dispose">
+            <summary>Disposes the object.</summary>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection">
+            <summary>This class provides a JDBC connection.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection._Transaction">
+            <summary>Current transaction.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection._Host">
+            <summary>Java server host process.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection._Srv">
+            <summary>Server pipe console.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="connectionString">Connection string.</param>
+            <param name="className">Java driver class name.</param>
+            <param name="userName">Database user name.</param>
+            <param name="password">Database user password.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.#ctor(System.String,System.String,System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="connectionString">Connection string.</param>
+            <param name="userName">Database user name.</param>
+            <param name="password">Database user password.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.#ctor(System.String,System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="connectionString">Connection string.</param>
+            <param name="className">Java driver class name.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.#ctor(System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="connectionString">Connection string.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.InteropJar">
+            <summary>Gets or sets the interop JAR file path.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection._BreakConnection(System.Exception)">
+            <summary>Throws an exception for broken connection.</summary>
+            <param name="ex">Exception.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection._LaunchHost(System.Object)">
+            <summary>Launches the host process.</summary>
+            <param name="param">Parameter.</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.ClassName">
+            <summary>Gets or sets a Java class name that will be loaded before invoking the driver manager.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.UserName">
+            <summary>Gets or sets the database user name.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.Password">
+            <summary>Sets the database password.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.Commit">
+            <summary>Commits the current transaction.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.Röllback">
+            <summary>Rolls back the current transaction.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.ConnectionString">
+            <summary>Gets or sets the connection string for this connection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.ConnectionTimeout">
+            <summary>Gets the connection timeout for this connection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.Database">
+            <summary>Gets the database name for this connection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.State">
+            <summary>Gets the connection state for this connection.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.BeginTransaction">
+            <summary>Begins a new transaction.</summary>
+            <returns>Transaction.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.BeginTransaction(System.Data.IsolationLevel)">
+            <summary>Begins a new transaction.</summary>
+            <param name="il">Isolation level.</param>
+            <returns>Transaction.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.ChangeDatabase(System.String)">
+            <summary>Changes the current database.</summary>
+            <param name="databaseName">Database name.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.CreateCommand(System.String)">
+            <summary>Creates a command object.</summary>
+            <param name="commandText">Command text.</param>
+            <returns>Command.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.CreateCommand">
+            <summary>Creates a command object.</summary>
+            <returns>Command.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.System#Data#IDbConnection#CreateCommand">
+            <summary>Creates a command object.</summary>
+            <returns>Command.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.Open">
+            <summary>Opens the connection.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.Close">
+            <summary>Closes the database.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection.Dispose">
+            <summary>Disposes the object.</summary>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.JdbcDataAdapter">
+            <summary>This class provides a JDBC data adapter.</summary>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.Exceptions.JdbcException">
+            <summary>This class implements a basic JDBC database exception.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.Exceptions.JdbcException.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.Exceptions.JdbcException.#ctor(System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="message">Message.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.Exceptions.JdbcException.#ctor(System.String,System.Exception)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="message">Message.</param>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.Exceptions.JdbcInteropException">
+            <summary>This class implements an exception that indicates a communication fault between the client and the JDBC interop server.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.Exceptions.JdbcInteropException.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.Exceptions.JdbcInteropException.#ctor(System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="message">Message.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.Exceptions.JdbcInteropException.#ctor(System.String,System.Exception)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="message">Message.</param>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter">
+            <summary>This class implements a data parameter.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter._DbType">
+            <summary>Database type.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter._DbTypeSet">
+            <summary>Determines if the database type has been set.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter._Value">
+            <summary>Parameter value.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.#ctor(System.String,System.Object)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="parameterName">Parameter name.</param>
+            <param name="value">Parameter value.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.#ctor(System.String,System.Object,System.Data.DbType)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="parameterName">Parameter name.</param>
+            <param name="value">Parameter value.</param>
+            <param name="type">Database type.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter._Bind(Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand)">
+            <summary>Gets the data representation of this instance.</summary>
+            <param name="command">Command.</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.DbType">
+            <summary>Gets or sets the database type.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.Direction">
+            <summary>Gets or sets the paramater direction.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.IsNullable">
+            <summary>Gets if the parameter is nullable.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.ParameterName">
+            <summary>Gets or sets the parameter name.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.SourceColumn">
+            <summary>Gets or sets the source column.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.SourceVersion">
+            <summary>Gets or sets the source version.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.Value">
+            <summary>Gets or sets the parameter value.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.Precision">
+            <summary>Gets or sets the parameter precision.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.Scale">
+            <summary>Gets or sets the parameter scale.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter.Size">
+            <summary>Gets or sets the parameter size.</summary>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection">
+            <summary>This class implements a parameter collection.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection._Command">
+            <summary>Parent command.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection._Parameters">
+            <summary>Parameters.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.#ctor(Robbiblubber.Extend.SQL.JDBC.Data.JdbcCommand)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="cmd">Parent command.</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IList#Item(System.Int32)">
+            <summary>Gets or sets a parameter.</summary>
+            <param name="index">Index</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.Item(System.Int32)">
+            <summary>Gets or sets a parameter.</summary>
+            <param name="index">Index</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Data#IDataParameterCollection#Item(System.String)">
+            <summary>Gets or sets a parameter by its name.</summary>
+            <param name="parameterName">Parameter name.</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.Item(System.String)">
+            <summary>Gets or sets a parameter by its name.</summary>
+            <param name="parameterName">Parameter name.</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.Count">
+            <summary>Gets the number of elements in this collection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IList#IsFixedSize">
+            <summary>Gets if the collection size is fixed.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IList#IsReadOnly">
+            <summary>Gets if the collection is read-only.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#ICollection#IsSynchronized">
+            <summary>Gets if the collection is synchronized.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#ICollection#SyncRoot">
+            <summary>Gets the synchronization object for this instance.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IList#Add(System.Object)">
+            <summary>Adds a parameter to the collection.</summary>
+            <param name="value">Parameter.</param>
+            <returns>Index.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.Add(Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter)">
+            <summary>Adds a parameter to the collection.</summary>
+            <param name="value">Parameter.</param>
+            <returns>Index.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.Clear">
+            <summary>Clears the collection.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IList#Contains(System.Object)">
+            <summary>Returns if the collection contains a parameter.</summary>
+            <param name="value">Parameter.</param>
+            <returns>Returns TRUE if the collection contains the parameter, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.Contains(Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter)">
+            <summary>Returns if the collection contains a parameter.</summary>
+            <param name="value">Parameter.</param>
+            <returns>Returns TRUE if the collection contains the parameter, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.Contains(System.String)">
+            <summary>Returns if the collection contains a parameter.</summary>
+            <param name="parameterName">Parameter name.</param>
+            <returns>Returns TRUE if the collection contains the parameter, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+            <summary>Copies the collection to an array.</summary>
+            <param name="array">Array.</param>
+            <param name="index">Index at which copying begins.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.IndexOf(Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter)">
+            <summary>Gets the index of a parameter.</summary>
+            <param name="value">Object.</param>
+            <returns>Index, if the parameter is not found returns -1.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IList#IndexOf(System.Object)">
+            <summary>Gets the index of a parameter.</summary>
+            <param name="value">Object.</param>
+            <returns>Index, if the parameter is not found returns -1.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.IndexOf(System.String)">
+            <summary>Gets the index of a parameter.</summary>
+            <param name="parameterName">Parameter name.</param>
+            <returns>Index, if the parameter is not found returns -1.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IList#Insert(System.Int32,System.Object)">
+            <summary>Inserts a parameter into the collection.</summary>
+            <param name="index">Index.</param>
+            <param name="value">Parameter.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IList#Remove(System.Object)">
+            <summary>Removes a parameter from the collection.</summary>
+            <param name="value">Parameter.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.Remove(Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameter)">
+            <summary>Removes a parameter from the collection.</summary>
+            <param name="value">Parameter.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.RemoveAt(System.Int32)">
+            <summary>Removes a parameter from the collection.</summary>
+            <param name="index">Index.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.RemoveAt(System.String)">
+            <summary>Removes a parameter from the collection.</summary>
+            <param name="parameterName">Parameter name.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.GetEnumerator">
+            <summary>Gets an enumerator for this collection.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcParameterCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Gets an enumerator for this collection.</summary>
+            <returns></returns>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider">
+            <summary>This class implements the JDBC database provider.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.#ctor(System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="data">Provider configuration data.</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.UserName">
+            <summary>Gets or sets the provider user name.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.Password">
+            <summary>Gets or sets the provider password.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.ClassName">
+            <summary>Gets or sets the provider driver class name.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.Data">
+            <summary>Gets or sets the provider configuration data.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.Connect">
+            <summary>Connects to the database.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.CreateAdapter(System.String)">
+            <summary>Creates a data adapter.</summary>
+            <param name="sql">SQL statement.</param>
+            <returns>Data adapter.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcProvider.GetData(System.String)">
+            <summary>Gets specific provider data.</summary>
+            <param name="key">Key.</param>
+            <returns>Data.</returns>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader">
+            <summary>This class implements a data reader.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._Connection">
+            <summary>Connection.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._Handle">
+            <summary>Handle.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._Columns">
+            <summary>Column index list.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._Values">
+            <summary>Column values list.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._Types">
+            <summary>Column data types.</summary>
+        </member>
+        <member name="F:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._Eof">
+            <summary>EOF flag.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.#ctor(Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection,System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="connection">Connection.</param>
+            <param name="handle">Handle.</param>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._TypeOf(System.String)">
+            <summary>Gets a .NET type for a type name.</summary>
+            <param name="typeName">Type name.</param>
+            <returns>Type.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._ValueOf(System.String,System.Type)">
+            <summary>Gets a value.</summary>
+            <param name="value">Value as a string.</param>
+            <param name="type">Type.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._LoadMeta">
+            <summary>Reads metadata for this result set.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader._ValueOf(System.String,System.Int32)">
+            <summary>Gets a value.</summary>
+            <param name="value">Value as a string.</param>
+            <param name="i">Index.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.Item(System.String)">
+            <summary>Gets the value of the specified column in its native format given the column name.</summary>
+            <param name="name">Column name.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.Item(System.Int32)">
+            <summary>Gets the value of the specified column in its native format given the column ordinal.</summary>
+            <param name="i">Column ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.Depth">
+            <summary>Gets the depth of nesting of the current row.</summary>
+            <remarks>This is not supported and will always be zero.</remarks>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.FieldCount">
+            <summary>Gets the number of fields in the current instance.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.IsClosed">
+            <summary>Gets if the object is closed.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.System#Data#IDataReader#RecordsAffected">
+            <summary>Gets the number of records affected.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.Close">
+            <summary>Closes the reader.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetBoolean(System.Int32)">
+            <summary>Gets the boolean value for a field.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetByte(System.Int32)">
+            <summary>Gets the value for a field as a byte.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)">
+            <summary>Gets the value for a field as a byte array.</summary>
+            <param name="i">Ordinal.</param>
+            <param name="fieldOffset">Field offset.</param>
+            <param name="buffer">Buffer array.</param>
+            <param name="bufferoffset">Buffer offset.</param>
+            <param name="length">Length.</param>
+            <returns>Number of bytes copied..</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetChar(System.Int32)">
+            <summary>Gets the value for a field as a character.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)">
+            <summary>Gets the value for a field as a character array.</summary>
+            <param name="i">Ordinal.</param>
+            <param name="fieldOffset">Field offset.</param>
+            <param name="buffer">Buffer array.</param>
+            <param name="bufferoffset">Buffer offset.</param>
+            <param name="length">Length.</param>
+            <returns>Number of characters copied..</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.System#Data#IDataRecord#GetData(System.Int32)">
+            <summary>Gets a data reader for the field.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Data reader.</returns>
+            <remarks>Not supported.</remarks>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetDataTypeName(System.Int32)">
+            <summary>Gets the data type name for the field.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Data type name.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetDateTime(System.Int32)">
+            <summary>Gets the field value as a DateTime value.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>DateTime value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetDecimal(System.Int32)">
+            <summary>Gets the field value as a decimal.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetDouble(System.Int32)">
+            <summary>Gets the field value as a double.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetFieldType(System.Int32)">
+            <summary>Gets the field type for this field.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Field type.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetFloat(System.Int32)">
+            <summary>Gets the field value as a float.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetGuid(System.Int32)">
+            <summary>Gets the field value as a GUID.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetInt16(System.Int32)">
+            <summary>Gets the field value as a 16-bit integer.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetInt32(System.Int32)">
+            <summary>Gets the field value as a 32-bit integer.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetInt64(System.Int32)">
+            <summary>Gets the field value as a 32-bit integer.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetName(System.Int32)">
+            <summary>Gets the ordinal for a field name.</summary>
+            <param name="i">Index.</param>
+            <returns>Ordinal.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetOrdinal(System.String)">
+            <summary>Returns an index for a field name.</summary>
+            <param name="name">Field name.</param>
+            <returns>Index.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.System#Data#IDataReader#GetSchemaTable">
+            <summary>Gets a schema table for this instance.</summary>
+            <returns>Data table.</returns>
+            <remarks>This is not supported.</remarks>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetString(System.Int32)">
+            <summary>Gets the field value as a string.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetValue(System.Int32)">
+            <summary>Gets the field value.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.GetValues(System.Object[])">
+            <summary>Populates an array of objects with the column values of the current row.</summary>
+            <param name="values">Array.</param>
+            <returns>Numbers of objects copied</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.IsDBNull(System.Int32)">
+            <summary>Gets if the field value is NULL.</summary>
+            <param name="i">Ordinal.</param>
+            <returns>Returns TRUE if the value is NULL, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.System#Data#IDataReader#NextResult">
+            <summary>Advances the data reader to the next result, when reading the results of batch SQL statements.</summary>
+            <returns>Returns TRUE if there are more rows, otherwise returns FALSE.</returns>
+            <remarks>Batch statements are not supported.</remarks>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.Read">
+            <summary>Advances to the next record.</summary>
+            <returns>Returns TRUE if there are more rows, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcReader.Dispose">
+            <summary>Disposes the reader.</summary>
+        </member>
+        <member name="T:Robbiblubber.Extend.SQL.JDBC.Data.JdbcTransaction">
+            <summary>This class implements a JDBC transaction.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcTransaction.#ctor(Robbiblubber.Extend.SQL.JDBC.Data.JdbcConnection,System.Data.IsolationLevel)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="connection">Connection.</param>
+            <param name="il">Isolation level.</param>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcTransaction.Connection">
+            <summary>Gets the connection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcTransaction.System#Data#IDbTransaction#Connection">
+            <summary>Gets the connection.</summary>
+        </member>
+        <member name="P:Robbiblubber.Extend.SQL.JDBC.Data.JdbcTransaction.IsolationLevel">
+            <summary>Gets the transaction isolation level.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcTransaction.Commit">
+            <summary>Commits the transaction.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcTransaction.Rollback">
+            <summary>Rolls back the transaction.</summary>
+        </member>
+        <member name="M:Robbiblubber.Extend.SQL.JDBC.Data.JdbcTransaction.Dispose">
+            <summary>Disposes the transaction.</summary>
+        </member>
+    </members>
+</doc>

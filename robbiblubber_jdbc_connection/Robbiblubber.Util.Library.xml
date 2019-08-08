@@ -1,0 +1,2017 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Robbiblubber.Util.Library</name>
+    </assembly>
+    <members>
+        <member name="T:Robbiblubber.Util.Library.Coding.AES">
+            <summary>This class provides an AES implementation that is more likely to work properly in cross-platform scenarios.</summary>
+            <remarks>I have used Joseph Ssenyange's sample code found here:
+                     http://zenu.wordpress.com/2011/09/21/aes-128bit-cross-platform-java-and-c-encryption-compatibility/
+                     Thanks a lot!</remarks>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.AES.EncryptString(System.String,System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Encrypts a string.</summary>
+            <param name="plainText">Plain text.</param>
+            <param name="sharedSecret">Shared secret.</param>
+            <param name="option">Format option.</param>
+            <returns>Base64-encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.AES.DecryptString(System.String,System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Decrypts a string.</summary>
+            <param name="encryptedText">Base64-encoded encrypted text.</param>
+            <param name="sharedSecret">Shared secret.</param>
+            <param name="option">Format option.</param>
+            <returns>Plain text string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.AES.GetRijndaelManaged(System.String)">
+            <summary>Gets the managed AES implementation used for en-/decrypting.</summary>
+            <param name="sharedSecret">Shared secret.</param>
+            <returns>Configured object.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.AES.Encrypt(System.Byte[],System.Security.Cryptography.RijndaelManaged)">
+            <summary>Encrypts byte array using AES 128bit key and a Chain Block Cipher.</summary>
+            <param name="plainBytes">Source byte array.</param>
+            <param name="rijndaelManaged">Algorithm.</param>
+            <returns>Encrypted byte array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.AES.Decrypt(System.Byte[],System.Security.Cryptography.RijndaelManaged)">
+            <summary>Decrypts byte array using AES 128bit key and a Chain Block Cipher.</summary>
+            <param name="encryptedData">Encrypted byte array.</param>
+            <param name="rijndaelManaged">Algorithm.</param>
+            <returns>Decrypted byte array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.AES.Encrypt(System.String,System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Encrypts plaintext using AES 128bit key and a Chain Block Cipher and returns a base64 encoded string.</summary>
+            <param name="plainText">Plain text.</param>
+            <param name="sharedSecret">Shared secret.</param>
+            <param name="option">Format option.</param>
+            <returns>Base64 encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.AES.Decrypt(System.String,System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Decrypts a base64 encoded string using the given key (AES 128bit key and a Chain Block Cipher).</summary>
+            <param name="encryptedText">Base64 Encoded String.</param>
+            <param name="sharedSecret">Shared secret.</param>
+            <param name="option">Format option.</param>
+            <returns>Decrypted String.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.Base64">
+            <summary>This class provides Base64 support.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.FromBytes(System.Collections.Generic.IEnumerable{System.Byte})">
+            <summary>Converts bytes to a Base64-encoded string.</summary>
+            <param name="value">Byte list.</param>
+            <returns>Encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.FromChars(System.Collections.Generic.IEnumerable{System.Char})">
+            <summary>Converts characters to a Base64-encoded string.</summary>
+            <param name="value">Character list.</param>
+            <returns>Encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.ToString(System.String)">
+            <summary>Decodes a Base64-encoded string.</summary>
+            <param name="base64">Encoded string.</param>
+            <returns>String</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.ToBytes(System.String)">
+            <summary>Decodes a Base64-encoded string.</summary>
+            <param name="base64">Encoded string.</param>
+            <returns>Byte array</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.ToChars(System.String)">
+            <summary>Decodes a Base64-encoded string.</summary>
+            <param name="base64">Encoded string.</param>
+            <returns>Char array</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.FromFile(System.String)">
+            <summary>Reads a (binary) file into a Base64-encode string.</summary>
+            <param name="fileName">File name.</param>
+            <returns>Base64-encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.ToBase64(System.String,System.Boolean)">
+            <summary>Returns a Base64-encoded string.</summary>
+            <param name="value">String.</param>
+            <param name="pad">Add padding characters.</param>
+            <returns>Encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.ToBase64(System.Char[],System.Boolean)">
+            <summary>Returns a Base64-encoded string.</summary>
+            <param name="value">Array.</param>
+            <param name="pad">Add padding characters.</param>
+            <returns>Encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.ToBase64(System.Byte[],System.Boolean)">
+            <summary>Returns a Base64-encoded string.</summary>
+            <param name="value">Array.</param>
+            <param name="pad">Add padding characters.</param>
+            <returns>Encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Base64.FromBase64(System.String)">
+            <summary>Returns a string for a Base64-encoded string.</summary>
+            <param name="base64">Base64-encoded string.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.FunnelCake">
+            <summary>This class implements the FunnelCake encryption algorithm.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.FunnelCake._SEED">
+            <summary>Seed string.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.FunnelCake.Encrypt(System.String,System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Encrypts a string.</summary>
+            <param name="value">String.</param>
+            <param name="secret">Shared secret.</param>
+            <param name="option">Output format option.</param>
+            <returns>Encrypted string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.FunnelCake.Decrypt(System.String,System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Decrypts a string.</summary>
+            <param name="value">Encrypted string.</param>
+            <param name="secret">Shared secret.</param>
+            <param name="option">Output format option.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.FunnelCake._GetHash(System.String)">
+            <summary>Gets a Base64-encoded hash value.</summary>
+            <param name="value">String.</param>
+            <returns>Hash.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.GZip">
+            <summary>This class implements GZip functionality.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.GZip.Compress(System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Compresses a string.</summary>
+            <param name="text">Input text.</param>
+            <param name="option">Output format option.</param>
+            <returns>Compressed string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.GZip.Decompress(System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Decompresses a string.</summary>
+            <param name="data">Compressed data.</param>
+            <param name="option">Output format option.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.Hex">
+            <summary>This class provides hexadecimal conversion methods.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.FromBytes(System.Collections.Generic.IEnumerable{System.Byte})">
+            <summary>Converts bytes to a hexadecimal string.</summary>
+            <param name="value">Byte list.</param>
+            <returns>Hexadecimal string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.FromChars(System.Collections.Generic.IEnumerable{System.Char})">
+            <summary>Converts characters to a hexadecimal string.</summary>
+            <param name="value">Character list.</param>
+            <returns>Hexadecimal string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToChar(System.String)">
+            <summary>Returns a charachter for a hexadecimal string.</summary>
+            <param name="hexStr">Hexadecimal string.</param>
+            <returns>Character.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToByte(System.String)">
+            <summary>Returns a byte for a hexadecimal string.</summary>
+            <param name="hexStr">Hexadecimal string.</param>
+            <returns>Byte.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToString(System.String)">
+            <summary>Returns a string for a hexadecimal string.</summary>
+            <param name="hexStr">Hexadecimal string.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToBytes(System.String)">
+            <summary>Returns a byte array for a hexadecimal string.</summary>
+            <param name="hexStr">Hexadecimal string.</param>
+            <returns>Byte array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToChars(System.String)">
+            <summary>Returns a character array for a hexadecimal string.</summary>
+            <param name="hexStr">Hexadecimal string.</param>
+            <returns>Character array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToBase64(System.String)">
+            <summary>Converts a hexadecimal string to a Base64-encoded string.</summary>
+            <param name="hexStr">Hexadecimal string.</param>
+            <returns>Base64-encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.FromBase64(System.String)">
+            <summary>Converts a Base64-encoded string to a hexadecimal string.</summary>
+            <param name="base64">Base64-encoded string.</param>
+            <returns>Hexadecimal string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToHex(System.String)">
+            <summary>Returns a hexadecimal representation of a string.</summary>
+            <param name="value">String.</param>
+            <returns>Hexadecimal representation.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToHex(System.Char)">
+            <summary>Returns a hexadecimal representation of a character.</summary>
+            <param name="value">Character.</param>
+            <returns>Hexadecimal representation.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToHex(System.Byte)">
+            <summary>Returns a hexadecimal representation of a byte.</summary>
+            <param name="value">Byte.</param>
+            <returns>Hexadecimal representation.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToHex(System.Byte[])">
+            <summary>Returns a hexadecimal representation of a byte array.</summary>
+            <param name="value">Byte array.</param>
+            <returns>Hexadecimal representation.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.Hex.ToHex(System.Char[])">
+            <summary>Returns a hexadecimal representation of a charachter array.</summary>
+            <param name="value">Character array.</param>
+            <returns>Hexadecimal representation.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.OutputFormat">
+            <summary>This enumeration defines output format options.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.OutputFormat.PLAIN">
+            <summary>Default (binary) format.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.OutputFormat.BASE64">
+            <summary>Base64 encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.OutputFormat.HEX">
+            <summary>Hexadecimal encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.OutputFormat.UUENCODE">
+            <summary>UUencode encoding.</summary>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat">
+            <summary>This enumeration defines output format options.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.PLAIN">
+            <summary>Default (binary) format.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.BASE64">
+            <summary>Base64 encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.HEX">
+            <summary>Hexadecimal encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.UUENCODE">
+            <summary>UUencode encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.GZIP_BASE64">
+            <summary>GZip-compressed, Base64 encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.GZIP_HEX">
+            <summary>GZip-compressed, hexadecimal encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.GZIP_UUENCODE">
+            <summary>GZip-compressed, UUEncode encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.FUNNELCAKE_BASE64">
+            <summary>FunnelCake-encrypted, Base64 encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.FUNNELCAKE_HEX">
+            <summary>FunnelCake-encrypted, hexadecimal encoding.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Coding.ExtendedOutputFormat.FUNNELCAKE_UUENCODE">
+            <summary>FunnelCake-encrypted, UUEncode encoding.</summary>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.SHA1">
+            <summary>This class implements the SHA256 algorithm.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.SHA1.GetHash(System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Returns a hash value.</summary>
+            <param name="value">Input expression.</param>
+            <param name="option">Output format option.</param>
+            <returns>Hash value.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.SHA256">
+            <summary>This class implements the SHA256 algorithm.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.SHA256.GetHash(System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Returns a hash value.</summary>
+            <param name="value">Input expression.</param>
+            <param name="option">Output format option.</param>
+            <returns>Hash value.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.StringCompressor">
+            <summary>This class provides methods for string compression.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.StringCompressor.Compress(System.String)">
+            <summary>Compresses a string.</summary>
+            <param name="text">Input text.</param>
+            <returns>Compressed string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.StringCompressor.Decompress(System.String)">
+            <summary>Decompresses a string.</summary>
+            <param name="data">Compressed data.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Coding.UUencode">
+            <summary>This class provides UUencode functionality.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.UUencode.Encode(System.String)">
+            <summary>Encodes a string.</summary>
+            <param name="str">String.</param>
+            <returns>Encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.UUencode.Decode(System.String)">
+            <summary>Decodes a string.</summary>
+            <param name="str">Encoded string,</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.UUencode.FromBytes(System.Byte[],System.Text.Encoding)">
+            <summary>Returns an UUecoded string for a byte array.</summary>
+            <param name="input">Byte array.</param>
+            <param name="enc">Encoding.</param>
+            <returns>Encoded string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.UUencode.ToBytes(System.String,System.Text.Encoding)">
+            <summary>Returns a byte array for an UUencoded string.</summary>
+            <param name="str">Encoded string.</param>
+            <param name="enc">Encoding.</param>
+            <returns>Byte array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.UUencode.ToUUencoded(System.String)">
+            <summary>Returns a UUencoded representation of a string.</summary>
+            <param name="value">String.</param>
+            <returns>UUencoded representation.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.UUencode.ToUUencoded(System.Byte[])">
+            <summary>Returns a UUencoded representation of a byte array.</summary>
+            <param name="value">Byte array..</param>
+            <returns>UUencoded representation.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Coding.UUencode.FromUUencoded(System.String)">
+            <summary>Returns a string for a UUencoded string.</summary>
+            <param name="value">String.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.ClassOp">
+            <summary>This class provides class loader functionallity.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.ClassOp.LoadType(System.String)">
+            <summary>Loads a type.</summary>
+            <param name="typeName">Type name.</param>
+            <returns>Type.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.ClassOp.Load(System.String,System.Object[])">
+            <summary>Loads a type and creates an instance.</summary>
+            <param name="typeName">Type name.</param>
+            <param name="args">Constructor arguments.</param>
+            <returns>Instance.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.ClassOp.GetSubtypesOf(System.Type)">
+            <summary>Gets all subtypes of a type.</summary>
+            <param name="t">Type.</param>
+            <returns>Array of types.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.ClassOp.LoadSubtypesOf(System.Type,System.Object[])">
+            <summary>Loads all subtypes of a type and returns an array of instances.</summary>
+            <param name="t">Type.</param>
+            <param name="args">Arguments.</param>
+            <returns>Array of types.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.CollectionOp">
+            <summary>This class implements extension methods for collections.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.CollectionOp._Rnd">
+            <summary>Random object.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.CollectionOp.Random``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>Returns a random item from the collection.</summary>
+            <typeparam name="T">Type.</typeparam>
+            <param name="c">Collection.</param>
+            <returns>Random item.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.CollectionOp.Random``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>Returns a random collection of items from the collection.</summary>
+            <typeparam name="T">Type.</typeparam>
+            <param name="c">Collection.</param>
+            <param name="count">Item count.</param>
+            <returns>Random item collection.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.CollectionOp.Shuffle``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>Shuffles a collection.</summary>
+            <typeparam name="T">Type.</typeparam>
+            <param name="source">Collection.</param>
+            <returns>Shuffled collection.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.CollectionOp.Contains``1(``0[],``0)">
+            <summary>Returns if an array contains an element.</summary>
+            <typeparam name="T">Type.</typeparam>
+            <param name="array">Array.</param>
+            <param name="element">Element.</param>
+            <returns>Returns TRUE if the array contains the element, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.CollectionOp.AddItems``1(System.Collections.Generic.ICollection{``0},``0[])">
+            <summary>Adds items to a collection.</summary>
+            <typeparam name="T">Type.</typeparam>
+            <param name="collection">Collection.</param>
+            <param name="items">Items.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.CollectionOp.GetIndex``1(System.Collections.Generic.IEnumerable{``0},``0)">
+            <summary>Gets the index of an item.</summary>
+            <typeparam name="T">Tyoe.</typeparam>
+            <param name="c">Enumerable.</param>
+            <param name="item">Item.</param>
+            <returns>Index. Returns -1 if the item was not found.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Configuration.ConfigEntry">
+            <summary>This class implements a configuration entry.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigEntry.__File">
+            <summary>Configuration file.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigEntry.__Parent">
+            <summary>Parent section.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigEntry.__Value">
+            <summary>Configuration entry value.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigEntry.__MaskedValue">
+            <summary>Masked value.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigEntry._Name">
+            <summary>Entry name.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.#ctor(Robbiblubber.Util.Library.Configuration.ConfigFile,Robbiblubber.Util.Library.Configuration.ConfigSection,System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="file">Configuration file</param>
+            <param name="parent">Parent section.</param>
+            <param name="data">Entry data.</param>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.ParentFile">
+            <summary>Gets the configuration file.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.ParentSection">
+            <summary>Gets the parent section.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.Name">
+            <summary>Gets or sets the entry name.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.Path">
+            <summary>Gets the path for this entry.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.StringValue">
+            <summary>Gets or sets the value as a string.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.BooleanValue">
+            <summary>Gets or sets the value as a Boolean.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.NumericBooleanValue">
+            <summary>Gets or sets the value as a numeric Boolean.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.IntegerValue">
+            <summary>Gets or sets the value as integer.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.LongValue">
+            <summary>Gets or sets the value as integer.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.DateTimeValue">
+            <summary>Gets or sets the value as DateTime.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.StringArray">
+            <summary>Gets or sets the value as string array.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.BooleanArray">
+            <summary>Gets or sets the value as Boolean array.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.NumericBooleanArray">
+            <summary>Gets or sets the value as numeric Boolean array.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.IntegerArray">
+            <summary>Gets or sets the value as integer array.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.LongArray">
+            <summary>Gets or sets the value as long integer array.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigEntry.DateTimeArray">
+            <summary>Gets or sets the value as integer array.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetString(System.String)">
+            <summary>Gets the value as a string.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetString(System.String)">
+            <summary>Sets the value as a string.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.String)">
+            <summary>Sets the value as a string.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetBoolean(System.Boolean)">
+            <summary>Gets the value as a Boolean.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetBoolean(System.Boolean)">
+            <summary>Sets the value as a Boolean.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.Boolean)">
+            <summary>Sets the value as a Boolean.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetNumericBoolean(System.Boolean)">
+            <summary>Gets the value as a numeric Boolean.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetNumericBoolean(System.Boolean)">
+            <summary>Sets the value as a numeric Boolean.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetInteger(System.Int32)">
+            <summary>Gets the value as an integer.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetInteger(System.Int32)">
+            <summary>Sets the value as an integer.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.Int32)">
+            <summary>Sets the value as an integer.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetLong(System.Int64)">
+            <summary>Gets the value as a long integer.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetLong(System.Int64)">
+            <summary>Sets the value as a long integer.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.Int64)">
+            <summary>Sets the value as a long integer.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetDateTime">
+            <summary>Gets the value as a DateTime.</summary>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetDateTime(System.DateTime)">
+            <summary>Gets the value as a DateTime.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetDateTime(System.DateTime)">
+            <summary>Sets the value as a long integer.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.DateTime)">
+            <summary>Sets the value as a long integer.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetStringArray">
+            <summary>Gets the value as a string array.</summary>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetStringArray(System.String[])">
+            <summary>Gets the value as a string array.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetStringArray(System.String[])">
+            <summary>Sets the value as a string array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.String[])">
+            <summary>Sets the value as a string array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetBooleanArray">
+            <summary>Gets the value as a Boolean array.</summary>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetBooleanArray(System.Boolean[])">
+            <summary>Gets the value as a Boolean array.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetBooleanArray(System.Boolean[])">
+            <summary>Sets the value as a Boolean array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.Boolean[])">
+            <summary>Sets the value as a long integer.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetNumericBooleanArray(System.Boolean[])">
+            <summary>Gets the value as a numeric Boolean array.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetNumericBooleanArray">
+            <summary>Gets the value as a numeric Boolean array.</summary>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetNumericBooleanArray(System.Boolean[])">
+            <summary>Sets the value as a numeric Boolean array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetIntegerArray">
+            <summary>Gets the value as an integer array.</summary>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetIntegerArray(System.Int32[])">
+            <summary>Gets the value as an integer array.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetIntegerArray(System.Int32[])">
+            <summary>Sets the value as an integer array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.Int32[])">
+            <summary>Sets the value as an integer array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetLongArray">
+            <summary>Gets the value as a long integer array.</summary>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetLongArray(System.Int64[])">
+            <summary>Gets the value as a long integer array.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetLongArray(System.Int64[])">
+            <summary>Sets the value as a long integer array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.Int64[])">
+            <summary>Sets the value as an integer array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetDateTimeArray">
+            <summary>Gets the value as a date/time array.</summary>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.GetDateTimeArray(System.DateTime[])">
+            <summary>Gets the value as a date/time array.</summary>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetDateTimeArray(System.DateTime[])">
+            <summary>Sets the value as a date/time array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.SetValue(System.DateTime[])">
+            <summary>Sets the value as a date/time array.</summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.Delete">
+            <summary>Deletes this entry.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.MoveTo(Robbiblubber.Util.Library.Configuration.ConfigSection)">
+            <summary>Moves the item to the specified section.</summary>
+            <param name="section">Section.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigEntry.CopyTo(Robbiblubber.Util.Library.Configuration.ConfigSection)">
+            <summary>Copies the item to the specified section.</summary>
+            <param name="section">Section.</param>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Configuration.ConfigFile">
+            <summary>This class represents a configuration file.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.#ctor(System.String,Robbiblubber.Util.Library.Configuration.OpenMode,Robbiblubber.Util.Library.Coding.ExtendedOutputFormat,System.Text.Encoding,System.String,System.Boolean)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="s">Text or file name.</param>
+            <param name="mode">Mode.</param>
+            <param name="format">Format.</param>
+            <param name="encoding">Encoding.</param>
+            <param name="secret">Secret used for encryption/decryption.</param>
+            <param name="throwExceptions">Indicates if the constructor should throw exceptions.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.#ctor(System.Net.WebClient,System.String,Robbiblubber.Util.Library.Configuration.OpenMode,Robbiblubber.Util.Library.Coding.ExtendedOutputFormat,System.Text.Encoding,System.String,System.Boolean)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="wc">Web client.</param>
+            <param name="s">Text or file name.</param>
+            <param name="mode">Mode.</param>
+            <param name="format">Format.</param>
+            <param name="encoding">Encoding.</param>
+            <param name="secret">Secret used for encryption/decryption.</param>
+            <param name="throwExceptions">Indicates if the constructor should throw exceptions.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.__ReadLine(Robbiblubber.Util.Library.StringRdr)">
+            <summary>Reads a line from stream.</summary>
+            <param name="re">String reader.</param>
+            <returns>Line object.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.__Unmask(System.String)">
+            <summary>Unmasks a string.</summary>
+            <param name="str">String.</param>
+            <returns>Unmasked string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.__Mask(System.String)">
+            <summary>Unmasks a string.</summary>
+            <param name="str">String.</param>
+            <returns>Unmasked string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.__ParsePath(System.String)">
+            <summary>Gets an array representing a path.</summary>
+            <param name="path">Path.</param>
+            <returns>Path as array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.Load(System.String,Robbiblubber.Util.Library.Coding.ExtendedOutputFormat,System.Text.Encoding,System.String)">
+            <summary>Loads a configuration file.</summary>
+            <param name="fileName">File name.</param>
+            <param name="format">Format.</param>
+            <param name="encoding">Encoding.</param>
+            <param name="secret">Secret used for encryption/decryption.</param>
+            <returns>Configuration file.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.Parse(System.String,Robbiblubber.Util.Library.Coding.ExtendedOutputFormat)">
+            <summary>Parses configuration file contents.</summary>
+            <param name="data">Content data.</param>
+            <param name="format">Format.</param>
+            <returns>Configuration file.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.Download(System.Net.WebClient,System.String,Robbiblubber.Util.Library.Coding.ExtendedOutputFormat,System.Text.Encoding,System.String)">
+            <summary>Downloads a configuration file.</summary>
+            <param name="wc">Web client.</param>
+            <param name="url">URL.</param>
+            <param name="format">Format.</param>
+            <param name="encoding">Encoding.</param>
+            <param name="secret">Secret used for encryption/decryption.</param>
+            <returns>Configuration file.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.Download(System.String,Robbiblubber.Util.Library.Coding.ExtendedOutputFormat,System.Text.Encoding,System.String)">
+            <summary>Downloads a configuration file.</summary>
+            <param name="url">URL.</param>
+            <param name="format">Format.</param>
+            <param name="encoding">Encoding.</param>
+            <param name="secret">Secret used for encryption/decryption.</param>
+            <returns>Configuration file.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.ToPath(System.String[])">
+            <summary>Returns a path.</summary>
+            <param name="waypoints">Waypoints.</param>
+            <returns>Path string.</returns>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigFile.FileName">
+            <summary>Gets or sets the configuration file name.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigFile.Mode">
+            <summary>Gets or sets the mode.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigFile.Format">
+            <summary>Gets or sets the format.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigFile.Encoding">
+            <summary>Gets or sets the encoding.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigFile.Secret">
+            <summary>Gets or sets the secret.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigFile.Text">
+            <summary>Gets or sets the configuration file text contents.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.Save(System.String,Robbiblubber.Util.Library.Coding.ExtendedOutputFormat,System.Text.Encoding,System.String)">
+            <summary>Saves the configuration file.</summary>
+            <param name="fileName">File name.</param>
+            <param name="format">Format.</param>
+            <param name="encoding">Encoding.</param>
+            <param name="secret">Secret.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.Save(System.String,System.Text.Encoding,System.String)">
+            <summary>Saves the configuration file.</summary>
+            <param name="fileName">File name.</param>
+            <param name="encoding">Encoding.</param>
+            <param name="secret">Secret.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.Save(Robbiblubber.Util.Library.Coding.ExtendedOutputFormat,System.Text.Encoding,System.String)">
+            <summary>Saves the configuration file.</summary>
+            <param name="format">Format.</param>
+            <param name="encoding">Encoding.</param>
+            <param name="secret">Secret.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.Delete">
+            <summary>Deletes the configuration file.</summary>
+            <remarks>Physically deletes the file if it exists.</remarks>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.ToString">
+            <summary>Returns the configuration file text as a string.</summary>
+            <returns>String.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Configuration.ConfigFile.__Line">
+            <summary>This class represents a line read from stream.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigFile.__Line.EOF">
+            <summary>End of file.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigFile.__Line.SEMICOLON">
+            <summary>Semicolon as termination sign.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigFile.__Line.BRACKET_OPEN">
+            <summary>Opening bracket.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigFile.__Line.BRACKET_CLOSE">
+            <summary>Closing bracket.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigFile.__Line.Text">
+            <summary>Line text.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigFile.__Line.Termination">
+            <summary>Line termination sign.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigFile.__Line.#ctor(System.String,System.Int32)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="text">Read line text.</param>
+            <param name="termination">Line termination sign.</param>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Configuration.ConfigList`1">
+            <summary>This class represents a configuration file item list.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigList`1.__Parent">
+            <summary>Parent section.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigList`1._Items">
+            <summary>Item list.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigList`1._IsSections">
+            <summary>Determines if the list is a section list.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigList`1.#ctor(Robbiblubber.Util.Library.Configuration.ConfigSection,System.Collections.Generic.List{`0})">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="parent">Parent section.</param>
+            <param name="items">Items.</param>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigList`1.Item(System.String)">
+            <summary>Gets an item by name.</summary>
+            <param name="name">Name.</param>
+            <returns>List item.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigList`1.Contains(System.String)">
+            <summary>Returns if the list contains an item with a given name.</summary>
+            <param name="name">Name.</param>
+            <returns>Returns TRUE if an item is found, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigList`1.Remove(System.String)">
+            <summary>Removes the item with a given name from the list.</summary>
+            <param name="name">Name.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigList`1.Add(System.String)">
+            <summary>Adds an item with the given name.</summary>
+            <param name="name">Name.</param>
+            <returns>Item.</returns>
+            <remarks>Will return an existing item when an item with this name already exists.</remarks>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigList`1.Clear">
+            <summary>Clears all items in the list.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigList`1.Item(System.Int32)">
+            <summary>Gets an item by index.</summary>
+            <param name="index">Index.</param>
+            <returns>List item.</returns>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigList`1.Count">
+            <summary>Gets the number of items in the list.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator for this list.</summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigList`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Gets an enumerator for this list.</summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Configuration.ConfigSection">
+            <summary>This class represents a configuration file section.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigSection.__File">
+            <summary>Configuration file.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigSection.__Parent">
+            <summary>Parent section.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigSection.__InternalSections">
+            <summary>Sections.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigSection.__InternalEntries">
+            <summary>Entries.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigSection._Sections">
+            <summary>Sections list.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigSection._Entries">
+            <summary>Entries list.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.ConfigSection._Name">
+            <summary>Section name.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.#ctor(Robbiblubber.Util.Library.Configuration.ConfigFile,Robbiblubber.Util.Library.Configuration.ConfigSection,System.String,Robbiblubber.Util.Library.StringRdr)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="file">Configuration file.</param>
+            <param name="parent">Parent section.</param>
+            <param name="preface">Preface data.</param>
+            <param name="re">String data.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.#ctor(Robbiblubber.Util.Library.Configuration.ConfigFile,Robbiblubber.Util.Library.Configuration.ConfigSection,System.String)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="file">Configuration file.</param>
+            <param name="parent">Parent section.</param>
+            <param name="name">Name.</param>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigSection.ParentFile">
+            <summary>Gets the configuration file.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigSection.ParentSection">
+            <summary>Gets the parent section.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigSection.Name">
+            <summary>Gets or sets the section name.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigSection.Sections">
+            <summary>Gets the child sections in this section.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigSection.Entries">
+            <summary>Gets the child entries in this section.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.ConfigSection.Path">
+            <summary>Gets the path for this section.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.Delete">
+            <summary>Deletes the section.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetSection(System.String)">
+            <summary>Gets a child section by its path.</summary>
+            <param name="path">Path.</param>
+            <returns>Section.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetEntry(System.String)">
+            <summary>Gets a child section by its path.</summary>
+            <param name="path">Path.</param>
+            <returns>Entry.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetString(System.String,System.String)">
+            <summary>Gets a string by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetString(System.String,System.String)">
+            <summary>Sets a string by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.String)">
+            <summary>Sets a string by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetBoolean(System.String,System.Boolean)">
+            <summary>Gets a Boolean by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Boolean.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetBoolean(System.String,System.Boolean)">
+            <summary>Sets a Boolean by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.Boolean)">
+            <summary>Sets a Boolean by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetInteger(System.String,System.Int32)">
+            <summary>Gets an integer by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Integer.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetInteger(System.String,System.Int32)">
+            <summary>Sets an integer by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.Int32)">
+            <summary>Sets an integer by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetLong(System.String,System.Int64)">
+            <summary>Gets a long integer by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Long integer.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetLong(System.String,System.Int64)">
+            <summary>Sets a long integer by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.Int64)">
+            <summary>Sets a long integer by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetDateTime(System.String,System.DateTime)">
+            <summary>Gets a DateTime by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>DateTime.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetDateTime(System.String,System.DateTime)">
+            <summary>Sets a DateTime by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.DateTime)">
+            <summary>Sets a DateTime by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetStringArray(System.String,System.String[])">
+            <summary>Gets a string array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetStringArray(System.String)">
+            <summary>Gets a string array by its path.</summary>
+            <param name="path">Path.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetStringArray(System.String,System.String[])">
+            <summary>Sets a string array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.String[])">
+            <summary>Sets a string array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetBooleanArray(System.String)">
+            <summary>Gets a Boolean array by its path.</summary>
+            <param name="path">Path.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetBooleanArray(System.String,System.Boolean[])">
+            <summary>Gets a Boolean array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetBooleanArray(System.String,System.Boolean[])">
+            <summary>Sets a Boolean array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.Boolean[])">
+            <summary>Sets a Boolean array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetIntegerArray(System.String,System.Int32[])">
+            <summary>Gets an integer array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetIntegerArray(System.String)">
+            <summary>Gets an integer array by its path.</summary>
+            <param name="path">Path.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetIntegerArray(System.String,System.Int32[])">
+            <summary>Sets an integer array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.Int32[])">
+            <summary>Sets an integer array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetLongArray(System.String,System.Int64[])">
+            <summary>Gets a long integer array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetLongArray(System.String)">
+            <summary>Gets a long integer array by its path.</summary>
+            <param name="path">Path.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetLongArry(System.String,System.Int64[])">
+            <summary>Sets a long integer array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.Int64[])">
+            <summary>Sets a long integer array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetDateTimeArray(System.String,System.DateTime[])">
+            <summary>Gets a DateTime array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.GetDateTimeArray(System.String)">
+            <summary>Gets a DateTime array by its path.</summary>
+            <param name="path">Path.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetDateTimeArray(System.String,System.DateTime[])">
+            <summary>Sets a DateTime array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.SetValue(System.String,System.DateTime[])">
+            <summary>Sets a DateTime array by its path.</summary>
+            <param name="path">Path.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.MoveTo(Robbiblubber.Util.Library.Configuration.ConfigSection)">
+            <summary>Moves the item to the specified section.</summary>
+            <param name="section">Section.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.CopyTo(Robbiblubber.Util.Library.Configuration.ConfigSection)">
+            <summary>Copies the item to the specified section.</summary>
+            <param name="section">Section.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection.__Write(System.Text.StringBuilder)">
+            <summary>Writes the section into a string.</summary>
+            <param name="s">StringBuilder object.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection._GetIndent">
+            <summary>Gets the indent for this section.</summary>
+            <returns>Indent.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.ConfigSection._Read(System.String,Robbiblubber.Util.Library.StringRdr)">
+            <summary>Reads the section.</summary>
+            <param name="preface">Section preface.</param>
+            <param name="re">String data.</param>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Configuration.DdpExtensions">
+            <summary>This class provides ddp extension methods.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpExtensions.GetDdpValue(System.String,System.String)">
+            <summary>Gets a value from a ddp string.</summary>
+            <param name="s">ddp string.</param>
+            <param name="key">Key.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpExtensions.SetDdpValue(System.String,System.String,System.String)">
+            <summary>Sets a value in a ddp string.</summary>
+            <param name="s">ddp string.</param>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+            <returns>New ddp as string.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Configuration.DdpString">
+            <summary>This class implements a ddp string.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._BACKSLASH">
+            <summary>Backslash mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._EQUAL">
+            <summary>Equals sign mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._SEMICOLON">
+            <summary>Semicolon mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._RETURN">
+            <summary>Return mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._LINEFEED">
+            <summary>Line feed mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._TAB">
+            <summary>Tab mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._SPACE">
+            <summary>Space mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._COMMA">
+            <summary>Comma mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._BRACKET_OPEN">
+            <summary>Opening brackets mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._BRACKET_CLOSE">
+            <summary>Closing brackets mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._SLASH">
+            <summary>Slash mask constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.DdpString._Items">
+            <summary>Key-value-pair items.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.#ctor(System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="option">Encoding option.</param>
+            <param name="value">String value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.#ctor(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="items">Items.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="items">Items.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.FromString(System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Creates a ddp string from a string.</summary>
+            <param name="str">String.</param>
+            <param name="option">Format option.</param>
+            <returns>ddp string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.FromFile(System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Creates a ddp string from a file.</summary>
+            <param name="fileName">File name.</param>
+            <param name="option">Format option.</param>
+            <returns>ddp string.</returns>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.DdpString.Item(System.String,System.String)">
+            <summary>Gets or sets a ddp value.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.DdpString.Item(System.String)">
+            <summary>Gets or sets a ddp value.</summary>
+            <param name="key">Key.</param>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.DdpString.Data">
+            <summary>Gets or sets the string representation of this ddp string.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.DdpString.Keys">
+            <summary>Gets the keys of this ddp string.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Configuration.DdpString.Values">
+            <summary>Gets the values of this ddp string.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetString(System.String,System.String)">
+            <summary>Gets a string value.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetString(System.String,System.String)">
+            <summary>Sets a string value.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetValue(System.String,System.String)">
+            <summary>Sets a string value.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetInteger(System.String,System.Int32)">
+            <summary>Gets an integer value.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetInteger(System.String,System.Int32)">
+            <summary>Sets an integer value.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetValue(System.String,System.Int32)">
+            <summary>Sets an integer value.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetBoolean(System.String,System.Boolean)">
+            <summary>Gets a Boolean value.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetBoolean(System.String,System.Boolean)">
+            <summary>Sets a Boolean value.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetValue(System.String,System.Boolean)">
+            <summary>Sets a Boolean value.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetDateTime(System.String)">
+            <summary>Gets a date/time value.</summary>
+            <param name="key">Key.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetDateTime(System.String,System.DateTime)">
+            <summary>Gets a date/time value.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetDateTime(System.String,System.DateTime)">
+            <summary>Sets a date/time value.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetValue(System.String,System.DateTime)">
+            <summary>Sets a value.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetStringArray(System.String,System.String[])">
+            <summary>Gets a string array.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>String array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetStringArray(System.String)">
+            <summary>Gets a string array.</summary>
+            <param name="key">Key.</param>
+            <returns>String array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetStringArray(System.String,System.String[])">
+            <summary>Sets a string array.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetValue(System.String,System.String[])">
+            <summary>Sets a string array.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetIntegerArray(System.String,System.Int32[])">
+            <summary>Gets an integer array.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetIntegerArray(System.String)">
+            <summary>Gets an integer array.</summary>
+            <param name="key">Key.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetIntegerArray(System.String,System.Int32[])">
+            <summary>Sets an integer array.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetValue(System.String,System.Int32[])">
+            <summary>Sets an integer array.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetBooleanArray(System.String,System.Boolean[])">
+            <summary>Gets a Boolean array.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetBooleanArray(System.String)">
+            <summary>Gets a Boolean array.</summary>
+            <param name="key">Key.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetBooleanArray(System.String,System.Boolean[])">
+            <summary>Sets a Boolean array.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetValue(System.String,System.Boolean[])">
+            <summary>Sets a Boolean array.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetDateTimeArray(System.String,System.DateTime[])">
+            <summary>Gets a date/time array.</summary>
+            <param name="key">Key.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.GetDateTimeArray(System.String)">
+            <summary>Gets a date/time array.</summary>
+            <param name="key">Key.</param>
+            <returns>Array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetDateTimeArray(System.String,System.DateTime[])">
+            <summary>Sets a date/time array.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.SetValue(System.String,System.DateTime[])">
+            <summary>Sets a date/time array.</summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.Add(Robbiblubber.Util.Library.Configuration.DdpString,System.Boolean)">
+            <summary>Adds a ddp string to this instance.</summary>
+            <param name="value">ddp string.</param>
+            <param name="overwrite">Determines if the added values should overwrite existing values.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.Remove(System.String)">
+            <summary>Removes a key.</summary>
+            <param name="key">Key.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.ToString(Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Returns a string representation of this object.</summary>
+            <param name="option">Format option.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.Save(System.String,Robbiblubber.Util.Library.Coding.OutputFormat)">
+            <summary>Saves the ddp to a file.</summary>
+            <param name="fileName">File name.</param>
+            <param name="option">Encoding option.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString._Mask(System.String)">
+            <summary>Masks a string.</summary>
+            <param name="m">(Internally) masked string.</param>
+            <returns>Masked string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString._Mask2(System.String)">
+            <summary>Masks a masked string.</summary>
+            <param name="m">Masked string.</param>
+            <returns>(Internally) masked string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString._Mask3(System.String)">
+            <summary>Masks a string.</summary>
+            <param name="m">String.</param>
+            <returns>Masked string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString._Mask4(System.String)">
+            <summary>Masks a string.</summary>
+            <param name="m">String.</param>
+            <returns>(Internally) masked string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString._Unmask(System.String)">
+            <summary>Unmask a string.</summary>
+            <param name="m">(internally) masked string.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.ToString">
+            <summary>Returns a string representation of this object.</summary>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.System#Collections#Generic#IEnumerable{System#String}#GetEnumerator">
+            <summary>Gets an enumerator.</summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Configuration.DdpString.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Gets an enumerator.</summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Configuration.OpenMode">
+            <summary>This enum defines open modes.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.OpenMode.PARSE">
+            <summary>Parse string as configuration file source.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.OpenMode.FILE">
+            <summary>Read configuration file.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Configuration.OpenMode.HTTP">
+            <summary>Read configuration file from HTTP source.</summary>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Disposal">
+            <summary>Disposal helper class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Disposal.ReleaseComObjects(System.Object[])">
+            <summary>Releases and disposes COM objects.</summary>
+            <param name="o">Object.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Disposal.Dispose(System.Object[])">
+            <summary>Disposes objects.</summary>
+            <param name="o">Object.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Disposal.Recycle(System.Object[])">
+            <summary>Disposes objects and forces garbage collector to collect all disposed objects.</summary>
+            <param name="o">Object.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Disposal.Recycle">
+            <summary>Forces garbage collector to collect all disposed objects.</summary>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.FileOp">
+            <summary>This class provides File utitility methods.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.FileOp.CopyFile(System.String,System.String,System.Boolean)">
+            <summary>Copies a file.</summary>
+            <param name="source">Source file name.</param>
+            <param name="destination">Destination file name.</param>
+            <param name="overwrite">Determines if existing file should be overwritten.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.FileOp.TryCopyFile(System.String,System.String,System.Boolean)">
+            <summary>Tries to copy a file and returns a success value.</summary>
+            <param name="source">Source file name.</param>
+            <param name="destination">Destination file name.</param>
+            <param name="overwrite">Determines if existing file should be overwritten.</param>
+            <returns>Returns TRUE if the file has successfully been copied, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.FileOp.CopyDirectory(System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>Copies a directory.</summary>
+            <param name="source">Source directory name.</param>
+            <param name="destination">Destination directory name.</param>
+            <param name="recursive">Determines if subdirectories should be copied.</param>
+            <param name="overwrite">Determines if existing files should be overwritten.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.FileOp.TryCopyDirectory(System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>Tries to copy a directory and returns a success value.</summary>
+            <param name="source">Source directory name.</param>
+            <param name="destination">Destination directory name.</param>
+            <param name="recursive">Determines if subdirectories should be copied.</param>
+            <param name="overwrite">Determines if existing files should be overwritten.</param>
+            <returns>Returns TRUE if the directory has successfully been copied, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.FileOp.PurgeDirectory(System.String,System.String[])">
+            <summary>Deletes all contents of a directory.</summary>
+            <param name="directoryName">Directory name.</param>
+            <param name="keep">Files or directoryies to keep, allows wildcards.</param>
+            <returns>Returns an array of files that haven't been deleted.</returns>
+            <exception cref="T:System.IO.IOException">Thrown when one or more files could not be deleted.</exception>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.FileOp.PurgeDirectory(System.String,System.Boolean,System.String[])">
+            <summary>Deletes all contents of a directory.</summary>
+            <param name="directoryName">Directory name.</param>
+            <param name="ignoreErrors">Determines if errors will be ignored.</param>
+            <param name="keep">Files or directoryies to keep, allows wildcards.</param>
+            <returns>Returns an array of files that haven't been deleted.</returns>
+            <exception cref="T:System.IO.IOException">Thrown when one or more files could not be deleted. No exception will be thrown if ignoreErrors flag is set.</exception>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.FileOp.CreateTempPath">
+            <summary>Creates a temporary path.</summary>
+            <returns>Temporary path.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.FileOp.CleanupTemporaryPaths">
+            <summary>Cleans up temporary PathOp.</summary>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Collections.IElementCollection`1">
+            <summary>Simple collections implement this interface.</summary>
+            <typeparam name="T">Type.</typeparam>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Collections.IElementCollection`1.Item(System.Int32)">
+            <summary>Gets an element by its index.</summary>
+            <param name="i">Index.</param>
+            <returns>Element.</returns>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Collections.IElementCollection`1.Count">
+            <summary>Gets the number of items in this collection.</summary>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Collections.IElementList`1">
+            <summary>Mutable collections implement this interface.</summary>
+            <typeparam name="T">Type.</typeparam>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Collections.IElementList`1.Item(System.Int32)">
+            <summary>Gets an element by its index.</summary>
+            <param name="i">Index.</param>
+            <returns>Element.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.IElementList`1.Add(`0)">
+            <summary>Adds an item to the list.</summary>
+            <param name="item">Item.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.IElementList`1.Clear">
+            <summary>Clears the list.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.IElementList`1.Contains(`0)">
+            <summary>Returns if the list contains an item.</summary>
+            <param name="item">Item.</param>
+            <returns>Returns TRUE if the collection contains the item, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.IElementList`1.Insert(System.Int32,`0)">
+            <summary>Inserts an item at a given position.</summary>
+            <param name="i">Index.</param>
+            <param name="item">Item.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.IElementList`1.IndexOf(`0)">
+            <summary>Gets the index of an item.</summary>
+            <param name="item">Item.</param>
+            <returns>Index.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.IElementList`1.Remove(`0)">
+            <summary>Removes an item.</summary>
+            <param name="item">Item.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.IElementList`1.RemoveAt(System.Int32)">
+            <summary>Removes the item with the given index.</summary>
+            <param name="i">Index.</param>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Collections.TCollection`1">
+            <summary>This class provides an IElementCollection container for mutable collections.</summary>
+            <typeparam name="T">Type.</typeparam>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.Collections.TCollection`1._Elements">
+            <summary>Items.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.TCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="elements">Elements.</param>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Collections.TCollection`1.Item(System.Int32)">
+            <summary>Gets an element by its index.</summary>
+            <param name="i">Index.</param>
+            <returns>Element.</returns>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.Collections.TCollection`1.Count">
+            <summary>Gets the number of items in this collection.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.TCollection`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator for this collection.</summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.TCollection`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Gets an enumerator for this collection.</summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.Collections.TList`1">
+            <summary>This class provides an implementation of List that implements the IElementCollection and IElementList interfaces.</summary>
+            <typeparam name="T">Type.</typeparam>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.TList`1.#ctor">
+            <summary>Creates a new instance of this class.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.TList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="collection">Collection.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.TList`1.#ctor(System.Int32)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="capacity">Capacity.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.Collections.TList`1.Robbiblubber#Util#Library#Collections#IElementList{T}#Remove(`0)">
+            <summary>Removes an item.</summary>
+            <param name="item">Item.</param>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.PathOp">
+            <summary>This class defines configuration paths.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.PathOp._LocalConfigurationPath">
+            <summary>Local configuration path.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.PathOp._UserConfigurationPath">
+            <summary>User configuration path.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.PathOp._ApplicationPart">
+            <summary>Application part.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.PathOp._TempRoot">
+            <summary>Root temporary directory.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.PathOp.SystemLocalConfigurationPath">
+            <summary>Gets the system local configuration path.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.PathOp.SystemUserConfigurationPath">
+            <summary>Gets the system user configuration path.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.PathOp.LocalConfigurationPath">
+            <summary>Gets the application-specific local configuration path.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.PathOp.UserConfigurationPath">
+            <summary>Gets the application-specific user configuration path.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.PathOp.ApplicationPart">
+            <summary>Gets or sets the application part of configuration PathOp.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.PathOp.ApplicationDirectory">
+            <summary>Gets the application directory.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.PathOp.UserSettingsFile">
+            <summary>Gets the user settings file.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.PathOp.TempRoot">
+            <summary>Gets or sets the temporary files root directory.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.PathOp.Initialize(System.String)">
+            <summary>Initializes the configuration PathOp.</summary>
+            <param name="applicationPart">Application part of the configuration path.</param>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.StringOp">
+            <summary>This class provides string operation methods.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.StringOp._ALPHA">
+            <summary>Letter constant.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.StringOp._RAND">
+            <summary>Random object.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Random(System.Int32)">
+            <summary>Returns a random alphanumeric string of a given length.</summary>
+            <param name="length">Random string length.</param>
+            <returns>Random string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Unique(System.Int32)">
+            <summary>Returns a unique random alphanumeric string of a given length.</summary>
+            <param name="length">String length.</param>
+            <returns>Unique string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Before(System.String,System.String)">
+            <summary>Returns the string part before the separator.</summary>
+            <param name="s">String.</param>
+            <param name="separator">Separator.</param>
+            <returns>String part preceding the separator expression.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.After(System.String,System.String)">
+            <summary>Returns the string part after the separator.</summary>
+            <param name="s">String.</param>
+            <param name="separator">Separator.</param>
+            <returns>String part succeding the separator expression.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.MatchesFromStart(System.String,System.String,System.Boolean)">
+            <summary>Gets the number of identical characters at the start of two strings.</summary>
+            <param name="expression">Expression.</param>
+            <param name="pattern">String pattern.</param>
+            <param name="caseSensitive">Determines if the match is case-sensitive.</param>
+            <returns>Returns TRUE if the expression matches, otherwise returns FALSE</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Matches(System.String,System.Boolean,System.String)">
+            <summary>Checks if an expression matches a pattern.</summary>
+            <param name="expression">Expression.</param>
+            <param name="pattern">Pattern.</param>
+            <param name="caseSensitive">Determines if the match is case-sensitive.</param>
+            <returns>Returns TRUE if the expression matches, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Matches(System.String,System.Boolean,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Checks if an expression matches a pattern.</summary>
+            <param name="expression">Expression.</param>
+            <param name="pattern">Pattern.</param>
+            <param name="caseSensitive">Determines if the match is case-sensitive.</param>
+            <returns>Returns TRUE if the expression matches, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Matches(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Checks if an expression matches a pattern.</summary>
+            <param name="expression">Expression.</param>
+            <param name="pattern">Pattern.</param>
+            <returns>Returns TRUE if the expression matches, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Matches(System.String,System.Boolean,System.String[])">
+            <summary>Checks if an expression matches a pattern.</summary>
+            <param name="expression">Expression.</param>
+            <param name="pattern">Pattern.</param>
+            <param name="caseSensitive">Determines if the match is case-sensitive.</param>
+            <returns>Returns TRUE if the expression matches, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Matches(System.String,System.String[])">
+            <summary>Checks if an expression matches a pattern.</summary>
+            <param name="expression">Expression.</param>
+            <param name="pattern">Pattern.</param>
+            <returns>Returns TRUE if the expression matches, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.StrLen(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Gets the maximum length of the strings in an array.</summary>
+            <param name="array">String array.</param>
+            <returns>Length of the longest string in the array.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ToAlpha(System.Int64)">
+            <summary>Converts a long integer to an alphanumeric string.</summary>
+            <param name="value">Long integer.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ToAlpha(System.Int32)">
+            <summary>Converts an integer to an alphanumeric string.</summary>
+            <param name="value">Integer.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ToAlpha(System.Int16)">
+            <summary>Converts an integer to an alphanumeric string.</summary>
+            <param name="value">Integer.</param>
+            <returns>String</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.AnyNull(System.Object[])">
+            <summary>Returns if any of the given objects is null.</summary>
+            <param name="values">Objects.</param>
+            <returns>Returns TRUE if one of the object is null.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ReplaceAll(System.String,System.String,System.String,System.Boolean)">
+            <summary>Returns a string in which all occurances of a character sequence are replaced.</summary>
+            <param name="s">String.</param>
+            <param name="oldv">Old value.</param>
+            <param name="newv">New value.</param>
+            <param name="caseSensitive">Determines if the replace operation should be case sensitive.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ReplaceFirst(System.String,System.String,System.String,System.Boolean)">
+            <summary>Returns a string in which the first occurance of a character sequence is replaced.</summary>
+            <param name="s">String.</param>
+            <param name="oldv">Old value.</param>
+            <param name="newv">New value.</param>
+            <param name="caseSensitive">Determines if the replace operation should be case sensitive.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.BeforeLast(System.String,System.Char)">
+            <summary>Gets the part of the string before the last occurance of a character.</summary>
+            <param name="s">String.</param>
+            <param name="c">Character.</param>
+            <returns>String part.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.BeforeFirst(System.String,System.Char)">
+            <summary>Gets the part of the string before the first occurance of a character.</summary>
+            <param name="s">String.</param>
+            <param name="c">Character.</param>
+            <returns>String part.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.BehindLast(System.String,System.Char)">
+            <summary>Gets the part of the string behind the last occurance of a character.</summary>
+            <param name="s">String.</param>
+            <param name="c">Character.</param>
+            <returns>String part.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Complies(System.String,System.String)">
+            <summary>Returns if a string complies to a given pattern.</summary>
+            <param name="s">String.</param>
+            <param name="pattern">Pattern.</param>
+            <returns>Returns TRUE if the string complies, otherwise returns FALSE.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ToBoolean(System.String)">
+            <summary>Returns a boolean representation of the string value.</summary>
+            <param name="s">String.</param>
+            <returns>Boolean.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ToBooleanString(System.Boolean)">
+            <summary>Returns a string representation of the Boolean value.</summary>
+            <param name="b">Boolean.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Nvl(System.String,System.String)">
+            <summary>Returns a string or default value if string is null.</summary>
+            <param name="value">Value.</param>
+            <param name="defaultValue">Default value.</param>
+            <returns>String</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ToTimestamp(System.DateTime)">
+            <summary>Parses a date/time value to a timestamp string.</summary>
+            <param name="value">Value.</param>
+            <returns>Timestamp string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ParseTimestamp(System.String,System.DateTime,System.Boolean)">
+            <summary>Parses a timestamp string to date/time value.</summary>
+            <param name="value">Value.</param>
+            <param name="defaultValue">Default value.</param>
+            <param name="utc">Determines if the DateTime object should be UTC.</param>
+            <returns>DateTime.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ParseTimestamp(System.String,System.Boolean)">
+            <summary>Parses a timestamp string to d date/time value.</summary>
+            <param name="value">Value.</param>
+            <param name="utc">Determines if the DateTime object should be UTC.</param>
+            <returns>DateTime.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ReplaceStart(System.String,System.String,System.String)">
+            <summary>Replaces a string part at the beginning of a string.</summary>
+            <param name="str">String.</param>
+            <param name="find">String to replace.</param>
+            <param name="replace">String to replace with.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.ReplaceEnd(System.String,System.String,System.String)">
+            <summary>Replaces a string part at the end of a string.</summary>
+            <param name="str">String.</param>
+            <param name="find">String to replace.</param>
+            <param name="replace">String to replace with.</param>
+            <returns>String.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Snip(System.String,System.Int32,System.Int32)">
+            <summary>Returns a part of the string between the m-th occurence of a character (from) and the n-th occurrence of a string (to)
+                     or the end of the string (to is omitted or 0).</summary>
+            <remarks>Default delimiter is a blank space.</remarks>
+            <param name="s">String.</param>
+            <param name="from">Start occurrence.</param>
+            <param name="to">End occurrence.</param>
+            <returns>String sniplet.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Snip(System.String,System.Char[])">
+            <summary>Returns a part of the string between the m-th occurence of a character (from) and the n-th occurrence of a string (to)
+                     or the end of the string (to is omitted or 0).</summary>
+            <param name="s">String.</param>
+            <param name="delimiters">Delimiter characters.</param>
+            <returns>String sniplet.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Snip(System.String,System.Int32,System.Char[])">
+            <summary>Returns a part of the string between the m-th occurence of a character (from) and the n-th occurrence of a string (to)
+                     or the end of the string (to is omitted or 0).</summary>
+            <param name="s">String.</param>
+            <param name="from">Start occurrence.</param>
+            <param name="delimiters">Delimiter characters.</param>
+            <returns>String sniplet.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringOp.Snip(System.String,System.Int32,System.Int32,System.Char[])">
+            <summary>Returns a part of the string between the m-th occurence of a character (from) and the n-th occurrence of a string (to)
+                     or the end of the string (to is omitted or 0).</summary>
+            <param name="s">String.</param>
+            <param name="from">Start occurrence.</param>
+            <param name="to">End occurrence.</param>
+            <param name="delimiters">Delimiter characters.</param>
+            <returns>String sniplet.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.StringParser">
+            <summary>This class implements a string parser.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringParser.#ctor(System.String,System.Int32)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="str">Value.</param>
+            <param name="position">Position.</param>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringParser.Delimiters">
+            <summary>Gets or sets token delimiters.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringParser.CurrentPart">
+            <summary>Gets the current string part.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringParser.CurrentDelimiter">
+            <summary>Gets the current delimiter.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringParser.ReadPart(System.String[])">
+            <summary>Reads to the next occurance of a given token or any of a number of tokens.</summary>
+            <param name="delimiters">Token or tokens.</param>
+            <returns>Returns the part read.</returns>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringParser.Preceding">
+            <summary>Gets the preceding character.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringParser.op_Explicit(System.String)~Robbiblubber.Util.Library.StringParser">
+            <summary>Casts a string to a string parser.</summary>
+            <param name="str">String.</param>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringParser.op_Explicit(Robbiblubber.Util.Library.StringParser)~System.String">
+            <summary>Casts a string parser to a string.</summary>
+            <param name="p">String parser.</param>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.StringRdr">
+            <summary>This class implements a string reader.</summary>
+        </member>
+        <member name="F:Robbiblubber.Util.Library.StringRdr._String">
+            <summary>String value.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringRdr.#ctor(System.String,System.Int32)">
+            <summary>Creates a new instance of this class.</summary>
+            <param name="str">Value.</param>
+            <param name="position">Position.</param>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.String">
+            <summary>Gets or sets the underlying string.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.Current">
+            <summary>Gets the current character.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.Position">
+            <summary>Gets or sets the read position.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.Length">
+            <summary>Gets the string length.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.More">
+            <summary>Gets if more characters can be read from the current position.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.Preceding">
+            <summary>Gets the preceding character.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.Next">
+            <summary>Gets the preceding character.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.Tail">
+            <summary>Gets the part of the string from the current position.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.StringRdr.Lead">
+            <summary>Gets the part of the string from the beginning to the current position.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringRdr.Reset">
+            <summary>Resets the reader.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.StringRdr.Read">
+            <summary>Reads the next character.</summary>
+            <returns>Returns TRUE if a character has been read, otherwise returns FALSE.</returns>
+        </member>
+        <member name="T:Robbiblubber.Util.Library.VersionOp">
+            <summary>This class provides versioning utility functionality.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.VersionOp.ApplicationVersion">
+            <summary>Gets the application version.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.VersionOp.AssemblyVersion">
+            <summary>Gets the calling assembly version.</summary>
+        </member>
+        <member name="P:Robbiblubber.Util.Library.VersionOp.ApplicationCopyright">
+            <summary>Gets the application copyright string.</summary>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.VersionOp.ToVersionString(System.Version)">
+            <summary>Gets a three-part version string.</summary>
+            <param name="version">Version.</param>
+            <returns>Version string.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.VersionOp.GetVersion(System.Object)">
+            <summary>Returns the assembly version for an object.</summary>
+            <param name="obj">Object.</param>
+            <returns>Version.</returns>
+        </member>
+        <member name="M:Robbiblubber.Util.Library.VersionOp.VersionOf(System.Object)">
+            <summary>Returns the assembly version for an object.</summary>
+            <param name="obj">Object.</param>
+            <returns>Version.</returns>
+        </member>
+    </members>
+</doc>
