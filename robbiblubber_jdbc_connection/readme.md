@@ -34,7 +34,7 @@ Including a **basic working example** to create & connect to sqlite.
 
 For other dbase systems, download the required JAR & replace the connection string :
 
-  - SQL Server - [Download JAR](https://docs.microsoft.com/en-us/sql/connect/jdbc/using-the-jdbc-driver?view=sql-server-2017) (tested with mssql-jdbc-7.4.1.jre8.jar) 
+  - SQL Server - [Download JAR](https://docs.microsoft.com/en-us/sql/connect/jdbc/using-the-jdbc-driver?view=sql-server-2017) (tested with mssql-jdbc-7.4.1.jre8.jar)  [Building the Connection URL](https://docs.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-2017)
 ```sql
 JdbcConnection cn = new JdbcConnection("jdbc:sqlserver://xx.xx.xx.xx:13021;databaseName=POPAY", "com.microsoft.sqlserver.jdbc.SQLServerDriver","user","password");
 ```
