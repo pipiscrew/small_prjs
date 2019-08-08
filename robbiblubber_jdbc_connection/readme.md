@@ -4,7 +4,7 @@ bitbucket repositories - https://bitbucket.org/%7Beccaa04e-8f94-40b3-a78a-7305e3
 
 **rule** - the project must not running into folder with space (ex. c:\this is a test\test.csproj)
 
-**rule** - java.exe must be in PATH variable in System Variables (aka c:\jre86\bin)
+**rule** - java.exe must be in PATH variable in System Variables (ex. c:\jre86\bin)
 
 **good to know** - Robbiblubber.dlls compiled under frm472, but you can use it also under frm4.5 (omg?)
 
