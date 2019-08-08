@@ -2,7 +2,9 @@
 
 bitbucket repositories - https://bitbucket.org/%7Beccaa04e-8f94-40b3-a78a-7305e37074a6%7D/
 
-at the time of writing, the Robbiblubber.libraries last updated 2018/10. With a quick read, he is using a thing called server where execute commands (what developer has wrote to .net project) via :
+**rule** - the project must not running into folder with space (ex. c:\this is a test\test.csproj)
+
+at the time of writing, the Robbiblubber.libraries last updated 2018/10. With a quick read, he is using a **thing** called **server** where execute commands (what developer has wrote to .net project) via :
 ```csharp
 protected void _LaunchHost(object param)
 {
