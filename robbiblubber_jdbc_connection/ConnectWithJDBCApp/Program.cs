@@ -15,7 +15,6 @@ namespace ConnectWithJDBCApp
 
             string sqlite_filepath = AppDomain.CurrentDomain.BaseDirectory + "\\test.sqlite";
 
-            //Directory.CreateDirectory("c:\\test");
             JdbcConnection cn = new JdbcConnection("jdbc:sqlite:" + sqlite_filepath, "org.sqlite.JDBC");
 
             //if doesnt exist, will be created
