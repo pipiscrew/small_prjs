@@ -48,3 +48,8 @@ JdbcConnection cn = jdbc:oracle:thin:@(description=(address=(host=HOSTNAME)(prot
 --TNSNAMES style - src - https://stackoverflow.com/a/4832205
 JdbcConnection cn = jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST =(ADDRESS =(PROTOCOL=TCP)(HOST=blah.example.com)(PORT=1521)))(CONNECT_DATA=(SID=BLAHSID)(GLOBAL_NAME=BLAHSID.WORLD)(SERVER=DEDICATED)))
 ```
+
+
+
+
+ref - https://www.youtube.com/watch?v=gLDFQ_IhnDc
