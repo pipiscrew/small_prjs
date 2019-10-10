@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+    <title>pipiscrew test</title>
+    <link href='bootstrap.css' rel='stylesheet'>
+
+    <style>
+        /* Disabled link styles */
+        a {}
+
+        a:link,
+        a:visited {}
+    </style>
+
+    <script>
+
+        function searchTerm() {
+            doSearch(1);
+        }
+
+        function doSearch(startIndex) {
+            //search engine ID
+            var searchID = 'x';
+            var apiKey = 'x';
+
+            //read user input
+            var term = document.getElementById('term').value;
+
+            if (!term) {
+                alert('Please enter a search term');
+                return;
+            }
+
+            //encode it, beacuse we passing it as URL param
+            var keyword = encodeURI(term);
+
+            var oXHR = new XMLHttpRequest();
+
+            //there is a restriction using the Google search API v1 - you can search specific domains. see screenshot attached to mail
+            //always the pagesize is 10 by setting the #num# to URL paramater
+            oXHR.open('GET', 'https://www.googleapis.com/customsearch/v1?cx=' + searchID + '&q=' + keyword + ' &key=' + apiKey + '&num=10&start=' + startIndex.toString(), true);
+
+            oXHR.onreadystatechange = function (oEvent) {
+                if (oXHR.readyState === 4) {
+                    if (oXHR.status === 200) {
+
+                        var response = JSON.parse(oXHR.responseText);
+
+                        //if response is empty, warn user
+                        if (!response.items) {
+                            alert("No results!");
+                            return;
+                        }
+
+                        //generate the right column with the text results
+                        generateGoogleTextResults(response.items);
+
+                        //generate the left column with the image results (warning settted by default 100x100)
+                        generateGoogleImageResults(response.items);
+
+                        //generate pagination
+                        generatePagination(response.queries);
+
+                        //scroll user to top
+                        window.scrollTo(0,0);
+
+                    } else {
+                        //any error occured on ajax call
+                        alert("Error " + oXHR.statusText);
+                        return;
+                    }
+                }
+            };
+
+            //make the call to google
+            oXHR.send();
+        }
+
+
+        function generateGoogleTextResults(Gitems) {
+            var item_template = '<strong>%title%</strong><a href="%link%" target="_blank"><div style="color:#006621">%url%</div></a><div>%htmlsnippet%</div><br/>';
+            var result = '';
+
+            Gitems.forEach(function (item) {
+                result += item_template.replace('%title%', item.htmlTitle).replace('%htmlsnippet%', item.htmlSnippet)
+                result = result.replace('%link%', item.link).replace('%url%', item.htmlFormattedUrl);
+            });
+
+            document.getElementById('textresult').innerHTML = result;
+        }
+
+
+        function generateGoogleImageResults(Gitems) {
+            var item_template = '<img height=100 width=100 src="%url%">';
+            var result = '';
+
+            var image = '';
+            Gitems.forEach(function (item) {
+
+                //validations, image can exists to cse_thumbnail or to metatags og:image
+                if (item.pagemap) {
+
+                    if (item.pagemap.cse_thumbnail) {
+                        image = item.pagemap.cse_thumbnail[0].src;
+
+                    } else if (item.pagemap.metatags) {
+
+                        if (item.pagemap.metatags['og:image']) {
+                            image = item.pagemap.metatags[0]['og:image'];
+                        }
+                    }
+                }
+                
+                if (!image) {
+                    image = 'https://via.placeholder.com/100';
+                }
+                result += item_template.replace('%url%', image);
+            });
+
+            document.getElementById('imageresult').innerHTML = result;
+        }
+
+
+        function generatePagination(Gquery) {
+
+            //if doesnt have next page
+            if (!Gquery.nextPage)
+                return;
+
+            var totalItems = Gquery.nextPage[0].totalResults;
+            var paginations = Math.round(totalItems / 10);
+            var result = '';
+
+            //The JSON API will never return more than 100 results, even if more than 100 documents match the query.
+            //ref https://developers.google.com/custom-search/v1/cse/list#response
+            if (paginations > 10)
+                paginations = 9;
+
+            for (var i = 0; i <= paginations; i++) {
+                result += '<button onclick="btnPagination(' + i + ')" class="btn btn-sm btn-primary">' + i + '</button>';
+            }
+
+            document.getElementById('nextpage').innerHTML = result;
+        }
+
+
+        function btnPagination(pgNo) {
+            var startIndex = (pgNo * 10) + 1;
+
+            doSearch(startIndex);
+
+            console.log(startIndex);
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <div class="gcse-search"></div>
+
+    <div class='container'>
+
+        <div class='row'>
+
+            <div class='col-10'>
+                <input id='term' type='text' class='form-control' placeholder='Search...' autofocus>
+            </div>
+            <div class='col-2'>
+                <button id='btnSearch' class='btn btn-lg btn-primary' onclick='searchTerm()'>Search</button>
+            </div>
+
+        </div>
+        <div class='row'>
+            <div class='col-6'>
+                <div id="imageresult">
+
+                </div>
+            </div>
+            <div class='col-6'>
+                <div id="textresult">
+
+
+                </div>
+
+                <div id="nextpage">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
