@@ -11,7 +11,7 @@ https://getpocket.com/developer/docs/v3/modify
 https://getpocket.com/connected_applications
 
 
-1-at first run the this php without any parameters - plain index.php, this will go to getpocket asking to authorize, once you click authorize
+1-at first run this php without any parameters - plain index.php, this will go to getpocket asking to authorize, once you click authorize
 will come to callback index.php?validate=1
 2-then you can execute 
 index.php?add=1
@@ -25,7 +25,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 $consumer_key = '';
-$redirect_url = '~~this url~~';
+$redirect_url = '~~this url~~index.php?validate=1';
 $access_token = '';
 
 if (isset($_GET['get'])) {
