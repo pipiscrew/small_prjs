@@ -39,13 +39,13 @@ https://gitlab.com/magnolia1234/bypass-paywalls-firefox-clean
 
 install a local, unsigned add-on
 
--
+
 about:config
 
 xpinstall.signatures.required 
 
 to false
--
+
 
 <hr>
 
