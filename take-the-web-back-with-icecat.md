@@ -52,6 +52,6 @@ to false
 
 the most important is, when the browser restarts, change the data that websites reading to fingerprint you (brave cant). You can verify it @ :
 
-FingerprintJS        fingerprintjs.com/demo
+FingerprintJS        https://fingerprintjs.com/demo
 
-Detect browser fingerprinting        github.com/freethenation/DFPM
+Detect browser fingerprinting        https://github.com/freethenation/DFPM
