@@ -54,4 +54,4 @@ the most important is, when the browser restarts, change the data that websites 
 
 FingerprintJS        https://fingerprintjs.com/demo
 
-Detect browser fingerprinting        https://github.com/freethenation/DFPM
+Unique Machine        http://uniquemachine.org/
