@@ -8,33 +8,33 @@
 
 2- 23kb
 
-change search URL addon
+&nbsp;&nbsp;&nbsp;change search URL addon
 
-https://addons.mozilla.org/en-US/firefox/addon/startpage-private-search/
+&nbsp;&nbsp;&nbsp;https://addons.mozilla.org/en-US/firefox/addon/startpage-private-search/
 
-this page, gives you google results.
+&nbsp;&nbsp;&nbsp;this page, gives you google results.
 
  
 
 3- 130kb
 
-Chrome-like translate functionality to Firefox (aka translate on the fly)
+&nbsp;&nbsp;&nbsp;Chrome-like translate functionality to Firefox (aka translate on the fly)
 
-https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/
+&nbsp;&nbsp;&nbsp;https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/
 
  
 
 4- 2.6mb
 
-https://github.com/gorhill/uBlock/releases
+&nbsp;&nbsp;&nbsp;https://github.com/gorhill/uBlock/releases
 
-uBlock Origin works best on Firefox - github.com/gorhill/uBlock/wiki/uBlock-Origin-works-best-on-Firefox
+&nbsp;&nbsp;&nbsp;uBlock Origin works best on Firefox - github.com/gorhill/uBlock/wiki/uBlock-Origin-works-best-on-Firefox
 
  
 
 5- 83kb
 
-https://gitlab.com/magnolia1234/bypass-paywalls-firefox-clean
+&nbsp;&nbsp;&nbsp;https://gitlab.com/magnolia1234/bypass-paywalls-firefox-clean
 
 <hr>
 
