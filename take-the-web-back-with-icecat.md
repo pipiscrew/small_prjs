@@ -27,6 +27,7 @@ https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/
 4- 2.6mb
 
 https://github.com/gorhill/uBlock/releases
+
 uBlock Origin works best on Firefox - github.com/gorhill/uBlock/wiki/uBlock-Origin-works-best-on-Firefox
 
  
