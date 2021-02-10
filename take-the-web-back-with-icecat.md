@@ -1,4 +1,4 @@
-1- 46mb . based on Firefox, use 7zip to extract it
+1- 46mb - based on Firefox, use 7zip to extract it
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://github.com/muslayev/icecat-win64
 
