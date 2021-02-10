@@ -35,17 +35,19 @@ uBlock Origin works best on Firefox - github.com/gorhill/uBlock/wiki/uBlock-Orig
 
 https://gitlab.com/magnolia1234/bypass-paywalls-firefox-clean
 
---
+<hr>
 
 install a local, unsigned add-on
 
---
+-
 about:config
-xpinstall.signatures.required 
-to false
---
 
---
+xpinstall.signatures.required 
+
+to false
+-
+
+<hr>
 
 here VideoPerfomance 100%..
 
