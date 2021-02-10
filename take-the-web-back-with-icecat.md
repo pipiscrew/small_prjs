@@ -1,8 +1,8 @@
 1- 46mb . based on Firefox, use 7zip to extract it
 
-https://github.com/muslayev/icecat-win64
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://github.com/muslayev/icecat-win64
 
-profile goes @ C:\Users\%username%\AppData\Roaming\Mozilla\icecat\Profiles
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;profile goes @ C:\Users\%username%\AppData\Roaming\Mozilla\icecat\Profiles
 
  
 
