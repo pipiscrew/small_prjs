@@ -6,9 +6,7 @@
 
  
 
-2- 23kb
-
-&nbsp;&nbsp;&nbsp;change search URL addon
+2- 23kb - change search URL addon
 
 &nbsp;&nbsp;&nbsp;https://addons.mozilla.org/en-US/firefox/addon/startpage-private-search/
 
@@ -16,15 +14,13 @@
 
  
 
-3- 130kb
-
-&nbsp;&nbsp;&nbsp;Chrome-like translate functionality to Firefox (aka translate on the fly)
+3- 130kb - Chrome-like translate functionality to Firefox (aka translate on the fly)
 
 &nbsp;&nbsp;&nbsp;https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/
 
  
 
-4- 2.6mb
+4- 2.6mb - uBlock
 
 &nbsp;&nbsp;&nbsp;https://github.com/gorhill/uBlock/releases
 
@@ -32,13 +28,13 @@
 
  
 
-5- 83kb
+5- 83kb - Paywalls
 
 &nbsp;&nbsp;&nbsp;https://gitlab.com/magnolia1234/bypass-paywalls-firefox-clean
 
 <hr>
 
-install a local, unsigned add-on
+to install a local, unsigned add-on
 
 
 about:config
