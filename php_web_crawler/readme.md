@@ -16,7 +16,7 @@ when exclude the `rss` parameter display a html page for this site.
 When on a **RSS aggregator** add this link  
 `https://domain.com/jobs/?rss=1&s=remote`
 
-will query the dbase on table `feed_tems` where `title = 'remote'` for the **past two days** and return the results as RSS.
+will query the dbase on table `feed_tems` where `title like '%remote%'` for the **past two days** and return the results as RSS.
 
 The table `feeds` is a dummy table used only to undestand if the a feed will be visible when browsing the index.php and also to display from where the feed is coming from. The user has to define there any file included in `assets` folder.  
 
