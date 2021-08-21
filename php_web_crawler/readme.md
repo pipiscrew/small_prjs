@@ -11,7 +11,7 @@ When on a **RSS aggregator** add this link
 
 will query the dbase on table `feed_tems` where `site_id = 1` for the **past two days** and return the results as RSS.
 
-when ecxlude the `rss` parameter displey a html page for this site.
+when exclude the `rss` parameter display a html page for this site.
 
 When on a **RSS aggregator** add this link  
 `https://domain.com/jobs/?rss=1&s=remote`
