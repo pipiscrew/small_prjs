@@ -1,4 +1,4 @@
-The main purpose is to produce **RSS feed** to websites doesn't.
+The main purpose is to produce **RSS feed** to websites do not.
 
 The application used in **combination** with a CRON job. The CRON job fires the spider to make the captures. Yes, you have to define it manual to your server.  
 
