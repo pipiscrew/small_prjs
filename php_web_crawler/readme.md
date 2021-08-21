@@ -4,7 +4,7 @@ The application used in **combination** with a CRON job. The CRON job fires the 
 
 To have just one CRON job, the application using the `dacron.php`. Which inside calls the individual files exist to `assets` folder. Structured like this because each site has own logic.  
 
-Afterwards the results appears when browse to `index.php`.  
+Afterwards the results appear when browse to `index.php`.  
 
 When on a **RSS aggregator** add this link  
 `https://domain.com/index.php?id=1&rss=1`
