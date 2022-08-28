@@ -4,5 +4,5 @@
 start "" "C:\Program Files\+browsers\icecat\icecat.exe" http://localhost:8000
 
 ::start the php builtin developer server
-D:\phpFE\php\php.exe -S localhost:8000 "C:\Program Files\rssguard\data\database\local\feed.php"
+X:\phpFE\php\php.exe -S localhost:8000 "C:\Program Files\rssguard\data\database\local\feed.php"
 
