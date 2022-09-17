@@ -1,12 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="en" >
+
+<!--
+v0.1
+-now lists only the UNREADED
+-every 100 titles, add an anchor to MARK AS READ
+-on the bottom an anchor MARK ALL AS READ
+-display the new day span on top
+-display a centered label on change day
+-->
 
 <head>
   <meta charset="UTF-8">
   <title>News Minimalistic</title>
   <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
-   <base target="_blank">  
+  <base target="_blank">  
+
 <style>
 a:visited {
   color: #336699;
@@ -632,12 +641,17 @@ h1:after {
 </style>
 
 <script>
-//test - no needed
+
+//used when user click 'c' 
 function test(e){
-    // <a href='#' onclick='return test(event);'>test</a>
-    console.log(e);
-    console.log(e.previousSibling);
-    return false;
+   e.preventDefault();
+  
+    //firstChild - https://stackoverflow.com/q/44676281
+    //nextSibling - https://stackoverflow.com/a/24226603
+    var g = e.target.parentNode;
+    var t = g.firstChild.nextSibling;
+
+    alert(t.innerHTML + "\n" + t.href);
 }
 </script>
 </head>
@@ -651,6 +665,7 @@ class dbase{
 	private $db;
 
     function connect_sqlite() {
+        
         $this->db = new PDO('sqlite:database.db',null,null,array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_EMULATE_PREPARES => false,
@@ -665,7 +680,18 @@ class dbase{
 		} else
 			return 0;
 	}
-} //class ends
+
+	function executeSQL($sql, $params) {
+		if ($stmt = $this->db -> prepare($sql)) {
+	 
+			$stmt->execute($params);
+	 
+			return $stmt->rowCount();
+		} else
+			return false;
+	}
+
+} //class end
 
 ?>
 
@@ -679,28 +705,58 @@ class dbase{
 $db = new dbase();
 $db->connect_sqlite();
 
-if (isset($_GET['id'])) {
+if (isset($_GET['markbyid'])) {
+  $del_result = $db->executeSQL("update messages set is_read = 1 where id in ({$_GET['markbyid']})", null);
+  echo 'DB Result : <br> <pre>';
+  print_r($del_result);
+  echo '</pre>';
+
+}
+else if (isset($_GET['id'])) {
 
     //query
-    $feedSet = $db->getSet("select title,url from messages where is_deleted=0 and feed={$_GET['id']} order by date_created desc limit 500", null);
+    $feedSet = $db->getSet("select id,title,url,date_created from messages where is_deleted=0 and is_read=0 and feed={$_GET['id']} order by date_created desc limit 500", null);
+    
+    $id = $_GET['id'];
+    $delbyid = '0';
+    $previousDay = '';
+    $previousDayTemp = '';
 
+    echo date('d/m H:i', substr($feedSet[0]['date_created'], 0, -3)). ' - '.date('d/m H:i', substr($feedSet[sizeof($feedSet)-1]['date_created'], 0, -3)).'<br><br>';
+
+    $i=1;
     //loop
     foreach($feedSet as $r){
-
+        $delbyid.= ','.$r['id'];
         $url = $r['url'];
         $title = $r['title'];
+        $previousDayTemp = date('d/m', substr($r['date_created'], 0, -3));
+
+        if ($previousDay!=$previousDayTemp){
+          echo "<center>>> $previousDayTemp <<</center>";
+          $previousDay = $previousDayTemp;
+        }
+
 
         $line =  <<<EOT
         <div class='link-wrapper'>
-            <a class='link hover-12' href='$url'>$title</a>
+            <a class='link hover-12' href='$url'>$title</a> <a href='#' onclick='test(event);'>c</a>
         </div>
 
     EOT;
 
         echo $line;
+
+        if ($i % 100==0)
+        {
+          echo "<a href='?markbyid=$delbyid'>>>>> MARK PREVIOUS $i AS READ</a>";
+        }
+
+        $i++;
     }
 
-
+    //always output MARK ALL for small feeds (<500)
+    echo "<br><a href='?markbyid=$delbyid'>>>>> MARK ALL AS READ</a>";
 }
 else {
 
