@@ -3,7 +3,7 @@
 
 <!--
 v0.1
--now lists only the UNREADED
+-now lists only the UNREAD
 -every 100 titles, add an anchor to MARK AS READ
 -on the bottom an anchor MARK ALL AS READ
 -display the new day span on top
