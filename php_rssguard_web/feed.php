@@ -2,6 +2,9 @@
 <html lang="en" >
 
 <!--
+v0.2
+-MARK ALL READ for this date
+
 v0.1
 -now lists only the UNREAD
 -every 100 titles, add an anchor to MARK AS READ
@@ -719,6 +722,7 @@ else if (isset($_GET['id'])) {
     
     $id = $_GET['id'];
     $delbyid = '0';
+    $delbyidbyday = '0';
     $previousDay = '';
     $previousDayTemp = '';
 
@@ -733,10 +737,17 @@ else if (isset($_GET['id'])) {
         $previousDayTemp = date('d/m', substr($r['date_created'], 0, -3));
 
         if ($previousDay!=$previousDayTemp){
+          if (!empty($previousDay))
+          {
+            echo "<a href='?markbyid=$delbyidbyday'>>>>> MARK POSTS of $previousDay AS READ</a>";
+            $delbyidbyday = '0';
+          }
+
           echo "<center>>> $previousDayTemp <<</center>";
           $previousDay = $previousDayTemp;
         }
 
+        $delbyidbyday.= ','.$r['id'];
 
         $line =  <<<EOT
         <div class='link-wrapper'>
