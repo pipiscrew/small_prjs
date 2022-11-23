@@ -39,11 +39,7 @@ namespace Calendar
                 interior = objRange_Late.GetType().InvokeMember("Interior", BindingFlags.GetProperty, null, objRange_Late, null);
                 objRange_Late.GetType().InvokeMember("ColorIndex", BindingFlags.SetProperty, null, interior, new object[] { 27 });
 
-
-                //for each row add to excel - starting by 2nd row
-                for (int row = 0; row < dt.Rows.Count; row++)
-                    WriteArray2Row(dt.Rows[row].ItemArray, "A" + (row + 2));
-
+                //
 
                 //set all cells as format-type TEXT
                 Object Range = objSheets_Late.GetType().InvokeMember("Cells", BindingFlags.GetProperty, null, objSheet_Late, null);
@@ -55,6 +51,13 @@ namespace Calendar
 
                 //set sheet name
                 objRange_Late = objSheet_Late.GetType().InvokeMember("Name", BindingFlags.SetProperty, null, objSheet_Late, new object[] { sheetname });
+
+                //
+
+                //for each row add to excel - starting by 2nd row
+                for (int row = 0; row < dt.Rows.Count; row++)
+                    WriteArray2Row(dt.Rows[row].ItemArray, "A" + (row + 2));
+
 
                 //make EXCEL window visible
                 excelApp.GetType().InvokeMember("Visible", System.Reflection.BindingFlags.SetProperty, null, excelApp, new object[] { true });
