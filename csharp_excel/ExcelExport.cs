@@ -51,14 +51,14 @@ namespace Calendar
 
                 //------- FORMATTING
 
-                //BG COLOR of HEADERS - https://learn.microsoft.com/en-us/office/vba/api/excel.colorindex
+                //BG COLOR of HEADER - https://learn.microsoft.com/en-us/office/vba/api/excel.colorindex
                 object interior;
                 objRange_Late = objSheet_Late.GetType().InvokeMember("Range", BindingFlags.GetProperty, null, objSheet_Late, new object[] { "A1", ColumnAdress(dt.Columns.Count) + "1" });
                 interior = objRange_Late.GetType().InvokeMember("Interior", BindingFlags.GetProperty, null, objRange_Late, null);
                 objRange_Late.GetType().InvokeMember("ColorIndex", BindingFlags.SetProperty, null, interior, new object[] { 27 });
 
                 //set all columns AUTOFIT
-                Object EntireColumn = Range.GetType().InvokeMember("EntireColumn", BindingFlags.GetProperty, null, Range, null);
+                object EntireColumn = Range.GetType().InvokeMember("EntireColumn", BindingFlags.GetProperty, null, Range, null);
                 EntireColumn.GetType().InvokeMember("Autofit", BindingFlags.InvokeMethod, null, EntireColumn, null);
 
                 //set sheet name
