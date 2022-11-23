@@ -26,24 +26,36 @@ namespace Calendar
                 objSheets_Late = objBook_Late.GetType().InvokeMember("Worksheets", BindingFlags.GetProperty, null, objBook_Late, null);
                 objSheet_Late = objSheets_Late.GetType().InvokeMember("Item", BindingFlags.GetProperty, null, objSheets_Late, new object[] { 1 });
 
+                //------- FORMATTING
+
+                //set all cells as format-type TEXT ( must be on start, before text write )
+                Object Range = objSheets_Late.GetType().InvokeMember("Cells", BindingFlags.GetProperty, null, objSheet_Late, null);
+                Range.GetType().InvokeMember("NumberFormat", BindingFlags.SetProperty, null, Range, new object[] { "@" });
+
+                //
+
+                //FIST LINE is HEADER
                 string[] columnNames = new string[dt.Columns.Count];
                 for (int c = 0; c <= dt.Columns.Count - 1; c++)
                     columnNames[c] = dt.Columns[c].ColumnName;
 
-                //write COLUMN NAMES
+                //write COLUMN NAMES to HEADER
                 WriteArray2Row(columnNames, "A1");
 
-                //BG COLOR or COLUMN NAMES - https://learn.microsoft.com/en-us/office/vba/api/excel.colorindex
+
+                //for each row add it excel - starting by 2nd row
+                for (int row = 0; row < dt.Rows.Count; row++)
+                    WriteArray2Row(dt.Rows[row].ItemArray, "A" + (row + 2));
+
+
+
+                //------- FORMATTING
+
+                //BG COLOR of HEADERS - https://learn.microsoft.com/en-us/office/vba/api/excel.colorindex
                 object interior;
                 objRange_Late = objSheet_Late.GetType().InvokeMember("Range", BindingFlags.GetProperty, null, objSheet_Late, new object[] { "A1", ColumnAdress(dt.Columns.Count) + "1" });
                 interior = objRange_Late.GetType().InvokeMember("Interior", BindingFlags.GetProperty, null, objRange_Late, null);
                 objRange_Late.GetType().InvokeMember("ColorIndex", BindingFlags.SetProperty, null, interior, new object[] { 27 });
-
-                //
-
-                //set all cells as format-type TEXT
-                Object Range = objSheets_Late.GetType().InvokeMember("Cells", BindingFlags.GetProperty, null, objSheet_Late, null);
-                Range.GetType().InvokeMember("NumberFormat", BindingFlags.SetProperty, null, Range, new object[] { "@" });
 
                 //set all columns AUTOFIT
                 Object EntireColumn = Range.GetType().InvokeMember("EntireColumn", BindingFlags.GetProperty, null, Range, null);
@@ -53,10 +65,6 @@ namespace Calendar
                 objRange_Late = objSheet_Late.GetType().InvokeMember("Name", BindingFlags.SetProperty, null, objSheet_Late, new object[] { sheetname });
 
                 //
-
-                //for each row add to excel - starting by 2nd row
-                for (int row = 0; row < dt.Rows.Count; row++)
-                    WriteArray2Row(dt.Rows[row].ItemArray, "A" + (row + 2));
 
 
                 //make EXCEL window visible
