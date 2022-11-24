@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Calendar
 {
@@ -34,7 +35,7 @@ namespace Calendar
 
                 //
 
-                //FIST LINE is HEADER
+                //FIRST LINE is HEADER
                 string[] columnNames = new string[dt.Columns.Count];
                 for (int c = 0; c <= dt.Columns.Count - 1; c++)
                     columnNames[c] = dt.Columns[c].ColumnName;
@@ -70,7 +71,9 @@ namespace Calendar
                 //make EXCEL window visible
                 excelApp.GetType().InvokeMember("Visible", System.Reflection.BindingFlags.SetProperty, null, excelApp, new object[] { true });
 
-                objRange_Late = null; objSheet_Late = null;
+                //release the objects - when user closes the EXCEL removed from processes - https://stackoverflow.com/a/59639192
+                Marshal.ReleaseComObject(objBooks_Late);
+                Marshal.ReleaseComObject(excelApp);
 
                 return true;
             }
