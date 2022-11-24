@@ -29,7 +29,7 @@ namespace Calendar
 
                 //------- FORMATTING
 
-                //set all cells as format-type TEXT ( must be on start, before text write )
+                //set all cells as format-type TEXT ( must be on start, before text written )
                 Object Range = objSheets_Late.GetType().InvokeMember("Cells", BindingFlags.GetProperty, null, objSheet_Late, null);
                 Range.GetType().InvokeMember("NumberFormat", BindingFlags.SetProperty, null, Range, new object[] { "@" });
 
@@ -44,7 +44,7 @@ namespace Calendar
                 WriteArray2Row(columnNames, "A1");
 
 
-                //for each row add it excel - starting by 2nd row
+                //for each row add it to excel - starting by 2nd row
                 for (int row = 0; row < dt.Rows.Count; row++)
                     WriteArray2Row(dt.Rows[row].ItemArray, "A" + (row + 2));
 
@@ -63,7 +63,7 @@ namespace Calendar
                 EntireColumn.GetType().InvokeMember("Autofit", BindingFlags.InvokeMethod, null, EntireColumn, null);
 
                 //set sheet name
-                objRange_Late = objSheet_Late.GetType().InvokeMember("Name", BindingFlags.SetProperty, null, objSheet_Late, new object[] { sheetname });
+                objSheet_Late.GetType().InvokeMember("Name", BindingFlags.SetProperty, null, objSheet_Late, new object[] { sheetname });
 
                 //
 
@@ -71,7 +71,7 @@ namespace Calendar
                 //make EXCEL window visible
                 excelApp.GetType().InvokeMember("Visible", System.Reflection.BindingFlags.SetProperty, null, excelApp, new object[] { true });
 
-                //release the objects - when user closes the EXCEL removed from processes - https://stackoverflow.com/a/59639192
+                //release the objects - when user closes the EXCEL remove it also the process (othewrwise stays) - https://stackoverflow.com/a/59639192
                 Marshal.ReleaseComObject(objBooks_Late);
                 Marshal.ReleaseComObject(excelApp);
 
@@ -90,7 +90,7 @@ namespace Calendar
         private static void WriteArray2Row(object[] vals, string startingCell)
         {
             //the plain method to add it cell by cell avoided (benchmark : plain 173 sec | this 49 sec, for 16k lines with 7 cols -- +253% speed) 
-            //instaed use the elegant (see the 1st reply of url on the top of this file)
+            //instead use the elegant (see the 1st reply of url on the top of this file)
             //ws.Range["A2"].Offset[Idx].Resize[1, dsSP.Tables[i].Columns.Count].Value = dsSP.Tables[i].Rows[Idx].ItemArray;
             //ref -  https://stackoverflow.com/a/14069029
 
@@ -100,7 +100,7 @@ namespace Calendar
             //set a offset of range - if this is 1 start from 2 row, and looks good to implement COL_NAMES on row1
             objRange_Late = objRange_Late.GetType().InvokeMember("Offset", BindingFlags.GetProperty, null, objRange_Late, new object[] { 0 });
 
-            ////set a Resize of offset
+            //set a Resize of offset
             objRange_Late = objRange_Late.GetType().InvokeMember("Resize", BindingFlags.GetProperty, null, objRange_Late, new object[] { 1, vals.Length });
 
             //Write value in cells
