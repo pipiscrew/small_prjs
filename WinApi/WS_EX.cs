@@ -1,0 +1,62 @@
+﻿using System;
+
+namespace WinApi
+{
+	
+	
+	public enum WS_EX : uint
+	{
+		
+		ACCEPTFILES = 16u,
+		
+		APPWINDOW = 262144u,
+		
+		CLIENTEDGE = 512u,
+		
+		COMPOSITED = 33554432u,
+		
+		CONTEXTHELP = 1024u,
+		
+		CONTROLPARENT = 65536u,
+		
+		DLGMODALFRAME = 1u,
+		
+		LAYERED = 524288u,
+		
+		LAYOUTRTL = 4194304u,
+		
+		LEFT = 0u,
+		
+		LEFTSCROLLBAR = 16384u,
+		
+		LTRREADING = 0u,
+		
+		MDICHILD = 64u,
+		
+		NOACTIVATE = 134217728u,
+		
+		NOINHERITLAYOUT = 1048576u,
+		
+		NOPARENTNOTIFY = 4u,
+		
+		OVERLAPPEDWINDOW = 768u,
+		
+		PALETTEWINDOW = 392u,
+		
+		RIGHT = 4096u,
+		
+		RIGHTSCROLLBAR = 0u,
+		
+		RTLREADING = 8192u,
+		
+		STATICEDGE = 131072u,
+		
+		TOOLWINDOW = 128u,
+		
+		TOPMOST = 8u,
+		
+		TRANSPARENT = 32u,
+		
+		WINDOWEDGE = 256u
+	}
+}

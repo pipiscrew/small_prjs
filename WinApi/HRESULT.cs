@@ -1,0 +1,35 @@
+﻿using System;
+
+namespace WinApi
+{
+	
+	public enum HRESULT : long
+	{
+		
+		S_OK,
+		
+		S_FALSE,
+		
+		E_NOTIMPL = 2147500033L,
+		
+		E_NOINTERFACE,
+		
+		E_POINTER,
+		
+		E_ABORT,
+		
+		E_FAIL,
+		
+		E_UNEXPECTED = 2147549183L,
+		
+		E_ACCESSDENIED = 2147942405L,
+		
+		E_HANDLE,
+		
+		E_OUTOFMEMORY = 2147942414L,
+		
+		E_INVALIDARG = 2147942487L,
+		
+		ERROR_CANCELLED = 2147943623L
+	}
+}

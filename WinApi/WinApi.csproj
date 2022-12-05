@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7A404917-5081-46C8-A093-C6BBDBEC8673}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WinApi</RootNamespace>
+    <AssemblyName>WinApi</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Primitives" />
+    <Reference Include="Microsoft.Win32.Primitives" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.DurableInstancing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AllocMethod.cs" />
+    <Compile Include="APPBARDATA.cs" />
+    <Compile Include="AssocF.cs" />
+    <Compile Include="AssocStr.cs" />
+    <Compile Include="BackgroundMode.cs" />
+    <Compile Include="BlendFlags.cs" />
+    <Compile Include="BLENDFUNCTION.cs" />
+    <Compile Include="BlendOps.cs" />
+    <Compile Include="BROWSEINFO.cs" />
+    <Compile Include="CANDIDATEFORM.cs" />
+    <Compile Include="CHOOSEFONT.cs" />
+    <Compile Include="CLSIDGuid.cs" />
+    <Compile Include="CMINVOKECOMMANDINFO.cs" />
+    <Compile Include="COLORREF.cs" />
+    <Compile Include="CURSORINFO.cs" />
+    <Compile Include="DeviceCap.cs" />
+    <Compile Include="DeviceContextValues.cs" />
+    <Compile Include="ETOOptions.cs" />
+    <Compile Include="ExtendedNameFormat.cs" />
+    <Compile Include="FILEDESCRIPTOR.cs" />
+    <Compile Include="FILEDESCRIPTORW.cs" />
+    <Compile Include="FILEGROUPDESCRIPTOR.cs" />
+    <Compile Include="FileOpenDialogRCW.cs" />
+    <Compile Include="FileSaveDialogRCW.cs" />
+    <Compile Include="FormatMessageFlags.cs" />
+    <Compile Include="GESTURECONFIG.cs" />
+    <Compile Include="GESTUREINFO.cs" />
+    <Compile Include="GLYPHSET.cs" />
+    <Compile Include="GRADIENT_RECT.cs" />
+    <Compile Include="GRADIENT_TRIANGLE.cs" />
+    <Compile Include="GWL.cs" />
+    <Compile Include="HARDWAREINPUT.cs" />
+    <Compile Include="HRESULT.cs" />
+    <Compile Include="IAsyncOperation.cs" />
+    <Compile Include="IAutoComplete.cs" />
+    <Compile Include="IAutoComplete2.cs" />
+    <Compile Include="IAutoCompleteDropDown.cs" />
+    <Compile Include="IContextMenu.cs" />
+    <Compile Include="IFileDialog.cs" />
+    <Compile Include="IFileDialogControlEvents.cs" />
+    <Compile Include="IFileDialogCustomize.cs" />
+    <Compile Include="IFileDialogEvents.cs" />
+    <Compile Include="IFileOpenDialog.cs" />
+    <Compile Include="IFileSaveDialog.cs" />
+    <Compile Include="IIDGuid.cs" />
+    <Compile Include="IImageList.cs" />
+    <Compile Include="IMAGEINFO.cs" />
+    <Compile Include="IMAGELISTDRAWPARAMS.cs" />
+    <Compile Include="IMalloc.cs" />
+    <Compile Include="IModalWindow.cs" />
+    <Compile Include="INPUT.cs" />
+    <Compile Include="InputType.cs" />
+    <Compile Include="InputUnion.cs" />
+    <Compile Include="IShellFolder.cs" />
+    <Compile Include="IShellItem.cs" />
+    <Compile Include="IShellItemArray.cs" />
+    <Compile Include="ITEMIDLIST.cs" />
+    <Compile Include="KEYBDINPUT.cs" />
+    <Compile Include="KEYEVENTF.cs" />
+    <Compile Include="LoadLibraryExFlags.cs" />
+    <Compile Include="LOGBRUSH.cs" />
+    <Compile Include="LOGFONT.cs" />
+    <Compile Include="MARGINS.cs" />
+    <Compile Include="MF.cs" />
+    <Compile Include="MouseEventDataXButtons.cs" />
+    <Compile Include="MOUSEEVENTF.cs" />
+    <Compile Include="MouseEventFlags.cs" />
+    <Compile Include="MOUSEINPUT.cs" />
+    <Compile Include="Mpr.cs" />
+    <Compile Include="NativeCommonFileDialog.cs" />
+    <Compile Include="NativeFileOpenDialog.cs" />
+    <Compile Include="NativeFileSaveDialog.cs" />
+    <Compile Include="NCCALCSIZE_PARAMS.cs" />
+    <Compile Include="POINT.cs" />
+    <Compile Include="POINTS.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RECT.cs" />
+    <Compile Include="RevocationCheckFlags.cs" />
+    <Compile Include="SB.cs" />
+    <Compile Include="SC.cs" />
+    <Compile Include="ScanCodeShort.cs" />
+    <Compile Include="SE_OBJECT_TYPE.cs" />
+    <Compile Include="SHFILEINFO.cs" />
+    <Compile Include="SHITEMID.cs" />
+    <Compile Include="STARTUPINFO.cs" />
+    <Compile Include="StateAction.cs" />
+    <Compile Include="StockObjects.cs" />
+    <Compile Include="SW.cs" />
+    <Compile Include="SystemCursor.cs" />
+    <Compile Include="SystemMetric.cs" />
+    <Compile Include="System\Windows\Automation\AsyncContentLoadedState.cs" />
+    <Compile Include="System\Windows\Automation\ExpandCollapseState.cs" />
+    <Compile Include="System\Windows\Automation\NavigateDirection.cs" />
+    <Compile Include="System\Windows\Automation\OrientationType.cs" />
+    <Compile Include="System\Windows\Automation\ProviderOptions.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IExpandCollapseProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IGridItemProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IGridProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IInvokeProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IRangeValueProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IRawElementProviderAdviseEvents.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IRawElementProviderFragment.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IRawElementProviderFragmentRoot.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IRawElementProviderHwndOverride.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IRawElementProviderSimple.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IScrollItemProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IScrollProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\ISelectionItemProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\ISelectionProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\ITableItemProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\ITableProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\ITextProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\ITextRangeProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IToggleProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IValueProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\IWindowProvider.cs" />
+    <Compile Include="System\Windows\Automation\Provider\Text\TextPatternRangeEndpoint.cs" />
+    <Compile Include="System\Windows\Automation\Provider\Text\TextUnit.cs" />
+    <Compile Include="System\Windows\Automation\RowOrColumnMajor.cs" />
+    <Compile Include="System\Windows\Automation\ScrollAmount.cs" />
+    <Compile Include="System\Windows\Automation\StructureChangeType.cs" />
+    <Compile Include="System\Windows\Automation\SupportedTextSelection.cs" />
+    <Compile Include="System\Windows\Automation\ToggleState.cs" />
+    <Compile Include="System\Windows\Automation\WindowInteractionState.cs" />
+    <Compile Include="System\Windows\Automation\WindowVisualState.cs" />
+    <Compile Include="TernaryRasterOperations.cs" />
+    <Compile Include="TextAlignment.cs" />
+    <Compile Include="TOUCHINPUT.cs" />
+    <Compile Include="TRIVERTEX.cs" />
+    <Compile Include="TrustProviderFlags.cs" />
+    <Compile Include="UiaRect.cs" />
+    <Compile Include="UiChoice.cs" />
+    <Compile Include="UIContext.cs" />
+    <Compile Include="UnionChoice.cs" />
+    <Compile Include="UnmanagedPointer.cs" />
+    <Compile Include="VirtualKeyShort.cs" />
+    <Compile Include="WCRANGE.cs" />
+    <Compile Include="Win32.cs" />
+    <Compile Include="WINDOWPLACEMENT.cs" />
+    <Compile Include="WINDOWPOS.cs" />
+    <Compile Include="WS.cs" />
+    <Compile Include="WS_EX.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
