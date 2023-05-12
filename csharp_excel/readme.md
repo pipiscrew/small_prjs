@@ -1,7 +1,14 @@
-                object excelApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
-                object objBooks_Late;
-                object objBook_Late;
-                object objSheets_Late;
+```csharp
+            //https://stackoverflow.com/a/7123304
+            //Type officeType = Type.GetTypeFromProgID("Excel.Application");
+            //if (officeType == null)
+            //{
+            //    MessageBox.Show("not installed");
+            //}
+            //else
+            //{
+            //    MessageBox.Show(" installed");
+            //}
 
                 objBooks_Late = excelApp.GetType().InvokeMember("Workbooks", BindingFlags.GetProperty, null, excelApp, null);
                 objBook_Late = objBooks_Late.GetType().InvokeMember("Add", BindingFlags.InvokeMethod, null, objBooks_Late, null);
@@ -42,3 +49,4 @@
                 excelApp.GetType().InvokeMember("Visible", System.Reflection.BindingFlags.SetProperty, null, excelApp, new object[] { true });
 
                 objRange_Late = null; objSheet_Late = null;
+```
