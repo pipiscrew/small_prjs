@@ -4,7 +4,8 @@ This is a modded version on [rvrn22.nmg](https://github.com/rvrn22/nmg).
 
 Tested mysql & sqlite, found some bugs, tried to solve.. In this release the following enhancements made :  
 * remove 3rd party unwanted dbtypes, left only mysql / sqlite / sqlserver / oracle / sybase oledb
-* sqlite implementation to work with **FKs**
+* `fix` sqlite implementation to work with **FKs** because is broken in original release
+  * the user still needed to add the **Bag** properties, see one dir back **NHibernateByCodeSample_Loquacious** (CustomersMap.cs) user have to use the **Bag** collection. 
 * fix **null exception**, that stops the code generation at NMG.Core.Generator.CodeGenerator.FixPropertyWithSameClassName
 * compiled under framework v4.5.2
 * update FastColoredTextBox (https://www.nuget.org/packages/FCTB/) due compilation problems on main PRJ.
@@ -19,4 +20,4 @@ references :
 * [with repo + crud w/ dg](https://www.youtube.com/watch?v=nttnRL7UEdc)
 * [dg](https://youtu.be/xgWamkf_rDI?t=1926)
 
-see releases for full distro with DLLs.
+see [releases](https://github.com/pipiscrew/small_prjs/releases) for full distro with DLLs.
