@@ -30,7 +30,7 @@ see [releases](https://github.com/pipiscrew/small_prjs/releases) for full distro
 
 ---
 
-code gneerators :
+code generators :
 * [asp.net] [Dapper Code Generator](https://github.com/spronkets/DapperCodeGenerator)
 * [Dapper.FastCrud.ModelGenerator](https://www.nuget.org/packages/Dapper.FastCrud.ModelGenerator#readme-body-tab)
 * [Dapper Class Generator](https://github.com/baranovskis/dapper-class-generator) - framework 5
