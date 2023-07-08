@@ -20,7 +20,6 @@ references :
 * [Dapper.Linq](https://github.com/soul-soft/Dapper.Linq)
 * [Dapper.Json](https://github.com/byme8/Dapper.Json) [[2](https://dev.to/byme8/making-dapper-and-json-friends-5afc)]
 * [DapperDemo2017](https://github.com/das2017/14-DapperDemo)
-* [VS extension] [Dapper CRUD Generator](https://marketplace.visualstudio.com/items?itemName=thiagoguaru.DapperCrudGenerator)
 * [What is not in Dapper](https://youtu.be/4Wmjo2zXt_M?t=568)
 
 > It extends ADO[.]NET **IDbConnection** and provides useful extension methods to query our database.
@@ -28,6 +27,19 @@ references :
 all in all, Dapper is the winner...  A free product by [ZZZ Projects](https://zzzprojects.com/).
 
 see [releases](https://github.com/pipiscrew/small_prjs/releases) for full distro with DLLs.  
+
+---
+
+code gneerators :
+* [asp.net] [Dapper Code Generator](https://github.com/spronkets/DapperCodeGenerator)
+* [Dapper.FastCrud.ModelGenerator](https://www.nuget.org/packages/Dapper.FastCrud.ModelGenerator#readme-body-tab)
+* [Dapper Class Generator](https://github.com/baranovskis/dapper-class-generator) - framework 5
+* [VS extension] [Dapper CRUD Generator](https://marketplace.visualstudio.com/items?itemName=thiagoguaru.DapperCrudGenerator)
+* [dapper-sql-generator](https://github.com/fdonnet/dapper-sql-generator)
+
+alternative [linq2db](https://github.com/linq2db/linq2db) | [Database tables to C# POCO classes T4 template](http://teamyudin.blogspot.com/2012/06/database-tables-to-c-poco-classes-t4.html) | [EF Core Power Tools](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) 
+| [C# Toolkit for Code Generation](https://github.com/CodegenCS/CodegenCS)
+
 
 ---
 
