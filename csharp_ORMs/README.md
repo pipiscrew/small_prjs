@@ -9,7 +9,7 @@ also known as :
 * [Dapper github](https://github.com/DapperLib/Dapper)
 * [Dapper homepage](https://dapper-tutorial.net/dapper) [[Step-by-Step](https://dapper-tutorial.net/step-by-step-tutorial)]
 * [Dapper nuget](https://www.nuget.org/packages/Dapper/)
-* [Dapper.Rainbow](https://www.nuget.org/packages/Dapper.Rainbow/) - Rainbow is an Abstract class that you can use as a base class for your Dapper classes to provide basic CRUD operations. Build up the boring SQL based on property names and type constraints. [[more](https://stackoverflow.com/a/13052147)]
+* [Dapper.Rainbow](https://www.nuget.org/packages/Dapper.Rainbow/) - Abstract class for your classes to provide basic CRUD operations. Build up the boring SQL based on property names and type constraints. [[more](https://stackoverflow.com/a/13052147)]
 * [Dapper.Contrib](https://github.com/DapperLib/Dapper.Contrib) - community contributions
 
 references :
