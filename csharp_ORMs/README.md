@@ -13,7 +13,7 @@ also known as :
 
 references :
 * [MicroOrm.Dapper.Repositories](https://github.com/phnx47/dapper-repositories)
-* [DapperExtensions + CodeGenerator](https://github.com/znyet/DapperExtensions) - for sqlserver、mysql、oracle、postgresql、sqlite (last version for Dapper v1.5)
+* [DapperExtensions + CodeGenerator](https://github.com/znyet/DapperExtensions) - for sqlserver、mysql、oracle、postgresql、sqlite (use of Dapper v1.5)
 * [Dapper.SimpleCRUD](https://github.com/ericdc1/Dapper.SimpleCRUD)
 * [Using Relationships With Dapper](https://www.learndapper.com/relationships)
 * [CockroachDB-Dapper-Example](https://github.com/Hytm/CockroachDB-Dapper-Example)
