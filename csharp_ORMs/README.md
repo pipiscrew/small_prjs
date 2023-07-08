@@ -24,7 +24,7 @@ references :
 
 > It extends ADO[.]NET **IDbConnection** and provides useful extension methods to query our database.
 
-all in all, Dapper is the winner...  A free product by [ZZZ Projects](https://zzzprojects.com/).
+all in all, Dapper is the winner...  A **free** product by [StackOverflow](https://www.infoq.com/news/2011/04/dapper-released/).. [ZZZ Projects](https://zzzprojects.com/) developed the [Plus](https://dapper-plus.net/) **paid** edition.
 
 see [releases](https://github.com/pipiscrew/small_prjs/releases) for full distro with DLLs.  
 
