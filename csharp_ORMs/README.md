@@ -19,7 +19,7 @@ references :
 * [Using Relationships With Dapper](https://www.learndapper.com/relationships)
 * [CockroachDB-Dapper-Example](https://github.com/Hytm/CockroachDB-Dapper-Example)
 * [Dapper.Linq](https://github.com/soul-soft/Dapper.Linq)
-* [Dapper.Json](https://github.com/byme8/Dapper.Json) [[2](https://dev.to/byme8/making-dapper-and-json-friends-5afc)]
+* [Dapper.Json](https://github.com/byme8/Dapper.Json) &nbsp; [[tutorial](https://dev.to/byme8/making-dapper-and-json-friends-5afc)]
 * [DapperDemo2017](https://github.com/das2017/14-DapperDemo)
 * [What is not in Dapper](https://youtu.be/4Wmjo2zXt_M?t=568)
 
