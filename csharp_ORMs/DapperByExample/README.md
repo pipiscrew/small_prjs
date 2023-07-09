@@ -40,4 +40,9 @@ code generators :
 * [dapper-sql-generator](https://github.com/fdonnet/dapper-sql-generator)
 
 alternative [linq2db](https://github.com/linq2db/linq2db) | [Database tables to C# POCO classes T4 template](http://teamyudin.blogspot.com/2012/06/database-tables-to-c-poco-classes-t4.html) | [EF Core Power Tools](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) 
-| [C# Toolkit for Code Generation](https://github.com/CodegenCS/CodegenCS)
+| [C# Toolkit for Code Generation](https://github.com/CodegenCS/CodegenCS)  
+
+paid code generators :  
+* [ASP.NET Zero Power Tools](https://marketplace.visualstudio.com/items?itemName=Volosoft.AspNetZeroPowerTools)
+* [llblgen](https://www.llblgen.com/) - NHibernate / Linq to SQL / Entity Framework
+* [old] [codesmith](https://www.codesmithtools.com/) - NHibernate / Linq to SQL / Entity Framework
