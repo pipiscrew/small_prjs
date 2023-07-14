@@ -19,6 +19,8 @@ This repo is a mirror by original. This library uses `DbProviderFactories`. Don'
 
 ---
 
+official library description :   
+
 .net universal access library for heterogeneous databases, supports db2, sql server, oracle, mysql, acess and other types of database operations, uses a unified and concise interface to call, and provides db2, sqlserver, oracle's million-level high-performance batch storage method bulkcopy, and provides it to the entity framework encapsulation module, the interface is simple and simple；
 
 Install-Package Bouyei.DbFactory -Version 1.1.6601.28462
