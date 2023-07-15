@@ -17,6 +17,8 @@ This repo is a mirror by original. This library uses `DbProviderFactories`. Don'
 
 ![img](assemblies_insight.png)  
 
+When tried to make a universal class (IDbConnection / IDbCommand / IDataReader), the problem is the [IDbDataAdapter](https://learn.microsoft.com/en-us/dotnet/api/system.data.idbdataadapter), without DataAdapter cannot fill a Datatable.. Cannot be `created`, and must always instantiated as for example `OleDbDataAdapter sqlAD = new OleDbDataAdapter();` on all providers.. The only solution is the `DbProviderFactory`, which sucks...
+
 ---
 
 official library description :   
