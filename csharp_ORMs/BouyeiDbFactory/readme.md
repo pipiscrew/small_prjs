@@ -17,7 +17,7 @@ This repo is a mirror by original. This library uses `DbProviderFactories`. Don'
 
 ![img](assemblies_insight.png)  
 
-When tried to make a universal class (IDbConnection / IDbCommand / IDataReader), the problem is the [IDbDataAdapter](https://learn.microsoft.com/en-us/dotnet/api/system.data.idbdataadapter), without DataAdapter cannot fill a Datatable.. Cannot be `created`, and must always instantiated as for example `OleDbDataAdapter sqlAD = new OleDbDataAdapter();` on all providers.. The only solution is the `DbProviderFactory`, which sucks...  
+When tried to make a universal class (IDbConnection / IDbCommand / IDataReader), the problem is the [IDbDataAdapter](https://learn.microsoft.com/en-us/dotnet/api/system.data.idbdataadapter), without DataAdapter cannot fill a Datatable.. Cannot be `created`, and must always instantiated as for example `OleDbDataAdapter sqlAD = new OleDbDataAdapter();` on all providers.. The only solution is the `DbProviderFactory`, which sucks...  UPDATE, see [here](https://github.com/pipiscrew/ORMgenerator/tree/main)..  
 
 * (2022) [Simplifying ADO.NET Code](https://www.codemag.com/Article/2207021/Simplifying-ADO.NET-Code-in-.NET-6-Part-1)
 * (2014) [Simplified Database Access via ADO.NET](https://www.codeproject.com/Articles/753789/Simplified-Database-Access-via-ADO-NET-Interfaces)
