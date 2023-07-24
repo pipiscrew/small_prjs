@@ -44,5 +44,7 @@ alternative [linq2db](https://github.com/linq2db/linq2db) | [Database tables to 
 
 paid code generators :  
 * [ASP.NET Zero Power Tools](https://marketplace.visualstudio.com/items?itemName=Volosoft.AspNetZeroPowerTools)
+* [Iron Speed Designer](https://www.ironspeed.com/)
+* [Code on Time](https://codeontime.com/)
 * [llblgen](https://www.llblgen.com/) - NHibernate / Linq to SQL / Entity Framework
 * [old] [codesmith](https://www.codesmithtools.com/) - NHibernate / Linq to SQL / Entity Framework
