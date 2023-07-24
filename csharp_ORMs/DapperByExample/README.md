@@ -48,3 +48,4 @@ paid code generators :
 * [Code on Time](https://codeontime.com/)
 * [llblgen](https://www.llblgen.com/) - NHibernate / Linq to SQL / Entity Framework
 * [old] [codesmith](https://www.codesmithtools.com/) - NHibernate / Linq to SQL / Entity Framework
+* [old] [NClass](https://nclass.sourceforge.net/) - Create UML class diagrams with full C# and Java language support
