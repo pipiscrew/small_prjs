@@ -47,8 +47,10 @@ namespace HandleCSVdata
             dt1.Columns[dt1.Columns.Count - 1].ColumnName = "col2";
 
             //create a Dataview so by able to sort by column (col2 = country)
+            // *************** DATAVIEW is not requirement ***************
+            // at first thought to do the casual loop with textfile lines, so should be sorted by the col2 to match the same country
             DataView dv = dt1.DefaultView;
-            dv.Sort = "col2";
+            dv.Sort = "col2";  
 
 
             //NORMALIZE COUNTRY
@@ -62,7 +64,7 @@ namespace HandleCSVdata
 
 
             //EXPORT FILENAME TEMPLATE
-            string filename = "Account_Delete_{0}_OPTIM.dat";
+            string filename = "{0}_2023.dat";
             string currFilename = string.Empty;
             string gropuName = string.Empty;
             StringBuilder sb = null;
@@ -97,7 +99,7 @@ namespace HandleCSVdata
         }
 
 
-        Regex rg = new Regex("^DHL (.*)", RegexOptions.Compiled);
+        private Regex rg = new Regex("^MICROSOFT (.*)", RegexOptions.Compiled);
 
         private string GetOrg(string org)
         {
