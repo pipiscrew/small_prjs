@@ -217,3 +217,6 @@ group by par.row_id,param.value, par.rpt_interval||' '||par.rpt_uom
 order by ACTL_START_DT desc;
 ```
 
+* [(2021) Microsoft - Import Siebel Data Using SQL Server Management Studio](https://learn.microsoft.com/en-us/biztalk/adapters-and-accelerators/adapter-siebel/import-siebel-data-using-sql-server-management-studio)
+  * [(2013) Creating the Siebel Database on MSSQL](https://rojythomas.wordpress.com/installing-siebel-8-2-in-a-windows-environment-step-by-step/creating-the-siebel-database-and-running-grantusr-sql-or-just-plain-sql/)
+* [(2017) Configuring a Siebel Workflow](https://siebelenhance.blogspot.com/2017/01/configuring-siebel-workflow.html)
