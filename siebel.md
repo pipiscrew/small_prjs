@@ -217,8 +217,34 @@ group by par.row_id,param.value, par.rpt_interval||' '||par.rpt_uom
 order by ACTL_START_DT desc;
 ```
 
+# To check active version of workflow
+
+```sql
+--src - http://wasifdoodles.com/siebel-sql-queries-useful.html
+select NAME, deploy_status_cd, MONITOR_LVL_CD, REPOSITORY_VERSION, VERSION, row_id, last_upd, last_upd_by, created from siebel.S_WFA_DPLOY_DEF
+where deploy_status_cd = 'ACTIVE'
+```
+
 * [(2021) Microsoft - Import Siebel Data Using SQL Server Management Studio](https://learn.microsoft.com/en-us/biztalk/adapters-and-accelerators/adapter-siebel/import-siebel-data-using-sql-server-management-studio)
   * [(2013) Creating the Siebel Database on MSSQL](https://rojythomas.wordpress.com/installing-siebel-8-2-in-a-windows-environment-step-by-step/creating-the-siebel-database-and-running-grantusr-sql-or-just-plain-sql/)
 * [(2020) Using Siebel Workflows](https://web.deu.edu.tr/doc/oracle/B14099_16/integrate.1012/b14062/app_siebworkflows.htm)
 * [(2017) Configuring a Siebel Workflow](https://siebelenhance.blogspot.com/2017/01/configuring-siebel-workflow.html)
 * [(2013) SiebelInstaller v8.1 Linux](https://github.com/henkwiedig/SiebelInstaller)
+* [(2016) Fun - How to shutdown Siebel server in < 5 seconds?](http://howtosiebel.blogspot.com/2016/03/how-to-shutdown-siebel-server-in-5sec.html)
+
+---
+
+# Oracle - List all session connected to server & exclude siebel base
+
+```sql
+SELECT username,
+       schemaname,
+       osuser,
+       terminal,
+       program,
+       TYPE,
+       status
+FROM sys.v_$session
+WHERE program <> 'siebmtshmw.exe' 
+order by program,status
+```
