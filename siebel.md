@@ -221,4 +221,4 @@ order by ACTL_START_DT desc;
   * [(2013) Creating the Siebel Database on MSSQL](https://rojythomas.wordpress.com/installing-siebel-8-2-in-a-windows-environment-step-by-step/creating-the-siebel-database-and-running-grantusr-sql-or-just-plain-sql/)
 * [(2020) Using Siebel Workflows](https://web.deu.edu.tr/doc/oracle/B14099_16/integrate.1012/b14062/app_siebworkflows.htm)
 * [(2017) Configuring a Siebel Workflow](https://siebelenhance.blogspot.com/2017/01/configuring-siebel-workflow.html)
-* [(2013) - SiebelInstaller v8.1 Linux](https://github.com/henkwiedig/SiebelInstaller)
+* [(2013) SiebelInstaller v8.1 Linux](https://github.com/henkwiedig/SiebelInstaller)
