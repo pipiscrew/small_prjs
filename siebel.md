@@ -232,6 +232,7 @@ where deploy_status_cd = 'ACTIVE'
 * [(2013) SiebelInstaller v8.1 Linux](https://github.com/henkwiedig/SiebelInstaller)
 * [(2016) Fun - How to shutdown Siebel server in < 5 seconds?](http://howtosiebel.blogspot.com/2016/03/how-to-shutdown-siebel-server-in-5sec.html)
 
+
 ---
 
 # Oracle - List all session connected to server & exclude siebel base
@@ -248,3 +249,5 @@ FROM sys.v_$session
 WHERE program <> 'siebmtshmw.exe' 
 order by program,status
 ```
+
+* [JBSql v1.4](https://duofoto.be/jbosman/jbsql/index.html) - A freeware/open source enhanced Oracle SQL*Plus
