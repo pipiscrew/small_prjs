@@ -30,3 +30,9 @@ the sqlformat can be :
 more  
 * https://oracle-base.com/articles/misc/sqlcl-format-query-results-with-the-set-sqlformat-command
 * https://docs.oracle.com/en/database/oracle/oracle-database/19/sqpug/SET-system-variable-summary.html#GUID-0AA910C4-C22A-4A9E-BE13-AAA059CC7919
+
+---
+
+you can preview the files :
+* [ora_original.html](https://htmlpreview.github.io/?https://github.com/pipiscrew/small_prjs/blob/master/oracle_html_search/ora_original.html)
+* [ora_original_quick_extended.html](https://htmlpreview.github.io/?https://github.com/pipiscrew/small_prjs/blob/master/oracle_html_search/ora_original_quick_extended.html)
