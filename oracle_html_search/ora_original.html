@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8'>
+  
+  <title>Responsive Table</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <style>
+  * { 
+    margin: 0; 
+    padding: 0; 
+  }
+  body { 
+    font: 14px/1.4 Georgia, Serif; 
+  }
+  
+  /* 
+  Generic Styling, for Desktops/Laptops 
+  */
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+  }
+  /* Zebra striping */
+  tr:nth-of-type(odd) { 
+    background: #eee; 
+  }
+  th { 
+    background: #333; 
+    color: white; 
+    font-weight: bold; 
+  }
+  td, th { 
+    padding: 6px; 
+    border: 1px solid #9B9B9B; 
+    text-align: left; 
+  }
+  @media 
+  only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px)  {
+    table, thead, tbody, th, td, tr { display: block; }
+    thead tr { position: absolute;top: -9999px;left: -9999px;}
+    tr { border: 1px solid #9B9B9B; }
+    td { border: none;border-bottom: 1px solid #9B9B9B; position: relative;padding-left: 50%; }
+    
+    td:before { position: absolute;top: 6px;left: 6px;width: 45%; padding-right: 10px; white-space: nowrap;}
+    
+    /*
+    Label the data
+    */
+td:nth-of-type(0):before { content: "ID"; }
+td:nth-of-type(0):before { content: "ID2"; }
+td:nth-of-type(1):before { content: "PAR_ID"; }
+td:nth-of-type(3):before { content: "CUSTOMER_NAME"; }
+td:nth-of-type(4):before { content: "TEL"; }
+td:nth-of-type(5):before { content: "UID"; }
+td:nth-of-type(6):before { content: "CONTACT_NAME"; }
+td:nth-of-type(7):before { content: "LANG_ID"; }
+td:nth-of-type(8):before { content: "TYPE"; }
+td:nth-of-type(9):before { content: "TEST1"; }
+td:nth-of-type(10):before { content: "TEST2"; }
+td:nth-of-type(11):before { content: "PHONE"; }
+td:nth-of-type(12):before { content: "X_ID"; }
+td:nth-of-type(13):before { content: "ACTIVE"; }
+td:nth-of-type(14):before { content: "TELEGRAM_CHANNEL"; }
+td:nth-of-type(15):before { content: "STATUS"; }
+td:nth-of-type(16):before { content: "CREATED"; }
+td:nth-of-type(17):before { content: "CREATED_BY"; }
+td:nth-of-type(18):before { content: "LAST_UPD"; }
+td:nth-of-type(19):before { content: "LAST_UPD_BY"; }
+  }
+  
+  /* Smartphones (portrait and landscape) ----------- */
+  @media only screen
+  and (min-device-width : 320px)
+  and (max-device-width : 480px) {
+    body { 
+      padding: 0; 
+      margin: 0; 
+      width: 320px; }
+    }
+  
+  /* iPads (portrait and landscape) ----------- */
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    body { 
+      width: 495px; 
+    }
+  }
+  
+  </style>
+  <!--<![endif]-->
+<script type="text/javascript">
+
+function search(){
+  
+  var s = document.getElementById('search').value;
+
+  rows = document.getElementById('data').getElementsByTagName('TR');
+  for(var i=0;i<rows.length;i++){
+    if ( rows[i].textContent.indexOf(s)>0  || s.length==0 ) {
+	  rows[i].style.display ='';
+    } else {
+      rows[i].style.display ='none';
+    }
+  }
+}
+
+
+var timer;
+function delayedSearch() {
+	clearTimeout(timer);
+	console.log('delay-ing')
+    timer = setTimeout(function () {
+		console.log('delay-running')
+		search();
+    }, 500);
+  }</script>
+</head>
+
+<body>
+<div><input type="text" size="30" maxlength="1000" value="" id="search" onkeyup="delayedSearch();" /><input type="button" value="Go" onclick="lsearch();"/> </div>
+<table><thead><tr>	<th>ID</th>
+	<th>ID2</th>
+	<th>PAR_ID</th>
+	<th>CUSTOMER_NAME</th>
+	<th>TEL</th>
+	<th>UID</th>
+	<th>CONTACT_NAME</th>
+	<th>LANG_ID</th>
+	<th>TYPE</th>
+	<th>TEST1</th>
+	<th>TEST2</th>
+	<th>PHONE</th>
+	<th>X_ID</th>
+	<th>ACTIVE</th>
+	<th>TELEGRAM_CHANNEL</th>
+	<th>STATUS</th>
+	<th>CREATED</th>
+	<th>CREATED_BY</th>
+	<th>LAST_UPD</th>
+	<th>LAST_UPD_BY</th>
+</tr></thead>
+<tbody id="data">
+
+	<tr>
+<td>1447</td>
+<td>3461</td>
+<td>13242343</td>
+<td>hi</td>
+<td>MY</td>
+<td>3803</td>
+<td>BANANA</td>
+<td>MEG</td>
+<td>(null)</td>
+<td>&nbsp;</td>
+<td>Customer</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Y</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>28-APR-2023 02:36:28</td>
+<td>234234</td>
+<td>05-JUN-2023 07:13:15</td>
+<td>123123</td>
+	</tr>
+	<tr>
+<td>1701</td>
+<td>3380</td>
+<td>3766</td>
+<td>GEMINI</td>
+<td>Germany</td>
+<td>3535</td>
+<td>GEMINI</td>
+<td>KO</td>
+<td>this is a comment</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Y</td>
+<td>&nbsp;</td>
+<td>New</td>
+<td>10-SEP-2021 13:24:30</td>
+<td>5555</td>
+<td>02-SEP-2028 12:28:27</td>
+<td>44</td>
+	</tr>
+	<tr>
+<td>1329</td>
+<td>3707</td>
+<td>3789</td>
+<td>LONG BARS</td>
+<td>TW</td>
+<td>3838</td>
+<td>LONG BARS</td>
+<td>HK</td>
+<td>LL</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Y</td>
+<td>&nbsp;</td>
+<td>Active</td>
+<td>17-AUG-2014 03:38:14</td>
+<td>3242343</td>
+<td>11-JAN-2021 02:31:02</td>
+<td>3718</td>
+	</tr>
+	<tr>
+<td>1545</td>
+<td>101731366</td>
+<td>3697</td>
+<td>PROFILCO</td>
+<td>BG</td>
+<td>3880</td>
+<td>PROFILCO</td>
+<td>ENG</td>
+<td>XX</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Y</td>
+<td>&nbsp;</td>
+<td>New</td>
+<td>01-JAN-2028 07:49:51</td>
+<td>3432432</td>
+<td>11-OCT-2023 12:16:48</td>
+<td>3718</td>
+	</tr>
+	<tr>
+<td>1719</td>
+<td>100407723</td>
+<td>3586</td>
+<td>SEAS</td>
+<td>AU</td>
+<td>3758</td>
+<td>SEAS</td>
+<td>ENG</td>
+<td>XX</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Y</td>
+<td>&nbsp;</td>
+<td>New</td>
+<td>21-DEC-2028 22:46:48</td>
+<td>23423432</td>
+<td>21-SEP-2024 05:45:48</td>
+<td>3718</td>
+	</tr>
+	<tr>
+<td>1832</td>
+<td>3588</td>
+<td>3690</td>
+<td>MCDONALD</td>
+<td>UK</td>
+<td>3572</td>
+<td>MCDONALD</td>
+<td>ENG</td>
+<td>XX</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Y</td>
+<td>&nbsp;</td>
+<td>Active</td>
+<td>28-NOV-2028 12:33:24</td>
+<td>6587567</td>
+<td>11-JAN-2024 02:31:02</td>
+<td>3718</td>
+	</tr>
+</tbody></table><!-- SQL:
+SELECT * from customers --></body></html>
+
+59,999 rows selected. 
+
