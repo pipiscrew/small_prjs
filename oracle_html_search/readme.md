@@ -36,3 +36,7 @@ more
 you can preview the files :
 * [ora_original.html](https://htmlpreview.github.io/?https://github.com/pipiscrew/small_prjs/blob/master/oracle_html_search/ora_original.html)
 * [ora_original_quick_extended.html](https://htmlpreview.github.io/?https://github.com/pipiscrew/small_prjs/blob/master/oracle_html_search/ora_original_quick_extended.html)
+
+---
+
+ref - [search a li](https://www.pipiscrew.com/threads/js-search-a-li.73057)
