@@ -5,7 +5,7 @@ Each **folder** is separate **sample** project, using the following libraries :
 * [PHPGangsta/GoogleAuthenticator](https://github.com/PHPGangsta/GoogleAuthenticator) (only SHA1)
   * can use [QRCode Generator API](https://goqr.me/api/)
 * [antonioribeiro/google2fa](https://github.com/antonioribeiro/google2fa) (has more settings compare PHPGangsta)
-  * in this sample the library has been monolith (all PHP files merged to one)
+  * in `this sample` the library has been `monolith` (all PHP files merged to one)
 
 > both projects using [QRCodeJS](https://davidshimjs.github.io/qrcodejs/), to generate QRCode. Otherwise in PHP, needed to enable a PHP extension.  
 
