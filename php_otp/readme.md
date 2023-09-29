@@ -15,7 +15,7 @@ other libraries :
 
 ---
 
-Always use online server, make sure your server-time is [NTP-synced](https://en.wikipedia.org/wiki/Network_Time_Protocol)! Depending on the $discrepancy allowed your time cannot drift too much from the users time!, otherwise will fail always. [src](https://github.com/RobThree/TwoFactorAuth/blob/master/demo/demo.php) [[2](https://github.com/PHPGangsta/GoogleAuthenticator/issues/98)]  
+Always use online server, make sure your server-time is [NTP-synced](https://en.wikipedia.org/wiki/Network_Time_Protocol)! [src](https://github.com/RobThree/TwoFactorAuth/blob/master/demo/demo.php) [[2](https://github.com/PHPGangsta/GoogleAuthenticator/issues/98)]  
 
 ---
 
