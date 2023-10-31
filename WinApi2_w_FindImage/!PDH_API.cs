@@ -75,10 +75,11 @@ class Program
             return;
         }
 
+		////the loop is working fine, remarked for better understanding
         //// Continuously collect and monitor CPU usage
         //while (true)
         //{
-            // Collect data
+            // Collect data 2nd time - requires two samples otherwise resulting PDH_INSUFFICIENT_BUFFER or INVALID
             status = PdhCollectQueryData(hQuery);
             if (status != PdhStatus.PDH_CSTATUS_VALID_DATA)
             {
