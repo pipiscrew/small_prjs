@@ -1,2 +1,6 @@
 the following project includes the notification functionality of 
-https://github.com/qualcosa/Compact-RAM-Cleaner/blob/master/Compact%20RAM%20Cleaner/Forms/Notify.cs
+https://github.com/qualcosa/Compact-RAM-Cleaner/blob/master/Compact%20RAM%20Cleaner/Forms/Notify.cs  
+
+&nbsp;
+  
+![img](shot.png)
