@@ -1,0 +1,108 @@
+<style>
+
+    html {
+      font-family: "Ubuntu", sans-serif;
+    }
+
+    body {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+      max-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1;
+    }
+
+    h2, h3, h4, h5, h6 {
+      margin-top: 50px;
+    }
+
+    img {
+      max-width: 75%;
+      display: block;
+      margin: auto;
+    }
+
+    #input {
+      height: 100vh;
+      width: 50%;
+      resize: none;
+      padding: 0;
+      margin: 0;
+      border: none;
+    }
+
+    #result {
+      float: left;
+      display: inline-block;
+      box-sizing: border-box;
+      width: 50%;
+      height: 100vh;
+      padding: 1rem;
+      margin: 0;
+      overflow: auto;
+      scroll-behavior: smooth;
+    }
+
+    .red {
+      color: red;
+    }
+
+    .gray {
+      background: #cccccc;
+    }
+
+    .logo {
+      max-width: 200px;
+      height: auto;
+    }
+
+    th, td {
+      padding: 2px 15px 2px 2px;
+      border-bottom: 1px solid #666;
+      background: #ffffff;
+    }
+
+    th:nth-child(odd) {
+      background: #ffF9ee;
+    }
+
+    td:nth-child(odd) {
+      background: #ffF9ee;
+    }
+
+    blockquote {
+      padding: 4px;
+      background: #ffffdd;
+      box-shadow: 2px 2px 4px #999999;
+      border: 1px solid #cccccc;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .navigation {
+      background-color: #D6EDFF;
+      padding: .1rem 1rem;
+    }
+
+    .navigation a:hover {
+      background-color: #006FED;
+    }
+
+    .navigation a {
+      display: inline-block;
+      padding: .5rem 1rem;
+      background-color: #008DFE;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+  </style>

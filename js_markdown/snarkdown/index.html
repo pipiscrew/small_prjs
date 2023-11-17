@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>test</title>
+
+<script src="app.eadd9b66.js"></script> 
+<link rel="stylesheet" type="text/css" href="app.ff9d8788.css"> 
+
+</head>
+
+<body>
+<md>
+![snarkdown](http://emojipop.net/data/images/emoji_set_77.png)
+
+[Snarkdown](http://github.com/developit/snarkdown) is __easy__ to `use`!
+
+* test1
+  * test2
+  * test3
+	
+**testss**  
+	
+*italic*  
+
+```
+function codeBlocks() {
+    return 'Can be inserted';
+}
+```
+
+---
+
+### Block Quotes
+
+> You can insert quotes by  
+> preceeding each line with `>`.  
+>  
+> Blockquotes can also contain line  
+> breaks.  
+> test
+<md>
+
+<strong>fixed nested list</strong>
+
+<md>
+
+For nested lists [used](https://github.com/bpmn-io/form-js/issues/204#issuecomment-1076062384) [2](https://github.com/developit/snarkdown/issues/104#issuecomment-1075658898)
+
+to visit :  
+* dubai
+* australia<ul>
+* hey
+* hey2<ul>
+* like1
+* like 2</ul></ul>
+
+
+</md>
+
+<md>
+# Heading
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+## Subheading
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+---
+
+### Horizontal Rule (divider)
+
+---
+
+### Basic Formatting
+
+Bold with double **asterisks** or __underscores__.
+
+Italics with single *asterisks* or _underscores_.
+
+Strikethrough with double tildes ~~like this~~.
+
+Inline code with single backticks `like this`.
+
+### Block Quote
+
+> Blockquotes are very handy to emulate reply text.
+> This line is part of the same quote.
+
+### Code Block
+
+```javascript
+const str = 'This is a string';
+console.log(str);
+```
+
+### Collapsible Section (accordion)
+ 
+<details>
+  <summary>Spoiler</summary>
+  I'm a spoiler!
+</details>
+
+### Image
+
+![alt text](https://avatars.githubusercontent.com/u/4110567?s=96 "Image Title")
+
+### Link
+
+[GitHub Gist](https://gist.github.com/)
+
+### Bulleted List
+
+- One
+- Two
+- Three
+
+### Numbered List
+
+1. One
+2. Two
+3. Three
+
+### Tasks
+
+- [x] Task 1
+- [ ] Task 2
+- [ ] Task 3
+
+### Table NOT SUPPORTED
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+</md>
+
+<script>
+	MD_TAG = document.getElementsByTagName("md");
+	for(var i=0; i<MD_TAG.length; i++)
+		MD_TAG[i].innerHTML = parse(MD_TAG[i].innerHTML.replace(/&gt;/g, '>'));
+
+</script>
+</body>

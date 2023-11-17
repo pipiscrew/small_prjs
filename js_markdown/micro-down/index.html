@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>test</title>
+
+<script src="app.eadd9b66.js"></script> 
+<link rel="stylesheet" type="text/css" href="app.ff9d8788.css"> 
+
+</head>
+
+<body>
+<md>
+
+
+""" center
+![micro-down logo](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg)
+
+-------------------------
+# micro-down
+=========================
+"""
+
+**1.3kB** JavaScript markdown parser
+  [view on GitHub](https://github.com/shynrou/micro-down)
+
+""" navigation
+[Inline Markup](#inline)
+[Blocks](#blocks)
+[Media](#media)
+[Lists](#lists)
+[Table](#table)
+"""
+
+#[inline]
+## Inline Markup
+
+_italic:_ \*italic\* \_italic\_
+
+__bold:__ `**bold** __bold__`
+
+___bold italic:___ `***bold italic*** ___bold italic___`
+
+```
+code: `code`
+```
+
+~underline:~ `~underline~`
+
+~~strike through:~~ `~~strike through~~`
+
+~~~deleted:~~~ `~~~deleted~~~`
+
+
+#[blocks]
+## Blocks
+
+
+""" center gray
+Div Blocks are surrounded by """ and can receive a classes.
+"""
+
+``` not_javascript
+Pre
+  formatted
+    blocks
+    can
+    be defined
+  with ``` surrounding them,
+  they can also receive classes.
+  
+	Tabs work here too!
+```
+
+> Block quotes can also be handy.
+>   They are very nice to get some interresting content
+>
+
+> "Blocks in general support _~inline~_ __styles__"
+
+
+#[media]
+## Media
+### Links
+``` markdown
+[github](http://github.com Just a hover text!)
+or simply as URL via auto linking https://github.com/commit-intl/micro-down
+```
+[github](http://github.com Just a hover text!)
+  or simply as URL via auto linking https://github.com/commit-intl/micro-down
+
+### Images
+``` markdown
+![github](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg micro-down logo)
+```
+![github](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg micro-down logo)
+
+combined:
+``` markdown
+[![github](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg micro-down logo)](http://github.com Just a hover text!)
+```
+[![github](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg micro-down logo)](http://github.com Just a hover text!)
+
+### IFrames
+``` markdown
+&[340,170,0 project-card](https://github.com/commit-intl/micro-down)
+```
+&[340,170,0 project-card](https://github.com/commit-intl/micro-down)
+
+#[lists]
+## lists
+
+1. Lists can be structured and layered
+  1. like this
+  2. for example
+2. __and can also be mixed__
+	- like
+	+ this
+3. _~inline works here to~_
+   and can be quite handy
+
+
+#[table]
+## Table
+
+|-this   -|-is     -|-a  -
+| really  | useless | table
+| even more | useless | row
+
+| this   | is also    |  quite useless
+|---
+| but images, links and code works here too | ![micro-down logo](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg) | [micro-down logo](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg)
+| fancy you know | `![micro-down logo](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg)` | `[micro-down logo](https://raw.githubusercontent.com/commit-intl/micro-down/master/microdown.svg)`
+
+
+</md>
+
+<script>
+	MD_TAG = document.getElementsByTagName("md");
+	for(var i=0; i<MD_TAG.length; i++)
+		MD_TAG[i].innerHTML = microdown.parse(MD_TAG[i].innerHTML.replace(/&gt;/g, '>'));
+
+</script>
+</body>
