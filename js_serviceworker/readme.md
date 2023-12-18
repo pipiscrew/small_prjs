@@ -66,8 +66,8 @@ Is a global object in JavaScript that **provides information** about the browser
 ---
 
 To perfom the needed tests, used the samples included here (both needed to be run on a server):
-* [check_serviceworker](https://htmlpreview.github.io/?https://raw.githubusercontent.com/pipiscrew/small_prjs/master/js_serviceworker/check_serviceworker/index.html)
-* [check_3_types_of_worker](https://htmlpreview.github.io/?https://raw.githubusercontent.com/pipiscrew/small_prjs/master/js_serviceworker/check_3_types_of_worker/index.html)
+* check_serviceworker
+* check_3_types_of_worker
 * (3rd party) https://julienboulay.github.io/ngsw-brave/ - (Angular PWA thinks that registered)
 
 I would like to thank 
