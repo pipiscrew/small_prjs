@@ -53,9 +53,7 @@ chrome there is no option, but only workarounds :
 * The `Service Workers` have a **dedicated folder** on Chrome profile (mine was `787mb`). This folder is **C:\Users\user\AppData\Local\Chome\User Data\Default\Service Worker**, you can delete the contents and then apply folder permissions as is described [here](https://imgur.com/a/8re6Bjo).
 * patch with [hexeditor](https://mh-nexus.de/en/hxd/) the `chrome.dll`. Rename (ASCII + case sensitive) the **serviceWorker** to **s3rv1c3W0rk3r** (or any other name you like but should have the same characters size). In that way the property **serviceWorker** in **navigation** object will never exist so nobody can registered to.
 
-<p align="center">
 ![image](assets/HxD.png)
-</p>
 
 ---
 
@@ -68,8 +66,8 @@ Is a global object in JavaScript that **provides information** about the browser
 ---
 
 To perfom the needed tests, used the samples included here (both needed to be run on a server):
-* [check_serviceworker](https://htmlpreview.github.io/?https://github.com/pipiscrew/small_prjs/tree/master/js_serviceworker/check_serviceworker/index.html)
-* [check_3_types_of_worker](https://htmlpreview.github.io/?https://github.com/pipiscrew/small_prjs/tree/master/js_serviceworker/check_3_types_of_worker/index.html)
+* [check_serviceworker](https://htmlpreview.github.io/?https://github.com/pipiscrew/small_prjs/blob/master/js_serviceworker/check_serviceworker/index.html)
+* [check_3_types_of_worker](https://htmlpreview.github.io/?https://github.com/pipiscrew/small_prjs/blob/master/js_serviceworker/check_3_types_of_worker/index.html)
 * (3rd party) https://julienboulay.github.io/ngsw-brave/ - (Angular PWA thinks that registered)
 
 I would like to thank 
