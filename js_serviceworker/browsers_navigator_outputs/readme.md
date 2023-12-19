@@ -2,28 +2,40 @@
 
 Using `console.log(navigator)` to any browser you see what you share with pages.  
 
-## Beacon v100
+* `Blink` is engine by Google  
+* `Gecko` is engine by Mozilla  
+* `Goanna` is engine by Pale Moon ( fork of Gecko )
+
+---
+
+## [Beacon](https://github.com/imperviousinc/beacon) v100 (blink)
 ![image](assets/beacon.png)
 
-## Brave v159
+## [Brave](https://github.com/brave/brave-browser) v159 (blink)
 ![image](assets/beacon.png)
 
-## Icecat v78
+## [Icecat](https://codeberg.org/chippy/icecat-for-windows) v78 (gecko)
 ![image](assets/icecat.png)
 
-## LibreWolf v109
+## [LibreWolf](https://codeberg.org/librewolf/source) v109 (gecko)
 ![image](assets/icecat.png)
 
-## Mercury v115
+## [Mercury](https://github.com/Alex313031/Mercury) v115 (gecko)
 ![image](assets/mercury.png)
 
-## SRWare Iron v118
+## [Basilik](https://repo.palemoon.org/Basilisk-Dev/Basilisk) v20230912 (goanna)
+![image](assets/basilisk.png)
+
+## [Pale Moon](https://repo.palemoon.org/MoonchildProductions/Pale-Moon) v32.5.1 (goanna)
+![image](assets/palemoon.png)
+
+## [SRWare Iron](https://www.srware.net/iron/) v118 (blink)
 ![image](assets/srware.png)
 
-## Ungoogled v91
+## [Ungoogled](https://github.com/ungoogled-software/ungoogled-chromium) v91 (blink)
 ![image](assets/ungoogled.png)
 
-only `Mercury` does **not** expose the **service worker**. And interestingly we see all output 
+only `Mercury` / `Basilik` / `Pale Moon` **not** expose the **service worker**. And interestingly we see all output 
 ```js
 product: "Gecko"
 ``` 
