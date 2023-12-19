@@ -35,9 +35,16 @@ Using `console.log(navigator)` to any browser you see what you share with pages.
 ## [Ungoogled](https://github.com/ungoogled-software/ungoogled-chromium) v91 (blink)
 ![image](assets/ungoogled.png)
 
-only `Mercury` / `Basilik` / `Pale Moon` **not** expose the **service worker**. And interestingly we see all output 
+only `Basilik` / `Pale Moon` **not** expose the **service worker**. And interestingly we see all output 
 ```js
 product: "Gecko"
 ``` 
 
 because of javascript engine ;) 
+
+---
+
+* Running `brave` on **Private Window** still exposes **service worker**
+* Running `Mercury` on **Private Window** not exposes **service worker**
+
+![image](assets/mercury_private.png)
