@@ -23,7 +23,7 @@ Using `console.log(navigator)` to any browser you see what you share with pages.
 ## [Mercury](https://github.com/Alex313031/Mercury) v115 (gecko)
 ![image](assets/mercury.png)
 
-## [Basilik](https://repo.palemoon.org/Basilisk-Dev/Basilisk) v20230912 (goanna)
+## [Basilisk](https://repo.palemoon.org/Basilisk-Dev/Basilisk) v20230912 (goanna)
 ![image](assets/basilisk.png)
 
 ## [Pale Moon](https://repo.palemoon.org/MoonchildProductions/Pale-Moon) v32.5.1 (goanna)
@@ -35,7 +35,7 @@ Using `console.log(navigator)` to any browser you see what you share with pages.
 ## [Ungoogled](https://github.com/ungoogled-software/ungoogled-chromium) v91 (blink)
 ![image](assets/ungoogled.png)
 
-only `Basilik` / `Pale Moon` **not** expose the **service worker**. And interestingly we see all output 
+only `Basilisk` / `Pale Moon` **not** expose the **service worker**. And interestingly we see all output 
 ```js
 product: "Gecko"
 ``` 
