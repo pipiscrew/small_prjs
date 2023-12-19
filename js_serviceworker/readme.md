@@ -63,11 +63,24 @@ Is a global object in JavaScript that **provides information** about the browser
 
 `navigator.serviceWorker` - Is a **property** of the **navigator object** that **exposes** the `Service Worker API`. It allows you to register, unregister, and communicate with Service Workers.  
 
--- 
+---
+
+## Sources 
 
 `Chromium` - The `navigator` object is implemented as part of the **Blink rendering** engine. You would find it in the [Blink repository](https://chromium.googlesource.com/chromium/blink/+/refs/heads/main/Source/modules/serviceworkers).  
 
 `Firefox` - The `navigator` object is implemented as part of the **Gecko rendering** engine. You would find it in the [Gecko repository](https://github.com/mozilla/gecko-dev/tree/master/dom/serviceworkers) [[2](https://hg.mozilla.org/mozilla-central/file)].  
+
+clone minimal, with `depth` switch
+```bash
+git clone --depth 1 https://chromium.googlesource.com/chromium/blink #(1.3gb)
+git clone --depth 1 https://github.com/mozilla/gecko-dev  #(3.2gb)
+```
+
+* [*.webidl / *.idl](https://www.chromium.org/developers/web-idl-interfaces/) - files to specify the interface and generate JavaScript bindings (formally, C++ code that the V8 JavaScript virtual machine uses to call Blink itself)
+* (github login required) search [brave repo](https://github.com/search?q=repo%3Abrave%2Fbrave-core+%2F%28%3F-i%29serviceWorker%2F&type=code) for serviceWorker.
+* (github login required) search [chromium repo](https://github.com/search?q=repo%3Achromium%2Fchromium%20%2F(%3F-i)serviceWorker%2F&type=code) for serviceWorker.
+* (github login required) search [gecko repo](https://github.com/search?q=repo%3Amozilla%2Fgecko-dev%20%2F(%3F-i)serviceWorker%2F&type=code) for serviceWorker.
 
 ---
 
