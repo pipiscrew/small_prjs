@@ -44,7 +44,7 @@ because of javascript engine ;)
 
 ---
 
-* Running `SRWare Iron` or `brave` on **Private Window** still exposes **service worker**
+* Running `SRWare Iron` or `brave` on **Private Window** still expose **service worker**
 * Running `Firefox` or `Mercury` on **Private Window** not expose **service worker**
 
 ![image](assets/mercury_private.png)
