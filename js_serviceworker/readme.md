@@ -95,6 +95,8 @@ I would like to thank
 
 you still using google apps after all (????)  
 
+Searching on the web, found the `unServiceWorker.ps1`, see the [powershell](https://github.com/pipiscrew/small_prjs/tree/master/powershell) folder.
+
 ---
 
 Initially all this information drafted [here](https://www.pipiscrew.com/threads/webrowser-service-workers.99503/) and is not happened in a week!  
