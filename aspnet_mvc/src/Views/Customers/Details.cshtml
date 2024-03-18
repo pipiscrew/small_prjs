@@ -1,0 +1,73 @@
+@model north.ViewModels.CustomersViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Record Details</h2>
+<div>
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.CustomerID):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.CustomerID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.CompanyName):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.CompanyName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.ContactName):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.ContactName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.ContactTitle):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.ContactTitle)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.Address):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.Address)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.City):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.City)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.Region1):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.Region1)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.PostalCode):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.PostalCode)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.Country):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.Country)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.Phone):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.Phone)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CustomersModel.Fax):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CustomersModel.Fax)</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <a href="@Request.UrlReferrer.ToString()">Return</a>
+                        }
+                        else
+                        {
+                            <a href="/Home/Index">Return</a>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</div>

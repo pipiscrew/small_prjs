@@ -1,0 +1,85 @@
+@model north.ViewModels.OrdersViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Record Details</h2>
+<div>
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.OrderID):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.OrderID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.CustomerID):</td>
+                    <td class="editor-field">@Html.DisplayFor(vm => vm.OrdersModel.CustomerID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.EmployeeID):</td>
+                    <td class="editor-field">@Html.DisplayFor(vm => vm.OrdersModel.EmployeeID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.OrderDate):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.OrderDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.RequiredDate):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.RequiredDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.ShippedDate):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.ShippedDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.ShipVia):</td>
+                    <td class="editor-field">@Html.DisplayFor(vm => vm.OrdersModel.ShipVia)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.Freight):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.Freight)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.ShipName):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.ShipName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.ShipAddress):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.ShipAddress)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.ShipCity):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.ShipCity)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.ShipRegion):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.ShipRegion)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.ShipPostalCode):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.ShipPostalCode)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrdersModel.ShipCountry):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrdersModel.ShipCountry)</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <a href="@Request.UrlReferrer.ToString()">Return</a>
+                        }
+                        else
+                        {
+                            <a href="/Home/Index">Return</a>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</div>

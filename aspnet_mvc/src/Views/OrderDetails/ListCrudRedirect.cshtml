@@ -1,0 +1,67 @@
+@{
+    ViewBag.Title = "List of Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listcrudredirect.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/OrderDetails/Delete/';
+
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/OrderDetailsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Product ID','Unit Price','Quantity','Discount', '', ''],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'right' },
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'Quantity', index: 'Quantity', align: 'right', formatter: 'integer' },
+                    { name: 'Discount', index: 'Discount', align: 'left', formatter: 'currency', formatoptions: { decimalPlaces: 2 } },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Order Details',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var id0 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'OrderID');
+                        var id1 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ProductID');
+                        editLink = "<a href='/OrderDetails/Update/" + id0 + "/" + id1 + "'><img src='/Content/Images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + id0 + "/" + id1 + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="@Url.Action("Add", "OrderDetails")"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New OrderDetails" style="border: none;" /></a>&nbsp;@Html.ActionLink("Add New OrderDetails", "Add", "OrderDetails")
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

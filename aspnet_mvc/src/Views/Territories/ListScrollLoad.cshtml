@@ -1,0 +1,49 @@
+@{
+    ViewBag.Title = "List of Territories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        function regionIDLink(cellvalue, options, rowObject) {
+            return "<a href='/Region/Details/" + cellvalue + "'>" + cellvalue + "</a>";
+        }
+
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/TerritoriesApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Territory ID','Territory Description','Region ID'],
+                colModel: [
+                    { name: 'TerritoryID', index: 'TerritoryID', align: 'left' },
+                    { name: 'TerritoryDescription', index: 'TerritoryDescription', align: 'left' },
+                    { name: 'RegionID', index: 'RegionID', align: 'right', formatter: regionIDLink }
+                ],
+                pager: $('#list-pager'),
+                scroll: 1,
+                gridview: true,
+                rownumbers: true,
+                rownumWidth: 20,
+                rowNum: 20,
+                sortname: 'TerritoryID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Territories',
+                height: '250',
+                width: '1200'
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

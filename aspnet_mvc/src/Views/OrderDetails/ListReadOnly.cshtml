@@ -1,0 +1,52 @@
+@{
+    ViewBag.Title = "List of Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        function orderIDLink(cellvalue, options, rowObject) {
+            return "<a href='/Orders/Details/" + cellvalue + "'>" + cellvalue + "</a>";
+        }
+
+        function productIDLink(cellvalue, options, rowObject) {
+            return "<a href='/Products/Details/" + cellvalue + "'>" + cellvalue + "</a>";
+        }
+
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/OrderDetailsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Product ID','Unit Price','Quantity','Discount'],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'right', formatter: orderIDLink },
+                    { name: 'ProductID', index: 'ProductID', align: 'right', formatter: productIDLink },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'Quantity', index: 'Quantity', align: 'right', formatter: 'integer' },
+                    { name: 'Discount', index: 'Discount', align: 'left', formatter: 'currency', formatoptions: { decimalPlaces: 2 } }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Order Details',
+                height: '100%',
+                width: '1200'
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

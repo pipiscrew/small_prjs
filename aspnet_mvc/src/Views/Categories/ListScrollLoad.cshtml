@@ -1,0 +1,45 @@
+@{
+    ViewBag.Title = "List of Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CategoriesApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Category ID','Category Name','Description'],
+                colModel: [
+                    { name: 'CategoryID', index: 'CategoryID', align: 'right' },
+                    { name: 'CategoryName', index: 'CategoryName', align: 'left' },
+                    { name: 'Description', index: 'Description', align: 'left' }
+                ],
+                pager: $('#list-pager'),
+                scroll: 1,
+                gridview: true,
+                rownumbers: true,
+                rownumWidth: 20,
+                rowNum: 20,
+                sortname: 'CategoryID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Categories',
+                height: '250',
+                width: '1200'
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

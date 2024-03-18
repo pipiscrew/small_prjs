@@ -1,0 +1,72 @@
+@{
+    ViewBag.Title = "List of Suppliers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listcrudredirect.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/Suppliers/Delete/';
+
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/SuppliersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Supplier ID','Company Name','Contact Name','Contact Title','Address','City','Region1','Postal Code','Country','Phone','Fax','Home Page', '', ''],
+                colModel: [
+                    { name: 'SupplierID', index: 'SupplierID', align: 'right' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left' },
+                    { name: 'ContactName', index: 'ContactName', align: 'left' },
+                    { name: 'ContactTitle', index: 'ContactTitle', align: 'left' },
+                    { name: 'Address', index: 'Address', align: 'left' },
+                    { name: 'City', index: 'City', align: 'left' },
+                    { name: 'Region1', index: 'Region1', align: 'left' },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left' },
+                    { name: 'Country', index: 'Country', align: 'left' },
+                    { name: 'Phone', index: 'Phone', align: 'left' },
+                    { name: 'Fax', index: 'Fax', align: 'left' },
+                    { name: 'HomePage', index: 'HomePage', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'SupplierID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Suppliers',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        editLink = "<a href='/Suppliers/Update/" + currentid + "'><img src='/Content/Images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="@Url.Action("Add", "Suppliers")"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Suppliers" style="border: none;" /></a>&nbsp;@Html.ActionLink("Add New Suppliers", "Add", "Suppliers")
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

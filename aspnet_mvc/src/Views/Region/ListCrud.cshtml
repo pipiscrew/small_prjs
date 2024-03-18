@@ -1,0 +1,130 @@
+@model north.ViewModels.RegionViewModel
+@{
+    ViewBag.Title = "List of Region";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "Region";
+        var urlAndMethod = "/Region/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#regionID").attr('readonly', false);
+        }
+
+        function editItem(regionID, regionDescription) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(regionID);
+
+            $("#regionID").attr('readonly', true);
+            $("#regionID").val(regionID);
+            $("#regionDescription").val(regionDescription.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#regionID").val('');
+            $("#regionDescription").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/RegionApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Region ID','Region Description', '', ''],
+                colModel: [
+                    { name: 'RegionID', index: 'RegionID', align: 'right' },
+                    { name: 'RegionDescription', index: 'RegionDescription', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'RegionID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Region',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var regionID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'RegionID');
+                        var regionDescription = jQuery("#list-grid").jqGrid('getCell', ids[i], 'RegionDescription').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + regionID + "','" + regionDescription + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New Region">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.RegionModel.RegionID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.RegionModel.RegionID, new { @id = "regionID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.RegionModel.RegionID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.RegionModel.RegionDescription):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.RegionModel.RegionDescription, new { @id = "regionDescription" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.RegionModel.RegionDescription)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Region" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New Region</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

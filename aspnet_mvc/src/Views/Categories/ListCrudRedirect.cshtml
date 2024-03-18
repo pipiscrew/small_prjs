@@ -1,0 +1,63 @@
+@{
+    ViewBag.Title = "List of Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listcrudredirect.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/Categories/Delete/';
+
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CategoriesApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Category ID','Category Name','Description', '', ''],
+                colModel: [
+                    { name: 'CategoryID', index: 'CategoryID', align: 'right' },
+                    { name: 'CategoryName', index: 'CategoryName', align: 'left' },
+                    { name: 'Description', index: 'Description', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'CategoryID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Categories',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        editLink = "<a href='/Categories/Update/" + currentid + "'><img src='/Content/Images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="@Url.Action("Add", "Categories")"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Categories" style="border: none;" /></a>&nbsp;@Html.ActionLink("Add New Categories", "Add", "Categories")
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

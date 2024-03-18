@@ -1,0 +1,136 @@
+@using System.Text.RegularExpressions;
+@model north.ViewModels.ProductsViewModel
+@{
+    ViewBag.Title = "List of Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string supplierIDSelectValues = ":";
+    string categoryIDSelectValues = ":";
+
+    foreach (var item in Model.SuppliersDropDownListData.OrderBy(s => s.SupplierID))
+    {
+        supplierIDSelectValues += ";" + item.SupplierID + ":" + item.SupplierID + " - " + Regex.Replace(item.CompanyName == null ? "" : item.CompanyName, "[^a-zA-Z0-9 -]", "");
+    }
+
+    foreach (var item in Model.CategoriesDropDownListData.OrderBy(c => c.CategoryID))
+    {
+        categoryIDSelectValues += ";" + item.CategoryID + ":" + item.CategoryID + " - " + Regex.Replace(item.CategoryName == null ? "" : item.CategoryName, "[^a-zA-Z0-9 -]", "");
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listinline.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/Products/Delete/';
+        var errorMessage = '';
+
+        function getSerializedData(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+
+            var serializedData =
+                "'ProductID':'" + rowData.ProductID + "'," +
+                "'ProductName':'" + $('#' + currentId + '_ProductName').val() + "'," +
+                "'SupplierID':'" + $('#' + currentId + '_SupplierID').val() + "'," +
+                "'CategoryID':'" + $('#' + currentId + '_CategoryID').val() + "'," +
+                "'QuantityPerUnit':'" + $('#' + currentId + '_QuantityPerUnit').val() + "'," +
+                "'UnitPrice':'" + $('#' + currentId + '_UnitPrice').val() + "'," +
+                "'UnitsInStock':'" + $('#' + currentId + '_UnitsInStock').val() + "'," +
+                "'UnitsOnOrder':'" + $('#' + currentId + '_UnitsOnOrder').val() + "'," +
+                "'ReorderLevel':'" + $('#' + currentId + '_ReorderLevel').val() + "'," +
+                "'Discontinued':'" + $('#' + currentId + '_Discontinued').is(':checked') + "'";
+
+            return serializedData;
+        }
+
+        function isDataValid(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+        
+            var productName = $('#' + currentId + '_ProductName').val();
+            var quantityPerUnit = $('#' + currentId + '_QuantityPerUnit').val();
+            var unitPrice = $('#' + currentId + '_UnitPrice').val();
+            var unitsInStock = $('#' + currentId + '_UnitsInStock').val();
+            var unitsOnOrder = $('#' + currentId + '_UnitsOnOrder').val();
+            var reorderLevel = $('#' + currentId + '_ReorderLevel').val();
+
+            // validation
+            if (productName == '') errorMessage += '- Product Name is required.<br/>';
+            if (productName.length > 40) errorMessage += '- Product Name must be 40 characters or less.<br/>';
+            if (quantityPerUnit.length > 20) errorMessage += '- Quantity Per Unit must be 20 characters or less.<br/>';
+            if (unitPrice != '' && !isDecimal(unitPrice)) errorMessage += '- Unit Price must be a decimal.<br/>';
+            if (unitsInStock != '' && !isNumeric(unitsInStock)) errorMessage += '- Units In Stock must be an integer.<br/>';
+            if (unitsOnOrder != '' && !isNumeric(unitsOnOrder)) errorMessage += '- Units On Order must be an integer.<br/>';
+            if (reorderLevel != '' && !isNumeric(reorderLevel)) errorMessage += '- Reorder Level must be an integer.<br/>';
+
+            if (errorMessage == '')
+                return true;
+            else
+                return false;
+        }
+
+        $(function () {
+            var supplierIDSelectValues = "@supplierIDSelectValues";
+            var categoryIDSelectValues = "@categoryIDSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/ProductsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Product ID','Product Name','Supplier ID','Category ID','Quantity Per Unit','Unit Price','Units In Stock','Units On Order','Reorder Level','Discontinued', '', ''],
+                colModel: [
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'ProductName', index: 'ProductName', align: 'left', editable: true },
+                    { name: 'SupplierID', index: 'SupplierID', align: 'left', editable: true, formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: supplierIDSelectValues } },
+                    { name: 'CategoryID', index: 'CategoryID', align: 'left', editable: true, formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: categoryIDSelectValues } },
+                    { name: 'QuantityPerUnit', index: 'QuantityPerUnit', align: 'left', editable: true },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', editable: true, formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'UnitsInStock', index: 'UnitsInStock', align: 'right', editable: true, formatter: 'integer' },
+                    { name: 'UnitsOnOrder', index: 'UnitsOnOrder', align: 'right', editable: true, formatter: 'integer' },
+                    { name: 'ReorderLevel', index: 'ReorderLevel', align: 'right', editable: true, formatter: 'integer' },
+                    { name: 'Discontinued', index: 'Discontinued', align: 'center', editable: true, stype: 'select', edittype: 'checkbox', editoptions: { value: 'True:False' } },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ProductID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Products',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        editLink = "<a id='editLink" + currentid + "' href='#' onclick=\"editRow('" + currentid + "');\"><img src='/Content/Images/Edit.gif' style='border:none;' /></a>" +
+                                "<a id='saveLink" + currentid + "' style='display:none;' href='#' onclick=\"saveRow('" + currentid + "', 'Products');\"><img src='/Content/Images/Checked.gif' style='border:none;' /></a>";
+
+                        deleteLink = "<a href='#' id='deleteLink" + currentid + "' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>" +
+                            "<a id='cancelLink" + currentid + "' style='display:none;' href='#' onclick=\"cancelRow('" + currentid + "');\"><img src='/Content/Images/Unchecked.gif' style='border:none;' /></a>";
+
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" id="addLink1" onclick="addRow()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Products" style="border: none;" /></a>&nbsp;<a href="#" id="addLink2" onclick="addRow()">Add New Products</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

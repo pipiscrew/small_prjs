@@ -1,0 +1,49 @@
+@model north.ViewModels.OrderDetailsViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Record Details</h2>
+<div>
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrderDetailsModel.OrderID):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrderDetailsModel.OrderID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrderDetailsModel.ProductID):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrderDetailsModel.ProductID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrderDetailsModel.UnitPrice):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrderDetailsModel.UnitPrice)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrderDetailsModel.Quantity):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrderDetailsModel.Quantity)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.OrderDetailsModel.Discount):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.OrderDetailsModel.Discount)</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <a href="@Request.UrlReferrer.ToString()">Return</a>
+                        }
+                        else
+                        {
+                            <a href="/Home/Index">Return</a>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+@using north.Domain;
+@model north.ViewModels.CategoriesViewModel
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $(function () {
+        $('.datetextbox').datepicker({dateFormat: 'm/d/yy'});
+    });
+</script>
+
+@using (Html.BeginForm(@Model.ViewActionName, @Model.ViewControllerName, new { model = this.Model, returnUrl = @Model.ViewReturnUrl }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                @if (Model.Operation == CrudOperation.Update)
+                {
+                    <tr>
+                        <td class="editor-label">@Html.LabelFor(vm => vm.CategoriesModel.CategoryID):</td>
+                        <td></td>
+                        <td class="editor-field">@Html.TextBoxFor(vm => vm.CategoriesModel.CategoryID, new { @readonly = "readonly" })</td>
+                        <td></td>
+                    </tr>
+                }
+
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CategoriesModel.CategoryName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.CategoriesModel.CategoryName)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CategoriesModel.CategoryName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CategoriesModel.Description):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.CategoriesModel.Description)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CategoriesModel.Description)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        @if (Model.Operation == CrudOperation.Add)
+                        {
+                            <input type="submit" value="Add" class="button-150" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Update" class="button-150" />
+                        }
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <input type="button" value="Cancel" onclick="window.location = '@Request.UrlReferrer.ToString()'; return false;" class="button-100" />
+                        }
+                        else
+                        {
+                            <input type="button" value="Cancel" onclick="window.location = '@Url.Action("Index", "Home")'; return false;" class="button-100" />
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}

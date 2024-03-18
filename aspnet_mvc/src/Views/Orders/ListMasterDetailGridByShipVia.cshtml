@@ -1,0 +1,85 @@
+@{
+    ViewBag.Title = "List of Orders By Shippers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/ShippersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Shipper ID','Company Name','Phone'],
+                colModel: [
+                    { name: 'ShipperID', index: 'ShipperID', align: 'right' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left' },
+                    { name: 'Phone', index: 'Phone', align: 'left' },
+                ],
+                pager: $('#list-pager'),
+                rowNum: 5,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ShipperID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Orders By Shippers',
+                height: '100%',
+                width: '1200',
+                multiselect: false,
+                onSelectRow: function (ids) {
+                    if (ids != null) {
+                        jQuery("#list-grid-detail").jqGrid('setGridParam', { url: "http://localhost:27229/api/OrdersApi/SelectOrdersCollectionByShipVia/?id="  + ids, page: 1 });
+                        jQuery("#list-grid-detail").jqGrid('setCaption', "List of Orders By Ship Via: " + ids)
+                        .trigger('reloadGrid');
+                    }
+                }
+            });
+        });
+
+        $(function () {
+            $('#list-grid-detail').jqGrid({
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Customer ID','Employee ID','Order Date','Required Date','Shipped Date','Ship Via','Freight','Ship Name','Ship Address','Ship City','Ship Region','Ship Postal Code','Ship Country'],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'right' },
+                    { name: 'CustomerID', index: 'CustomerID', align: 'left' },
+                    { name: 'EmployeeID', index: 'EmployeeID', align: 'right' },
+                    { name: 'OrderDate', index: 'OrderDate', align: 'left', sorttype: "date" },
+                    { name: 'RequiredDate', index: 'RequiredDate', align: 'left', sorttype: "date" },
+                    { name: 'ShippedDate', index: 'ShippedDate', align: 'left', sorttype: "date" },
+                    { name: 'ShipVia', index: 'ShipVia', align: 'right' },
+                    { name: 'Freight', index: 'Freight', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'ShipName', index: 'ShipName', align: 'left' },
+                    { name: 'ShipAddress', index: 'ShipAddress', align: 'left' },
+                    { name: 'ShipCity', index: 'ShipCity', align: 'left' },
+                    { name: 'ShipRegion', index: 'ShipRegion', align: 'left' },
+                    { name: 'ShipPostalCode', index: 'ShipPostalCode', align: 'left' },
+                    { name: 'ShipCountry', index: 'ShipCountry', align: 'left' },
+                ],
+                pager: $('#list-pager-detail'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                height: '100%',
+                width: '1200'
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>
+<br /><br />
+<table id="list-grid-detail"></table>
+<div id="list-pager-detail"></div>

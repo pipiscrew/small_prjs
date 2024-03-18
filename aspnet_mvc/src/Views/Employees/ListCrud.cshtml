@@ -1,0 +1,280 @@
+@model north.ViewModels.EmployeesViewModel
+@{
+    ViewBag.Title = "List of Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "Employees";
+        var urlAndMethod = "/Employees/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#employeeID").attr('disabled', true);
+        }
+
+        function editItem(employeeID, lastName, firstName, title, titleOfCourtesy, birthDate, hireDate, address, city, region1, postalCode, country, homePhone, extension, notes, reportsTo, photoPath) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(employeeID);
+
+            $("#employeeID").attr('disabled', false);
+            $("#employeeID").val(employeeID);
+            $("#lastName").val(lastName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#firstName").val(firstName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#title").val(title.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#titleOfCourtesy").val(titleOfCourtesy.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#birthDate").val(birthDate);
+            $("#hireDate").val(hireDate);
+            $("#address").val(address.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#city").val(city.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#region1").val(region1.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#postalCode").val(postalCode.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#country").val(country.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#homePhone").val(homePhone.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#extension").val(extension.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#notes").val(notes.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#reportsTo").val(reportsTo);
+            $("#photoPath").val(photoPath.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#employeeID").val('');
+            $("#lastName").val('');
+            $("#firstName").val('');
+            $("#title").val('');
+            $("#titleOfCourtesy").val('');
+            $("#birthDate").val('');
+            $("#hireDate").val('');
+            $("#address").val('');
+            $("#city").val('');
+            $("#region1").val('');
+            $("#postalCode").val('');
+            $("#country").val('');
+            $("#homePhone").val('');
+            $("#extension").val('');
+            $("#notes").val('');
+            $("#reportsTo").val('');
+            $("#photoPath").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/EmployeesApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Employee ID','Last Name','First Name','Title','Title Of Courtesy','Birth Date','Hire Date','Address','City','Region1','Postal Code','Country','Home Phone','Extension','Notes','Reports To','Photo Path', '', ''],
+                colModel: [
+                    { name: 'EmployeeID', index: 'EmployeeID', align: 'right' },
+                    { name: 'LastName', index: 'LastName', align: 'left' },
+                    { name: 'FirstName', index: 'FirstName', align: 'left' },
+                    { name: 'Title', index: 'Title', align: 'left' },
+                    { name: 'TitleOfCourtesy', index: 'TitleOfCourtesy', align: 'left' },
+                    { name: 'BirthDate', index: 'BirthDate', align: 'left', sorttype: "date" },
+                    { name: 'HireDate', index: 'HireDate', align: 'left', sorttype: "date" },
+                    { name: 'Address', index: 'Address', align: 'left' },
+                    { name: 'City', index: 'City', align: 'left' },
+                    { name: 'Region1', index: 'Region1', align: 'left' },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left' },
+                    { name: 'Country', index: 'Country', align: 'left' },
+                    { name: 'HomePhone', index: 'HomePhone', align: 'left' },
+                    { name: 'Extension', index: 'Extension', align: 'left' },
+                    { name: 'Notes', index: 'Notes', align: 'left' },
+                    { name: 'ReportsTo', index: 'ReportsTo', align: 'right' },
+                    { name: 'PhotoPath', index: 'PhotoPath', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'EmployeeID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Employees',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var employeeID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'EmployeeID');
+                        var lastName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'LastName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var firstName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'FirstName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var title = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Title').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var titleOfCourtesy = jQuery("#list-grid").jqGrid('getCell', ids[i], 'TitleOfCourtesy').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var birthDate = jQuery("#list-grid").jqGrid('getCell', ids[i], 'BirthDate');
+                        var hireDate = jQuery("#list-grid").jqGrid('getCell', ids[i], 'HireDate');
+                        var address = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Address').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var city = jQuery("#list-grid").jqGrid('getCell', ids[i], 'City').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var region1 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Region1').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var postalCode = jQuery("#list-grid").jqGrid('getCell', ids[i], 'PostalCode').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var country = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Country').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var homePhone = jQuery("#list-grid").jqGrid('getCell', ids[i], 'HomePhone').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var extension = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Extension').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var notes = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Notes').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var reportsTo = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ReportsTo');
+                        var photoPath = jQuery("#list-grid").jqGrid('getCell', ids[i], 'PhotoPath').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + employeeID + "','" + lastName + "','" + firstName + "','" + title + "','" + titleOfCourtesy + "','" + birthDate + "','" + hireDate + "','" + address + "','" + city + "','" + region1 + "','" + postalCode + "','" + country + "','" + homePhone + "','" + extension + "','" + notes + "','" + reportsTo + "','" + photoPath + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New Employees">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr id="trPrimaryKey">
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.EmployeeID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.EmployeeID, new { @id = "employeeID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.EmployeeID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.LastName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.LastName, new { @id = "lastName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.LastName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.FirstName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.FirstName, new { @id = "firstName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.FirstName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Title):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.Title, new { @id = "title" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Title)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.TitleOfCourtesy):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.TitleOfCourtesy, new { @id = "titleOfCourtesy" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.TitleOfCourtesy)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.BirthDate):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.BirthDate, new { @class = "datetextbox", @id = "birthDate" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.BirthDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.HireDate):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.HireDate, new { @class = "datetextbox", @id = "hireDate" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.HireDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Address):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.Address, new { @id = "address" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Address)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.City):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.City, new { @id = "city" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.City)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Region1):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.Region1, new { @id = "region1" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Region1)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.PostalCode):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.PostalCode, new { @id = "postalCode" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.PostalCode)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Country):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.Country, new { @id = "country" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Country)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.HomePhone):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.HomePhone, new { @id = "homePhone" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.HomePhone)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Extension):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.Extension, new { @id = "extension" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Extension)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Notes):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.Notes, new { @id = "notes" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Notes)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.ReportsTo):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.DropDownListFor(vm => vm.EmployeesModel.ReportsTo, new SelectList(Model.EmployeesDropDownListData, "EmployeeID", "LastName"), "Select One", new { @id = "reportsTo" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.ReportsTo)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.PhotoPath):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.PhotoPath, new { @id = "photoPath" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.PhotoPath)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Employees" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New Employees</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

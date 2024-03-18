@@ -1,0 +1,60 @@
+@{
+    ViewBag.Title = "List of Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        function reportsToLink(cellvalue, options, rowObject) {
+            return "<a href='/Employees/Details/" + cellvalue + "'>" + cellvalue + "</a>";
+        }
+
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/EmployeesApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Employee ID','Last Name','First Name','Title','Title Of Courtesy','Birth Date','Hire Date','Address','City','Region1','Postal Code','Country','Home Phone','Extension','Notes','Reports To','Photo Path'],
+                colModel: [
+                    { name: 'EmployeeID', index: 'EmployeeID', align: 'right' },
+                    { name: 'LastName', index: 'LastName', align: 'left' },
+                    { name: 'FirstName', index: 'FirstName', align: 'left' },
+                    { name: 'Title', index: 'Title', align: 'left' },
+                    { name: 'TitleOfCourtesy', index: 'TitleOfCourtesy', align: 'left' },
+                    { name: 'BirthDate', index: 'BirthDate', align: 'left', sorttype: "date" },
+                    { name: 'HireDate', index: 'HireDate', align: 'left', sorttype: "date" },
+                    { name: 'Address', index: 'Address', align: 'left' },
+                    { name: 'City', index: 'City', align: 'left' },
+                    { name: 'Region1', index: 'Region1', align: 'left' },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left' },
+                    { name: 'Country', index: 'Country', align: 'left' },
+                    { name: 'HomePhone', index: 'HomePhone', align: 'left' },
+                    { name: 'Extension', index: 'Extension', align: 'left' },
+                    { name: 'Notes', index: 'Notes', align: 'left' },
+                    { name: 'ReportsTo', index: 'ReportsTo', align: 'right', formatter: reportsToLink },
+                    { name: 'PhotoPath', index: 'PhotoPath', align: 'left' }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'EmployeeID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Employees',
+                height: '100%',
+                width: '1200'
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

@@ -1,0 +1,107 @@
+@model north.ViewModels.EmployeesForeachViewModel
+@{
+    ViewBag.Title = "List of Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string bgColor = "#F7F6F3";
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/Scripts/listforeach.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/Employees/Delete/';
+    </script>
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="@Url.Action("Add", "Employees")"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Employees" style="border: none;" /></a>&nbsp;@Html.ActionLink("Add New Employees", "Add", "Employees")
+<br /><br />
+
+<table class="gridviewGridLines" cellspacing ="0" cellpadding="8" style="width:100%;border-collapse:collapse;">
+    <tr style="color:#2E6E9E;background-color:#DFEFFC;font-weight:bold;">
+        @for (int i = 0; i < Model.EmployeesFieldNames.GetLength(0); i++)
+        {
+            string fieldName = Model.EmployeesFieldNames[i, 0];
+            string title = Model.EmployeesFieldNames[i, 1];
+
+            if (Model.FieldToSortWithOrder.Contains(fieldName) && Model.FieldToSortWithOrder.Contains("asc"))
+            {
+                <td><a href="?sidx=@fieldName&sord=desc" style="color:#2E6E9E;">@title</a>@if (Model.FieldToSortWithOrder == fieldName + " asc") {<img src="@Url.Content("~/Content/Images/ArrowUp.png")" alt="" />}</td>
+            }
+            else
+            {
+                <td><a href="?sidx=@fieldName&sord=asc" style="color:#2E6E9E;">@title</a>@if (Model.FieldToSortWithOrder == fieldName + " desc") {<img src="@Url.Content("~/Content/Images/ArrowDown.png")" alt="" />}</td>
+            }
+        }
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+
+    @foreach (var item in Model.EmployeesData)
+    {
+        <tr style="color:#333333; background-color:@bgColor;">
+            <td align="right">@item.EmployeeID</td>
+            <td>@item.LastName</td>
+            <td>@item.FirstName</td>
+            <td>@item.Title</td>
+            <td>@item.TitleOfCourtesy</td>
+            <td>@(item.BirthDate.HasValue ? item.BirthDate.Value.ToShortDateString() : "")</td>
+            <td>@(item.HireDate.HasValue ? item.HireDate.Value.ToShortDateString() : "")</td>
+            <td>@item.Address</td>
+            <td>@item.City</td>
+            <td>@item.Region1</td>
+            <td>@item.PostalCode</td>
+            <td>@item.Country</td>
+            <td>@item.HomePhone</td>
+            <td>@item.Extension</td>
+            <td>@item.Notes</td>
+            <td align="right"><a href="/Employees/Details/@item.ReportsTo">@item.ReportsTo</a></td>
+            <td>@item.PhotoPath</td>
+            <td align="center" style="width:30px;">
+                <a href="Update/@item.EmployeeID" title="Click to edit"><img src="@Url.Content("~/Content/Images/Edit.gif")" alt="" style="border:none;" /></a>
+            </td>
+            <td align="center" style="width:30px;">
+                <input type="image" id="imgDelete1" title="Click to delete" src="@Url.Content("~/Content/Images/Delete.png")" onclick="deleteItem('@item.EmployeeID');" style="border-style:none;" />
+            </td>
+        </tr>
+
+        bgColor = bgColor == "#F7F6F3" ? "White" : "#F7F6F3";
+    }
+
+    <tr class="gridviewPagerStyle" align="center" style="background-color:#DFEFFC;">
+        <td colspan="19">
+            <table>
+                <tr>
+                    @if (Model.CurrentPage > Model.NumberOfPagesToShow)
+                    {
+                        <td><a href="?sidx=@Model.FieldToSort&sord=@Model.FieldSortOrder&page=1" style="color:#000000;">< First</a></td>
+                        <td><a href="?sidx=@Model.FieldToSort&sord=@Model.FieldSortOrder&page=@(Model.StartPage - 1)" style="color:#000000;">...</a></td>
+                    }
+
+                    @for (int pageNumber = Model.StartPage; pageNumber <= Model.EndPage; pageNumber++)
+                    {
+                        if (pageNumber == Model.CurrentPage)
+                        {
+                            <td><span style="font-size:12px;">@pageNumber</span></td>
+                        }
+                        else
+                        {
+                            <td><a href="?sidx=@Model.FieldToSort&sord=@Model.FieldSortOrder&page=@pageNumber" style="color:#000000;">@pageNumber</a></td>
+                        }
+                    }
+
+                    @if (Model.EndPage < Model.TotalPages)
+                    {
+                        <td><a href="?sidx=@Model.FieldToSort&sord=@Model.FieldSortOrder&page=@(Model.EndPage + 1)" style="color:#000000;">...</a></td>
+                        <td><a href="?sidx=@Model.FieldToSort&sord=@Model.FieldSortOrder&page=@Model.TotalPages" style="color:#000000;">Last ></a></td>
+                    }
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

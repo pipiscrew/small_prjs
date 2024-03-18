@@ -1,0 +1,141 @@
+@using north.Domain;
+@model north.ViewModels.EmployeesViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $(function () {
+        $('.datetextbox').datepicker({dateFormat: 'm/d/yy'});
+    });
+</script>
+
+<h2>Unbound Record</h2>
+<div>
+@using (Html.BeginForm(@Model.ViewActionName, @Model.ViewControllerName, new { model = this.Model, returnUrl = @Model.ViewReturnUrl }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.LastName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.LastName)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.LastName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.FirstName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.FirstName)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.FirstName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Title):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.Title)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Title)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.TitleOfCourtesy):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.TitleOfCourtesy)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.TitleOfCourtesy)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.BirthDate):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.BirthDate, new { @class = "datetextbox" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.BirthDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.HireDate):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.EmployeesModel.HireDate, new { @class = "datetextbox" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.HireDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Address):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.Address)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Address)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.City):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.City)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.City)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Region1):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.Region1)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Region1)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.PostalCode):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.PostalCode)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.PostalCode)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Country):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.Country)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Country)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.HomePhone):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.HomePhone)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.HomePhone)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Extension):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.Extension)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Extension)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.Notes):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.Notes)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.Notes)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.ReportsTo):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.DropDownListFor(vm => vm.EmployeesModel.ReportsTo, new SelectList("", ""), "Select One")</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.ReportsTo)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.EmployeesModel.PhotoPath):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.EmployeesModel.PhotoPath)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.EmployeesModel.PhotoPath)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input type="submit" value="Submit" class="button-150" />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <input type="button" value="Cancel" onclick="window.location = '@Request.UrlReferrer.ToString()'; return false;" class="button-100" />
+                        }
+                        else
+                        {
+                            <input type="button" value="Cancel" onclick="window.location = '@Url.Action("Index", "Home")'; return false;" class="button-100" />
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>

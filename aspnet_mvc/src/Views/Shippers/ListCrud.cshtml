@@ -1,0 +1,140 @@
+@model north.ViewModels.ShippersViewModel
+@{
+    ViewBag.Title = "List of Shippers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "Shippers";
+        var urlAndMethod = "/Shippers/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#shipperID").attr('disabled', true);
+        }
+
+        function editItem(shipperID, companyName, phone) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(shipperID);
+
+            $("#shipperID").attr('disabled', false);
+            $("#shipperID").val(shipperID);
+            $("#companyName").val(companyName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#phone").val(phone.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#shipperID").val('');
+            $("#companyName").val('');
+            $("#phone").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/ShippersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Shipper ID','Company Name','Phone', '', ''],
+                colModel: [
+                    { name: 'ShipperID', index: 'ShipperID', align: 'right' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left' },
+                    { name: 'Phone', index: 'Phone', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ShipperID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Shippers',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var shipperID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShipperID');
+                        var companyName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CompanyName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var phone = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Phone').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + shipperID + "','" + companyName + "','" + phone + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New Shippers">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr id="trPrimaryKey">
+                    <td class="editor-label">@Html.LabelFor(vm => vm.ShippersModel.ShipperID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.ShippersModel.ShipperID, new { @id = "shipperID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.ShippersModel.ShipperID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.ShippersModel.CompanyName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.ShippersModel.CompanyName, new { @id = "companyName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.ShippersModel.CompanyName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.ShippersModel.Phone):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.ShippersModel.Phone, new { @id = "phone" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.ShippersModel.Phone)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Shippers" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New Shippers</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

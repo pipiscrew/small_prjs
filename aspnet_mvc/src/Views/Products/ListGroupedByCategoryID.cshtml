@@ -1,0 +1,57 @@
+@{
+    ViewBag.Title = "List of Products By Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/ProductsApi/SelectSkipTakeGroupedByCategoryID/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Product ID','Product Name','Supplier ID','Category ID','Quantity Per Unit','Unit Price','Units In Stock','Units On Order','Reorder Level','Discontinued', ''],
+                colModel: [
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'ProductName', index: 'ProductName', align: 'left' },
+                    { name: 'SupplierID', index: 'SupplierID', align: 'right' },
+                    { name: 'CategoryID', index: 'CategoryID', align: 'right' },
+                    { name: 'QuantityPerUnit', index: 'QuantityPerUnit', align: 'left' },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'UnitsInStock', index: 'UnitsInStock', align: 'right', formatter: 'integer' },
+                    { name: 'UnitsOnOrder', index: 'UnitsOnOrder', align: 'right', formatter: 'integer' },
+                    { name: 'ReorderLevel', index: 'ReorderLevel', align: 'right', formatter: 'integer' },
+                    { name: 'Discontinued', index: 'Discontinued', align: 'center', formatter: 'checkbox' },
+                    { name: 'CategoryName', index: 'CategoryName' }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ProductID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Products By Categories',
+                height: '100%',
+                width: '1200',
+                grouping: true,
+                groupingView: {
+                    groupField: ['CategoryName'],
+                    groupColumnShow: [false],
+                    groupText: ['<b>{0} ({1} items)</b>'],
+                    groupDataSorted: true
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

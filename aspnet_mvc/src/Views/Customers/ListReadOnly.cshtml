@@ -1,0 +1,50 @@
+@{
+    ViewBag.Title = "List of Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CustomersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Customer ID','Company Name','Contact Name','Contact Title','Address','City','Region1','Postal Code','Country','Phone','Fax'],
+                colModel: [
+                    { name: 'CustomerID', index: 'CustomerID', align: 'left' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left' },
+                    { name: 'ContactName', index: 'ContactName', align: 'left' },
+                    { name: 'ContactTitle', index: 'ContactTitle', align: 'left' },
+                    { name: 'Address', index: 'Address', align: 'left' },
+                    { name: 'City', index: 'City', align: 'left' },
+                    { name: 'Region1', index: 'Region1', align: 'left' },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left' },
+                    { name: 'Country', index: 'Country', align: 'left' },
+                    { name: 'Phone', index: 'Phone', align: 'left' },
+                    { name: 'Fax', index: 'Fax', align: 'left' }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'CustomerID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Customers',
+                height: '100%',
+                width: '1200'
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

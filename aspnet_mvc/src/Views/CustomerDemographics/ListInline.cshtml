@@ -1,0 +1,95 @@
+@using System.Text.RegularExpressions;
+@model north.ViewModels.CustomerDemographicsViewModel
+@{
+    ViewBag.Title = "List of Customer Demographics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listinline.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/CustomerDemographics/Delete/';
+        var errorMessage = '';
+
+        function getSerializedData(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+
+            var serializedData =
+                "'CustomerTypeID':'" + $('#' + currentId + '_CustomerTypeID').val() + "'," +
+                "'CustomerDesc':'" + $('#' + currentId + '_CustomerDesc').val() + "'";
+
+            return serializedData;
+        }
+
+        function isDataValid(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+        
+            var customerTypeID = $('#' + currentId + '_CustomerTypeID').val();
+
+            // validation
+            if (customerTypeID == '') errorMessage += '- Customer Type ID is required.<br/>';
+            if (customerTypeID.length > 10) errorMessage += '- Customer Type ID must be 10 characters or less.<br/>';
+
+            if (errorMessage == '')
+                return true;
+            else
+                return false;
+        }
+
+        $(function () {
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CustomerDemographicsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Customer Type ID','Customer Desc', '', ''],
+                colModel: [
+                    { name: 'CustomerTypeID', index: 'CustomerTypeID', align: 'left' },
+                    { name: 'CustomerDesc', index: 'CustomerDesc', align: 'left', editable: true },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'CustomerTypeID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Customer Demographics',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        editLink = "<a id='editLink" + currentid + "' href='#' onclick=\"editRow('" + currentid + "');\"><img src='/Content/Images/Edit.gif' style='border:none;' /></a>" +
+                                "<a id='saveLink" + currentid + "' style='display:none;' href='#' onclick=\"saveRow('" + currentid + "', 'CustomerDemographics');\"><img src='/Content/Images/Checked.gif' style='border:none;' /></a>";
+
+                        deleteLink = "<a href='#' id='deleteLink" + currentid + "' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>" +
+                            "<a id='cancelLink" + currentid + "' style='display:none;' href='#' onclick=\"cancelRow('" + currentid + "');\"><img src='/Content/Images/Unchecked.gif' style='border:none;' /></a>";
+
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" id="addLink1" onclick="addRow()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New CustomerDemographics" style="border: none;" /></a>&nbsp;<a href="#" id="addLink2" onclick="addRow()">Add New CustomerDemographics</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

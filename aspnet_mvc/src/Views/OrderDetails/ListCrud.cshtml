@@ -1,0 +1,162 @@
+@model north.ViewModels.OrderDetailsViewModel
+@{
+    ViewBag.Title = "List of Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "OrderDetails";
+        var urlAndMethod = "/OrderDetails/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+        }
+
+        function editItem(orderID, productID, unitPrice, quantity, discount) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(orderID, productID);
+
+            $("#orderID").attr('readonly', true);
+            $("#productID").attr('readonly', true);
+            $("#orderID").val(orderID);
+            $("#productID").val(productID);
+            $("#unitPrice").val(unitPrice);
+            $("#quantity").val(quantity);
+            $("#discount").val(discount);
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#orderID").val('');
+            $("#productID").val('');
+            $("#unitPrice").val('');
+            $("#quantity").val('');
+            $("#discount").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/OrderDetailsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Product ID','Unit Price','Quantity','Discount', '', ''],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'right' },
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'Quantity', index: 'Quantity', align: 'right', formatter: 'integer' },
+                    { name: 'Discount', index: 'Discount', align: 'left', formatter: 'currency', formatoptions: { decimalPlaces: 2 } },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Order Details',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var orderID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'OrderID');
+                        var productID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ProductID');
+                        var unitPrice = jQuery("#list-grid").jqGrid('getCell', ids[i], 'UnitPrice');
+                        var quantity = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Quantity');
+                        var discount = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Discount');
+                        var id0 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'OrderID');
+                        var id1 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ProductID');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + orderID + "','" + productID + "','" + unitPrice + "','" + quantity + "','" + discount + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + id0 + "/" + id1 + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New OrderDetails">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrderDetailsModel.OrderID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.DropDownListFor(vm => vm.OrderDetailsModel.OrderID, new SelectList(Model.OrdersDropDownListData, "OrderID", "ShipName"), "Select One", new Dictionary<string, object> {{ "id", "orderID" },  { "data-val", "true" }, { "data-val-required", "Order ID is required!" }})</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrderDetailsModel.OrderID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrderDetailsModel.ProductID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.DropDownListFor(vm => vm.OrderDetailsModel.ProductID, new SelectList(Model.ProductsDropDownListData, "ProductID", "ProductName"), "Select One", new Dictionary<string, object> {{ "id", "productID" },  { "data-val", "true" }, { "data-val-required", "Product ID is required!" }})</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrderDetailsModel.ProductID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrderDetailsModel.UnitPrice):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrderDetailsModel.UnitPrice, new { @id = "unitPrice" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrderDetailsModel.UnitPrice)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrderDetailsModel.Quantity):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrderDetailsModel.Quantity, new { @id = "quantity" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrderDetailsModel.Quantity)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrderDetailsModel.Discount):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrderDetailsModel.Discount, new { @id = "discount" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrderDetailsModel.Discount)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New OrderDetails" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New OrderDetails</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

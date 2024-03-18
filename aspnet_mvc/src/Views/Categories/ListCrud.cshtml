@@ -1,0 +1,140 @@
+@model north.ViewModels.CategoriesViewModel
+@{
+    ViewBag.Title = "List of Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "Categories";
+        var urlAndMethod = "/Categories/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#categoryID").attr('disabled', true);
+        }
+
+        function editItem(categoryID, categoryName, description) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(categoryID);
+
+            $("#categoryID").attr('disabled', false);
+            $("#categoryID").val(categoryID);
+            $("#categoryName").val(categoryName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#description").val(description.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#categoryID").val('');
+            $("#categoryName").val('');
+            $("#description").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CategoriesApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Category ID','Category Name','Description', '', ''],
+                colModel: [
+                    { name: 'CategoryID', index: 'CategoryID', align: 'right' },
+                    { name: 'CategoryName', index: 'CategoryName', align: 'left' },
+                    { name: 'Description', index: 'Description', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'CategoryID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Categories',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var categoryID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CategoryID');
+                        var categoryName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CategoryName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var description = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Description').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + categoryID + "','" + categoryName + "','" + description + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New Categories">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr id="trPrimaryKey">
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CategoriesModel.CategoryID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CategoriesModel.CategoryID, new { @id = "categoryID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CategoriesModel.CategoryID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CategoriesModel.CategoryName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CategoriesModel.CategoryName, new { @id = "categoryName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CategoriesModel.CategoryName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CategoriesModel.Description):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CategoriesModel.Description, new { @id = "description" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CategoriesModel.Description)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Categories" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New Categories</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

@@ -1,0 +1,160 @@
+@using System.Text.RegularExpressions;
+@model north.ViewModels.OrdersViewModel
+@{
+    ViewBag.Title = "List of Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string customerIDSelectValues = ":";
+    string employeeIDSelectValues = ":";
+    string shipViaSelectValues = ":";
+
+    foreach (var item in Model.CustomersDropDownListData.OrderBy(c => c.CustomerID))
+    {
+        customerIDSelectValues += ";" + item.CustomerID + ":" + item.CustomerID + " - " + Regex.Replace(item.CompanyName == null ? "" : item.CompanyName, "[^a-zA-Z0-9 -]", "");
+    }
+
+    foreach (var item in Model.EmployeesDropDownListData.OrderBy(e1 => e1.EmployeeID))
+    {
+        employeeIDSelectValues += ";" + item.EmployeeID + ":" + item.EmployeeID + " - " + Regex.Replace(item.LastName == null ? "" : item.LastName, "[^a-zA-Z0-9 -]", "");
+    }
+
+    foreach (var item in Model.ShippersDropDownListData.OrderBy(s => s.ShipperID))
+    {
+        shipViaSelectValues += ";" + item.ShipperID + ":" + item.ShipperID + " - " + Regex.Replace(item.CompanyName == null ? "" : item.CompanyName, "[^a-zA-Z0-9 -]", "");
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listinline.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/Orders/Delete/';
+        var errorMessage = '';
+
+        function getSerializedData(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+
+            var serializedData =
+                "'OrderID':'" + rowData.OrderID + "'," +
+                "'CustomerID':'" + $('#' + currentId + '_CustomerID').val() + "'," +
+                "'EmployeeID':'" + $('#' + currentId + '_EmployeeID').val() + "'," +
+                "'OrderDate':'" + $('#' + currentId + '_OrderDate').val() + "'," +
+                "'RequiredDate':'" + $('#' + currentId + '_RequiredDate').val() + "'," +
+                "'ShippedDate':'" + $('#' + currentId + '_ShippedDate').val() + "'," +
+                "'ShipVia':'" + $('#' + currentId + '_ShipVia').val() + "'," +
+                "'Freight':'" + $('#' + currentId + '_Freight').val() + "'," +
+                "'ShipName':'" + $('#' + currentId + '_ShipName').val() + "'," +
+                "'ShipAddress':'" + $('#' + currentId + '_ShipAddress').val() + "'," +
+                "'ShipCity':'" + $('#' + currentId + '_ShipCity').val() + "'," +
+                "'ShipRegion':'" + $('#' + currentId + '_ShipRegion').val() + "'," +
+                "'ShipPostalCode':'" + $('#' + currentId + '_ShipPostalCode').val() + "'," +
+                "'ShipCountry':'" + $('#' + currentId + '_ShipCountry').val() + "'";
+
+            return serializedData;
+        }
+
+        function isDataValid(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+        
+            var customerID = $('#' + currentId + '_CustomerID').val();
+            var orderDate = $('#' + currentId + '_OrderDate').val();
+            var requiredDate = $('#' + currentId + '_RequiredDate').val();
+            var shippedDate = $('#' + currentId + '_ShippedDate').val();
+            var freight = $('#' + currentId + '_Freight').val();
+            var shipName = $('#' + currentId + '_ShipName').val();
+            var shipAddress = $('#' + currentId + '_ShipAddress').val();
+            var shipCity = $('#' + currentId + '_ShipCity').val();
+            var shipRegion = $('#' + currentId + '_ShipRegion').val();
+            var shipPostalCode = $('#' + currentId + '_ShipPostalCode').val();
+            var shipCountry = $('#' + currentId + '_ShipCountry').val();
+
+            // validation
+            if (customerID.length > 5) errorMessage += '- Customer ID must be 5 characters or less.<br/>';
+            if (orderDate != '' && !isDate(orderDate)) errorMessage += '- Order Date must be a valid date.<br/>';
+            if (requiredDate != '' && !isDate(requiredDate)) errorMessage += '- Required Date must be a valid date.<br/>';
+            if (shippedDate != '' && !isDate(shippedDate)) errorMessage += '- Shipped Date must be a valid date.<br/>';
+            if (freight != '' && !isDecimal(freight)) errorMessage += '- Freight must be a decimal.<br/>';
+            if (shipName.length > 40) errorMessage += '- Ship Name must be 40 characters or less.<br/>';
+            if (shipAddress.length > 60) errorMessage += '- Ship Address must be 60 characters or less.<br/>';
+            if (shipCity.length > 15) errorMessage += '- Ship City must be 15 characters or less.<br/>';
+            if (shipRegion.length > 15) errorMessage += '- Ship Region must be 15 characters or less.<br/>';
+            if (shipPostalCode.length > 10) errorMessage += '- Ship Postal Code must be 10 characters or less.<br/>';
+            if (shipCountry.length > 15) errorMessage += '- Ship Country must be 15 characters or less.<br/>';
+
+            if (errorMessage == '')
+                return true;
+            else
+                return false;
+        }
+
+        $(function () {
+            var customerIDSelectValues = "@customerIDSelectValues";
+            var employeeIDSelectValues = "@employeeIDSelectValues";
+            var shipViaSelectValues = "@shipViaSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/OrdersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Customer ID','Employee ID','Order Date','Required Date','Shipped Date','Ship Via','Freight','Ship Name','Ship Address','Ship City','Ship Region','Ship Postal Code','Ship Country', '', ''],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'right' },
+                    { name: 'CustomerID', index: 'CustomerID', align: 'left', editable: true, formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: customerIDSelectValues } },
+                    { name: 'EmployeeID', index: 'EmployeeID', align: 'left', editable: true, formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: employeeIDSelectValues } },
+                    { name: 'OrderDate', index: 'OrderDate', align: 'left', editable: true, sorttype: "date", editoptions: { size: 20,  dataInit: function (el) { $(el).datepicker({ dateFormat: 'm/d/yy' }); }} },
+                    { name: 'RequiredDate', index: 'RequiredDate', align: 'left', editable: true, sorttype: "date", editoptions: { size: 20,  dataInit: function (el) { $(el).datepicker({ dateFormat: 'm/d/yy' }); }} },
+                    { name: 'ShippedDate', index: 'ShippedDate', align: 'left', editable: true, sorttype: "date", editoptions: { size: 20,  dataInit: function (el) { $(el).datepicker({ dateFormat: 'm/d/yy' }); }} },
+                    { name: 'ShipVia', index: 'ShipVia', align: 'left', editable: true, formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: shipViaSelectValues } },
+                    { name: 'Freight', index: 'Freight', align: 'right', editable: true, formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'ShipName', index: 'ShipName', align: 'left', editable: true },
+                    { name: 'ShipAddress', index: 'ShipAddress', align: 'left', editable: true },
+                    { name: 'ShipCity', index: 'ShipCity', align: 'left', editable: true },
+                    { name: 'ShipRegion', index: 'ShipRegion', align: 'left', editable: true },
+                    { name: 'ShipPostalCode', index: 'ShipPostalCode', align: 'left', editable: true },
+                    { name: 'ShipCountry', index: 'ShipCountry', align: 'left', editable: true },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Orders',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        editLink = "<a id='editLink" + currentid + "' href='#' onclick=\"editRow('" + currentid + "');\"><img src='/Content/Images/Edit.gif' style='border:none;' /></a>" +
+                                "<a id='saveLink" + currentid + "' style='display:none;' href='#' onclick=\"saveRow('" + currentid + "', 'Orders');\"><img src='/Content/Images/Checked.gif' style='border:none;' /></a>";
+
+                        deleteLink = "<a href='#' id='deleteLink" + currentid + "' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>" +
+                            "<a id='cancelLink" + currentid + "' style='display:none;' href='#' onclick=\"cancelRow('" + currentid + "');\"><img src='/Content/Images/Unchecked.gif' style='border:none;' /></a>";
+
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" id="addLink1" onclick="addRow()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Orders" style="border: none;" /></a>&nbsp;<a href="#" id="addLink2" onclick="addRow()">Add New Orders</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

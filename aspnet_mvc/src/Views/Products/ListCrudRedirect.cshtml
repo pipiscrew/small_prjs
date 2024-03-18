@@ -1,0 +1,70 @@
+@{
+    ViewBag.Title = "List of Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listcrudredirect.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/Products/Delete/';
+
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/ProductsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Product ID','Product Name','Supplier ID','Category ID','Quantity Per Unit','Unit Price','Units In Stock','Units On Order','Reorder Level','Discontinued', '', ''],
+                colModel: [
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'ProductName', index: 'ProductName', align: 'left' },
+                    { name: 'SupplierID', index: 'SupplierID', align: 'right' },
+                    { name: 'CategoryID', index: 'CategoryID', align: 'right' },
+                    { name: 'QuantityPerUnit', index: 'QuantityPerUnit', align: 'left' },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'UnitsInStock', index: 'UnitsInStock', align: 'right', formatter: 'integer' },
+                    { name: 'UnitsOnOrder', index: 'UnitsOnOrder', align: 'right', formatter: 'integer' },
+                    { name: 'ReorderLevel', index: 'ReorderLevel', align: 'right', formatter: 'integer' },
+                    { name: 'Discontinued', index: 'Discontinued', align: 'center', formatter: 'checkbox' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ProductID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Products',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        editLink = "<a href='/Products/Update/" + currentid + "'><img src='/Content/Images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="@Url.Action("Add", "Products")"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Products" style="border: none;" /></a>&nbsp;@Html.ActionLink("Add New Products", "Add", "Products")
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

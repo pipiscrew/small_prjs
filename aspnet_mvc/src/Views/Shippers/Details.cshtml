@@ -1,0 +1,41 @@
+@model north.ViewModels.ShippersViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Record Details</h2>
+<div>
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ShippersModel.ShipperID):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ShippersModel.ShipperID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ShippersModel.CompanyName):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ShippersModel.CompanyName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ShippersModel.Phone):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ShippersModel.Phone)</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <a href="@Request.UrlReferrer.ToString()">Return</a>
+                        }
+                        else
+                        {
+                            <a href="/Home/Index">Return</a>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</div>

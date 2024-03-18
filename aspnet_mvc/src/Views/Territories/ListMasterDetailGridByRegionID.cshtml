@@ -1,0 +1,73 @@
+@{
+    ViewBag.Title = "List of Territories By Region";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/RegionApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Region ID','Region Description'],
+                colModel: [
+                    { name: 'RegionID', index: 'RegionID', align: 'right' },
+                    { name: 'RegionDescription', index: 'RegionDescription', align: 'left' },
+                ],
+                pager: $('#list-pager'),
+                rowNum: 5,
+                rowList: [5, 10, 20, 50],
+                sortname: 'RegionID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Territories By Region',
+                height: '100%',
+                width: '1200',
+                multiselect: false,
+                onSelectRow: function (ids) {
+                    if (ids != null) {
+                        jQuery("#list-grid-detail").jqGrid('setGridParam', { url: "http://localhost:27229/api/TerritoriesApi/SelectTerritoriesCollectionByRegionID/?id="  + ids, page: 1 });
+                        jQuery("#list-grid-detail").jqGrid('setCaption', "List of Territories By Region ID: " + ids)
+                        .trigger('reloadGrid');
+                    }
+                }
+            });
+        });
+
+        $(function () {
+            $('#list-grid-detail').jqGrid({
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Territory ID','Territory Description','Region ID'],
+                colModel: [
+                    { name: 'TerritoryID', index: 'TerritoryID', align: 'left' },
+                    { name: 'TerritoryDescription', index: 'TerritoryDescription', align: 'left' },
+                    { name: 'RegionID', index: 'RegionID', align: 'right' },
+                ],
+                pager: $('#list-pager-detail'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'TerritoryID',
+                sortorder: "asc",
+                viewrecords: true,
+                height: '100%',
+                width: '1200'
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>
+<br /><br />
+<table id="list-grid-detail"></table>
+<div id="list-pager-detail"></div>

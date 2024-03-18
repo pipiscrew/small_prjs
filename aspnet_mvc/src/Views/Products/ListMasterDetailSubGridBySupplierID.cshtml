@@ -1,0 +1,89 @@
+@{
+    ViewBag.Title = "List of Products By Suppliers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/SuppliersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Supplier ID','Company Name','Contact Name','Contact Title','Address','City','Region1','Postal Code','Country','Phone','Fax','Home Page'],
+                colModel: [
+                    { name: 'SupplierID', index: 'SupplierID', align: 'right' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left' },
+                    { name: 'ContactName', index: 'ContactName', align: 'left' },
+                    { name: 'ContactTitle', index: 'ContactTitle', align: 'left' },
+                    { name: 'Address', index: 'Address', align: 'left' },
+                    { name: 'City', index: 'City', align: 'left' },
+                    { name: 'Region1', index: 'Region1', align: 'left' },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left' },
+                    { name: 'Country', index: 'Country', align: 'left' },
+                    { name: 'Phone', index: 'Phone', align: 'left' },
+                    { name: 'Fax', index: 'Fax', align: 'left' },
+                    { name: 'HomePage', index: 'HomePage', align: 'left' },
+                ],
+                pager: $('#list-pager'),
+                rowNum: 5,
+                rowList: [5, 10, 20, 50],
+                sortname: 'SupplierID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Products By Suppliers',
+                height: '100%',
+                width: '1200',
+                multiselect: false,
+                subGrid: true,
+                subGridRowExpanded: SubGridDetail
+            });
+        });
+
+        function SubGridDetail(subgrid_id, row_id) {
+            var subgrid_table_id, pager_id;
+            subgrid_table_id = subgrid_id + '_t';
+            pager_id = 'p_' + subgrid_table_id;
+
+            $('#' + subgrid_id).html("<div style='padding: 20px;'><table id='" + subgrid_table_id + "'></table><div id='" + pager_id + "'></div></div>");
+
+            $('#' + subgrid_table_id).jqGrid({
+                url: "http://localhost:27229/api/ProductsApi/SelectProductsCollectionBySupplierID/?id=" + row_id,
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Product ID','Product Name','Supplier ID','Category ID','Quantity Per Unit','Unit Price','Units In Stock','Units On Order','Reorder Level','Discontinued'],
+                colModel: [
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'ProductName', index: 'ProductName', align: 'left' },
+                    { name: 'SupplierID', index: 'SupplierID', align: 'right' },
+                    { name: 'CategoryID', index: 'CategoryID', align: 'right' },
+                    { name: 'QuantityPerUnit', index: 'QuantityPerUnit', align: 'left' },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'UnitsInStock', index: 'UnitsInStock', align: 'right', formatter: 'integer' },
+                    { name: 'UnitsOnOrder', index: 'UnitsOnOrder', align: 'right', formatter: 'integer' },
+                    { name: 'ReorderLevel', index: 'ReorderLevel', align: 'right', formatter: 'integer' },
+                    { name: 'Discontinued', index: 'Discontinued', align: 'center', formatter: 'checkbox' },
+                ],
+                pager: pager_id,
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ProductID',
+                sortorder: "asc",
+                viewrecords: true,
+                height: '100%',
+                width: '1130'
+            });
+        }
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

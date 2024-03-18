@@ -1,0 +1,220 @@
+@model north.ViewModels.CustomersViewModel
+@{
+    ViewBag.Title = "List of Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "Customers";
+        var urlAndMethod = "/Customers/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#customerID").attr('readonly', false);
+        }
+
+        function editItem(customerID, companyName, contactName, contactTitle, address, city, region1, postalCode, country, phone, fax) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(customerID);
+
+            $("#customerID").attr('readonly', true);
+            $("#customerID").val(customerID.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#companyName").val(companyName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#contactName").val(contactName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#contactTitle").val(contactTitle.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#address").val(address.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#city").val(city.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#region1").val(region1.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#postalCode").val(postalCode.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#country").val(country.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#phone").val(phone.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#fax").val(fax.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#customerID").val('');
+            $("#companyName").val('');
+            $("#contactName").val('');
+            $("#contactTitle").val('');
+            $("#address").val('');
+            $("#city").val('');
+            $("#region1").val('');
+            $("#postalCode").val('');
+            $("#country").val('');
+            $("#phone").val('');
+            $("#fax").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CustomersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Customer ID','Company Name','Contact Name','Contact Title','Address','City','Region1','Postal Code','Country','Phone','Fax', '', ''],
+                colModel: [
+                    { name: 'CustomerID', index: 'CustomerID', align: 'left' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left' },
+                    { name: 'ContactName', index: 'ContactName', align: 'left' },
+                    { name: 'ContactTitle', index: 'ContactTitle', align: 'left' },
+                    { name: 'Address', index: 'Address', align: 'left' },
+                    { name: 'City', index: 'City', align: 'left' },
+                    { name: 'Region1', index: 'Region1', align: 'left' },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left' },
+                    { name: 'Country', index: 'Country', align: 'left' },
+                    { name: 'Phone', index: 'Phone', align: 'left' },
+                    { name: 'Fax', index: 'Fax', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'CustomerID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Customers',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var customerID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CustomerID').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var companyName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CompanyName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var contactName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ContactName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var contactTitle = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ContactTitle').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var address = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Address').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var city = jQuery("#list-grid").jqGrid('getCell', ids[i], 'City').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var region1 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Region1').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var postalCode = jQuery("#list-grid").jqGrid('getCell', ids[i], 'PostalCode').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var country = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Country').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var phone = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Phone').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var fax = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Fax').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + customerID + "','" + companyName + "','" + contactName + "','" + contactTitle + "','" + address + "','" + city + "','" + region1 + "','" + postalCode + "','" + country + "','" + phone + "','" + fax + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New Customers">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.CustomerID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.CustomerID, new { @id = "customerID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.CustomerID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.CompanyName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.CompanyName, new { @id = "companyName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.CompanyName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.ContactName):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.ContactName, new { @id = "contactName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.ContactName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.ContactTitle):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.ContactTitle, new { @id = "contactTitle" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.ContactTitle)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.Address):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.Address, new { @id = "address" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.Address)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.City):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.City, new { @id = "city" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.City)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.Region1):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.Region1, new { @id = "region1" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.Region1)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.PostalCode):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.PostalCode, new { @id = "postalCode" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.PostalCode)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.Country):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.Country, new { @id = "country" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.Country)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.Phone):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.Phone, new { @id = "phone" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.Phone)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomersModel.Fax):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomersModel.Fax, new { @id = "fax" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomersModel.Fax)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Customers" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New Customers</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

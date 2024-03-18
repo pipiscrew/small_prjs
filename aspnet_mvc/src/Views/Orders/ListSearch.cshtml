@@ -1,0 +1,120 @@
+@model north.ViewModels.OrdersViewModel
+@{
+    ViewBag.Title = "List of Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string customerIDSelectValues = ":";
+    string employeeIDSelectValues = ":";
+    string shipViaSelectValues = ":";
+
+    foreach (var item in Model.CustomersDropDownListData.OrderBy(c => c.CustomerID))
+    {
+        customerIDSelectValues += ";" + item.CustomerID + ":" + item.CustomerID;
+    }
+
+    foreach (var item in Model.EmployeesDropDownListData.OrderBy(e1 => e1.EmployeeID))
+    {
+        employeeIDSelectValues += ";" + item.EmployeeID + ":" + item.EmployeeID;
+    }
+
+    foreach (var item in Model.ShippersDropDownListData.OrderBy(s => s.ShipperID))
+    {
+        shipViaSelectValues += ";" + item.ShipperID + ":" + item.ShipperID;
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listsearch.js")
+    @Scripts.Render("~/Scripts/jquery.searchFilter.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var checkBoxSelectValues = ":;True:<input type='checkbox' checked disabled /> True;False:<input type='checkbox' disabled /> False";
+            var customerIDSelectValues = "@customerIDSelectValues";
+            var employeeIDSelectValues = "@employeeIDSelectValues";
+            var shipViaSelectValues = "@shipViaSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/OrdersApi/SelectSkipTakeWithFilters/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Customer ID','Employee ID','Order Date','Required Date','Shipped Date','Ship Via','Freight','Ship Name','Ship Address','Ship City','Ship Region','Ship Postal Code','Ship Country'],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'right' },
+                    { name: 'CustomerID', index: 'CustomerID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: customerIDSelectValues } },
+                    { name: 'EmployeeID', index: 'EmployeeID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: employeeIDSelectValues } },
+                    { name: 'OrderDate', index: 'OrderDate', align: 'left', sorttype: "date" },
+                    { name: 'RequiredDate', index: 'RequiredDate', align: 'left', sorttype: "date" },
+                    { name: 'ShippedDate', index: 'ShippedDate', align: 'left', sorttype: "date" },
+                    { name: 'ShipVia', index: 'ShipVia', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: shipViaSelectValues } },
+                    { name: 'Freight', index: 'Freight', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'ShipName', index: 'ShipName', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'ShipAddress', index: 'ShipAddress', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'ShipCity', index: 'ShipCity', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'ShipRegion', index: 'ShipRegion', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'ShipPostalCode', index: 'ShipPostalCode', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'ShipCountry', index: 'ShipCountry', align: 'left', searchoptions: { sopt: ['cn']} }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Orders',
+                height: '100%',
+                width: '1200',
+                ignoreCase: true
+            }).jqGrid('navGrid', '#list-pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $('#list-grid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, beforeSearch: function () {
+                // verify entered data before searching
+                var postData = $('#list-grid').jqGrid('getGridParam', 'postData');
+                var searchData = $.parseJSON(postData.filters);
+                var isThereValidationErrors = false;
+                var validationErrors = "";
+
+                for (var iRule = 0; iRule < searchData.rules.length; iRule++) {
+                    var enteredValue = searchData.rules[iRule].data;
+
+                    if (searchData.rules[iRule].field == "OrderID" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Order ID must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "OrderDate" && !isDate(enteredValue)) {
+                        validationErrors += "  Order Date must be a valid date.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "RequiredDate" && !isDate(enteredValue)) {
+                        validationErrors += "  Required Date must be a valid date.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "ShippedDate" && !isDate(enteredValue)) {
+                        validationErrors += "  Shipped Date must be a valid date.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "Freight" && !isDecimal(enteredValue)) {
+                        validationErrors += "  Freight must be a valid decimal number.";
+                        isThereValidationErrors = true;
+                    }
+                }
+
+                if(isThereValidationErrors)
+                    alert($.trim(validationErrors));
+
+                return isThereValidationErrors;
+            }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

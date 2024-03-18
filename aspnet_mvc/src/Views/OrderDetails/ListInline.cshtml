@@ -1,0 +1,128 @@
+@using System.Text.RegularExpressions;
+@model north.ViewModels.OrderDetailsViewModel
+@{
+    ViewBag.Title = "List of Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string orderIDSelectValues = ":";
+    string productIDSelectValues = ":";
+
+    foreach (var item in Model.OrdersDropDownListData.OrderBy(o => o.OrderID))
+    {
+        orderIDSelectValues += ";" + item.OrderID + ":" + item.OrderID + " - " + Regex.Replace(item.ShipName == null ? "" : item.ShipName, "[^a-zA-Z0-9 -]", "");
+    }
+
+    foreach (var item in Model.ProductsDropDownListData.OrderBy(p => p.ProductID))
+    {
+        productIDSelectValues += ";" + item.ProductID + ":" + item.ProductID + " - " + Regex.Replace(item.ProductName == null ? "" : item.ProductName, "[^a-zA-Z0-9 -]", "");
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listinline.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/OrderDetails/Delete/';
+        var errorMessage = '';
+
+        function getSerializedData(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+
+            var serializedData =
+                "'OrderID':'" + $('#' + currentId + '_OrderID').val() + "'," +
+                "'ProductID':'" + $('#' + currentId + '_ProductID').val() + "'," +
+                "'UnitPrice':'" + $('#' + currentId + '_UnitPrice').val() + "'," +
+                "'Quantity':'" + $('#' + currentId + '_Quantity').val() + "'," +
+                "'Discount':'" + $('#' + currentId + '_Discount').val() + "'";
+
+            return serializedData;
+        }
+
+        function isDataValid(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+        
+            var orderID = $('#' + currentId + '_OrderID').val();
+            var productID = $('#' + currentId + '_ProductID').val();
+            var unitPrice = $('#' + currentId + '_UnitPrice').val();
+            var quantity = $('#' + currentId + '_Quantity').val();
+            var discount = $('#' + currentId + '_Discount').val();
+
+            // validation
+            if (orderID == '') errorMessage += '- Order ID is required.<br/>';
+            if (productID == '') errorMessage += '- Product ID is required.<br/>';
+            if (unitPrice == '') errorMessage += '- Unit Price is required.<br/>';
+            if (unitPrice != '' && !isDecimal(unitPrice)) errorMessage += '- Unit Price must be a decimal.<br/>';
+            if (quantity == '') errorMessage += '- Quantity is required.<br/>';
+            if (quantity != '' && !isNumeric(quantity)) errorMessage += '- Quantity must be an integer.<br/>';
+            if (discount == '') errorMessage += '- Discount is required.<br/>';
+            if (discount != '' && !isDecimal(discount)) errorMessage += '- Discount must be a decimal.<br/>';
+
+            if (errorMessage == '')
+                return true;
+            else
+                return false;
+        }
+
+        $(function () {
+            var orderIDSelectValues = "@orderIDSelectValues";
+            var productIDSelectValues = "@productIDSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/OrderDetailsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Product ID','Unit Price','Quantity','Discount', '', ''],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: orderIDSelectValues } },
+                    { name: 'ProductID', index: 'ProductID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: productIDSelectValues } },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', editable: true, formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'Quantity', index: 'Quantity', align: 'right', editable: true, formatter: 'integer' },
+                    { name: 'Discount', index: 'Discount', align: 'left', editable: true, formatter: 'currency', formatoptions: { decimalPlaces: 2 } },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Order Details',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var id0 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'OrderID');
+                        var id1 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ProductID');
+                        editLink = "<a id='editLink" + currentid + "' href='#' onclick=\"editRow('" + currentid + "');\"><img src='/Content/Images/Edit.gif' style='border:none;' /></a>" +
+                                "<a id='saveLink" + currentid + "' style='display:none;' href='#' onclick=\"saveRow('" + currentid + "', 'OrderDetails');\"><img src='/Content/Images/Checked.gif' style='border:none;' /></a>";
+
+                        deleteLink = "<a href='#' id='deleteLink" + currentid + "' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>" +
+                            "<a id='cancelLink" + currentid + "' style='display:none;' href='#' onclick=\"cancelRow('" + currentid + "');\"><img src='/Content/Images/Unchecked.gif' style='border:none;' /></a>";
+
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" id="addLink1" onclick="addRow()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New OrderDetails" style="border: none;" /></a>&nbsp;<a href="#" id="addLink2" onclick="addRow()">Add New OrderDetails</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

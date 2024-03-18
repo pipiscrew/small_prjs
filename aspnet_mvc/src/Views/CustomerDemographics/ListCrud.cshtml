@@ -1,0 +1,130 @@
+@model north.ViewModels.CustomerDemographicsViewModel
+@{
+    ViewBag.Title = "List of Customer Demographics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "CustomerDemographics";
+        var urlAndMethod = "/CustomerDemographics/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#customerTypeID").attr('readonly', false);
+        }
+
+        function editItem(customerTypeID, customerDesc) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(customerTypeID);
+
+            $("#customerTypeID").attr('readonly', true);
+            $("#customerTypeID").val(customerTypeID.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#customerDesc").val(customerDesc.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#customerTypeID").val('');
+            $("#customerDesc").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CustomerDemographicsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Customer Type ID','Customer Desc', '', ''],
+                colModel: [
+                    { name: 'CustomerTypeID', index: 'CustomerTypeID', align: 'left' },
+                    { name: 'CustomerDesc', index: 'CustomerDesc', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'CustomerTypeID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Customer Demographics',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var customerTypeID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CustomerTypeID').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var customerDesc = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CustomerDesc').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + customerTypeID + "','" + customerDesc + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New CustomerDemographics">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomerDemographicsModel.CustomerTypeID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomerDemographicsModel.CustomerTypeID, new { @id = "customerTypeID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomerDemographicsModel.CustomerTypeID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.CustomerDemographicsModel.CustomerDesc):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.CustomerDemographicsModel.CustomerDesc, new { @id = "customerDesc" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.CustomerDemographicsModel.CustomerDesc)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New CustomerDemographics" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New CustomerDemographics</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

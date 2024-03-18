@@ -1,0 +1,71 @@
+@model north.ViewModels.ShippersViewModel
+@{
+    ViewBag.Title = "List of Shippers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listsearch.js")
+    @Scripts.Render("~/Scripts/jquery.searchFilter.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var checkBoxSelectValues = ":;True:<input type='checkbox' checked disabled /> True;False:<input type='checkbox' disabled /> False";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/ShippersApi/SelectSkipTakeWithFilters/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Shipper ID','Company Name','Phone'],
+                colModel: [
+                    { name: 'ShipperID', index: 'ShipperID', align: 'right' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'Phone', index: 'Phone', align: 'left', searchoptions: { sopt: ['cn']} }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ShipperID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Shippers',
+                height: '100%',
+                width: '1200',
+                ignoreCase: true
+            }).jqGrid('navGrid', '#list-pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $('#list-grid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, beforeSearch: function () {
+                // verify entered data before searching
+                var postData = $('#list-grid').jqGrid('getGridParam', 'postData');
+                var searchData = $.parseJSON(postData.filters);
+                var isThereValidationErrors = false;
+                var validationErrors = "";
+
+                for (var iRule = 0; iRule < searchData.rules.length; iRule++) {
+                    var enteredValue = searchData.rules[iRule].data;
+
+                    if (searchData.rules[iRule].field == "ShipperID" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Shipper ID must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                }
+
+                if(isThereValidationErrors)
+                    alert($.trim(validationErrors));
+
+                return isThereValidationErrors;
+            }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

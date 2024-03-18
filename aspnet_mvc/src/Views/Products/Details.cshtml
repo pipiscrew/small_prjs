@@ -1,0 +1,69 @@
+@model north.ViewModels.ProductsViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Record Details</h2>
+<div>
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.ProductID):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ProductsModel.ProductID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.ProductName):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ProductsModel.ProductName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.SupplierID):</td>
+                    <td class="editor-field">@Html.DisplayFor(vm => vm.ProductsModel.SupplierID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.CategoryID):</td>
+                    <td class="editor-field">@Html.DisplayFor(vm => vm.ProductsModel.CategoryID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.QuantityPerUnit):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ProductsModel.QuantityPerUnit)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.UnitPrice):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ProductsModel.UnitPrice)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.UnitsInStock):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ProductsModel.UnitsInStock)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.UnitsOnOrder):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ProductsModel.UnitsOnOrder)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.ReorderLevel):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ProductsModel.ReorderLevel)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.ProductsModel.Discontinued):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.ProductsModel.Discontinued)</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <a href="@Request.UrlReferrer.ToString()">Return</a>
+                        }
+                        else
+                        {
+                            <a href="/Home/Index">Return</a>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</div>

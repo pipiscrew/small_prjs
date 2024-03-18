@@ -1,0 +1,71 @@
+@model north.ViewModels.CategoriesViewModel
+@{
+    ViewBag.Title = "List of Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listsearch.js")
+    @Scripts.Render("~/Scripts/jquery.searchFilter.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var checkBoxSelectValues = ":;True:<input type='checkbox' checked disabled /> True;False:<input type='checkbox' disabled /> False";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CategoriesApi/SelectSkipTakeWithFilters/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Category ID','Category Name','Description'],
+                colModel: [
+                    { name: 'CategoryID', index: 'CategoryID', align: 'right' },
+                    { name: 'CategoryName', index: 'CategoryName', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'Description', index: 'Description', align: 'left', search: false  }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'CategoryID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Categories',
+                height: '100%',
+                width: '1200',
+                ignoreCase: true
+            }).jqGrid('navGrid', '#list-pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $('#list-grid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, beforeSearch: function () {
+                // verify entered data before searching
+                var postData = $('#list-grid').jqGrid('getGridParam', 'postData');
+                var searchData = $.parseJSON(postData.filters);
+                var isThereValidationErrors = false;
+                var validationErrors = "";
+
+                for (var iRule = 0; iRule < searchData.rules.length; iRule++) {
+                    var enteredValue = searchData.rules[iRule].data;
+
+                    if (searchData.rules[iRule].field == "CategoryID" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Category ID must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                }
+
+                if(isThereValidationErrors)
+                    alert($.trim(validationErrors));
+
+                return isThereValidationErrors;
+            }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

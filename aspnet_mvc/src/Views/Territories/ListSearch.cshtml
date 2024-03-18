@@ -1,0 +1,75 @@
+@model north.ViewModels.TerritoriesViewModel
+@{
+    ViewBag.Title = "List of Territories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string regionIDSelectValues = ":";
+
+    foreach (var item in Model.RegionDropDownListData.OrderBy(r => r.RegionID))
+    {
+        regionIDSelectValues += ";" + item.RegionID + ":" + item.RegionID;
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listsearch.js")
+    @Scripts.Render("~/Scripts/jquery.searchFilter.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var checkBoxSelectValues = ":;True:<input type='checkbox' checked disabled /> True;False:<input type='checkbox' disabled /> False";
+            var regionIDSelectValues = "@regionIDSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/TerritoriesApi/SelectSkipTakeWithFilters/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Territory ID','Territory Description','Region ID'],
+                colModel: [
+                    { name: 'TerritoryID', index: 'TerritoryID', align: 'left' },
+                    { name: 'TerritoryDescription', index: 'TerritoryDescription', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'RegionID', index: 'RegionID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: regionIDSelectValues } }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'TerritoryID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Territories',
+                height: '100%',
+                width: '1200',
+                ignoreCase: true
+            }).jqGrid('navGrid', '#list-pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $('#list-grid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, beforeSearch: function () {
+                // verify entered data before searching
+                var postData = $('#list-grid').jqGrid('getGridParam', 'postData');
+                var searchData = $.parseJSON(postData.filters);
+                var isThereValidationErrors = false;
+                var validationErrors = "";
+
+                for (var iRule = 0; iRule < searchData.rules.length; iRule++) {
+                    var enteredValue = searchData.rules[iRule].data;
+
+                }
+
+                if(isThereValidationErrors)
+                    alert($.trim(validationErrors));
+
+                return isThereValidationErrors;
+            }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

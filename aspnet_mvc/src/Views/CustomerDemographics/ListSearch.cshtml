@@ -1,0 +1,53 @@
+@model north.ViewModels.CustomerDemographicsViewModel
+@{
+    ViewBag.Title = "List of Customer Demographics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listsearch.js")
+    @Scripts.Render("~/Scripts/jquery.searchFilter.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var checkBoxSelectValues = ":;True:<input type='checkbox' checked disabled /> True;False:<input type='checkbox' disabled /> False";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CustomerDemographicsApi/SelectSkipTakeWithFilters/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Customer Type ID','Customer Desc'],
+                colModel: [
+                    { name: 'CustomerTypeID', index: 'CustomerTypeID', align: 'left' },
+                    { name: 'CustomerDesc', index: 'CustomerDesc', align: 'left', search: false  }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'CustomerTypeID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Customer Demographics',
+                height: '100%',
+                width: '1200',
+                ignoreCase: true
+            }).jqGrid('navGrid', '#list-pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $('#list-grid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, beforeSearch: function () {
+                // no entered data to verify before searching
+                return false;
+            }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

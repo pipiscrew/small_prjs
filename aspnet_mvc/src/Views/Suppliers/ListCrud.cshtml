@@ -1,0 +1,230 @@
+@model north.ViewModels.SuppliersViewModel
+@{
+    ViewBag.Title = "List of Suppliers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "Suppliers";
+        var urlAndMethod = "/Suppliers/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#supplierID").attr('disabled', true);
+        }
+
+        function editItem(supplierID, companyName, contactName, contactTitle, address, city, region1, postalCode, country, phone, fax, homePage) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(supplierID);
+
+            $("#supplierID").attr('disabled', false);
+            $("#supplierID").val(supplierID);
+            $("#companyName").val(companyName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#contactName").val(contactName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#contactTitle").val(contactTitle.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#address").val(address.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#city").val(city.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#region1").val(region1.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#postalCode").val(postalCode.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#country").val(country.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#phone").val(phone.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#fax").val(fax.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#homePage").val(homePage.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#supplierID").val('');
+            $("#companyName").val('');
+            $("#contactName").val('');
+            $("#contactTitle").val('');
+            $("#address").val('');
+            $("#city").val('');
+            $("#region1").val('');
+            $("#postalCode").val('');
+            $("#country").val('');
+            $("#phone").val('');
+            $("#fax").val('');
+            $("#homePage").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/SuppliersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Supplier ID','Company Name','Contact Name','Contact Title','Address','City','Region1','Postal Code','Country','Phone','Fax','Home Page', '', ''],
+                colModel: [
+                    { name: 'SupplierID', index: 'SupplierID', align: 'right' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left' },
+                    { name: 'ContactName', index: 'ContactName', align: 'left' },
+                    { name: 'ContactTitle', index: 'ContactTitle', align: 'left' },
+                    { name: 'Address', index: 'Address', align: 'left' },
+                    { name: 'City', index: 'City', align: 'left' },
+                    { name: 'Region1', index: 'Region1', align: 'left' },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left' },
+                    { name: 'Country', index: 'Country', align: 'left' },
+                    { name: 'Phone', index: 'Phone', align: 'left' },
+                    { name: 'Fax', index: 'Fax', align: 'left' },
+                    { name: 'HomePage', index: 'HomePage', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'SupplierID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Suppliers',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var supplierID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'SupplierID');
+                        var companyName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CompanyName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var contactName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ContactName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var contactTitle = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ContactTitle').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var address = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Address').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var city = jQuery("#list-grid").jqGrid('getCell', ids[i], 'City').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var region1 = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Region1').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var postalCode = jQuery("#list-grid").jqGrid('getCell', ids[i], 'PostalCode').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var country = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Country').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var phone = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Phone').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var fax = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Fax').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var homePage = jQuery("#list-grid").jqGrid('getCell', ids[i], 'HomePage').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + supplierID + "','" + companyName + "','" + contactName + "','" + contactTitle + "','" + address + "','" + city + "','" + region1 + "','" + postalCode + "','" + country + "','" + phone + "','" + fax + "','" + homePage + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New Suppliers">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr id="trPrimaryKey">
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.SupplierID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.SupplierID, new { @id = "supplierID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.SupplierID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.CompanyName):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.CompanyName, new { @id = "companyName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.CompanyName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.ContactName):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.ContactName, new { @id = "contactName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.ContactName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.ContactTitle):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.ContactTitle, new { @id = "contactTitle" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.ContactTitle)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.Address):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.Address, new { @id = "address" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.Address)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.City):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.City, new { @id = "city" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.City)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.Region1):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.Region1, new { @id = "region1" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.Region1)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.PostalCode):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.PostalCode, new { @id = "postalCode" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.PostalCode)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.Country):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.Country, new { @id = "country" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.Country)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.Phone):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.Phone, new { @id = "phone" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.Phone)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.Fax):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.Fax, new { @id = "fax" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.Fax)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.SuppliersModel.HomePage):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.SuppliersModel.HomePage, new { @id = "homePage" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.SuppliersModel.HomePage)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Suppliers" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New Suppliers</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

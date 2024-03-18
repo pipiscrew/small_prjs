@@ -1,0 +1,44 @@
+@{
+    ViewBag.Title = "List of Customer Demographics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/CustomerDemographicsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Customer Type ID','Customer Desc'],
+                colModel: [
+                    { name: 'CustomerTypeID', index: 'CustomerTypeID', align: 'left' },
+                    { name: 'CustomerDesc', index: 'CustomerDesc', align: 'left' }
+                ],
+                pager: $('#list-pager'),
+                scroll: 1,
+                gridview: true,
+                rownumbers: true,
+                rownumWidth: 20,
+                rowNum: 20,
+                sortname: 'CustomerTypeID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Customer Demographics',
+                height: '250',
+                width: '1200'
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

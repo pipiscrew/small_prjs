@@ -1,0 +1,57 @@
+@using north.Domain;
+@model north.ViewModels.RegionViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $(function () {
+        $('.datetextbox').datepicker({dateFormat: 'm/d/yy'});
+    });
+</script>
+
+<h2>Unbound Record</h2>
+<div>
+@using (Html.BeginForm(@Model.ViewActionName, @Model.ViewControllerName, new { model = this.Model, returnUrl = @Model.ViewReturnUrl }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.RegionModel.RegionID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.RegionModel.RegionID)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.RegionModel.RegionID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.RegionModel.RegionDescription):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.EditorFor(vm => vm.RegionModel.RegionDescription)</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.RegionModel.RegionDescription)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input type="submit" value="Submit" class="button-150" />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <input type="button" value="Cancel" onclick="window.location = '@Request.UrlReferrer.ToString()'; return false;" class="button-100" />
+                        }
+                        else
+                        {
+                            <input type="button" value="Cancel" onclick="window.location = '@Url.Action("Index", "Home")'; return false;" class="button-100" />
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>

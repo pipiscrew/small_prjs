@@ -1,0 +1,101 @@
+@model north.ViewModels.EmployeesViewModel
+@{
+    ViewBag.Title = "List of Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string reportsToSelectValues = ":";
+
+    foreach (var item in Model.EmployeesDropDownListData.OrderBy(e1 => e1.EmployeeID))
+    {
+        reportsToSelectValues += ";" + item.EmployeeID + ":" + item.EmployeeID;
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listsearch.js")
+    @Scripts.Render("~/Scripts/jquery.searchFilter.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var checkBoxSelectValues = ":;True:<input type='checkbox' checked disabled /> True;False:<input type='checkbox' disabled /> False";
+            var reportsToSelectValues = "@reportsToSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/EmployeesApi/SelectSkipTakeWithFilters/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Employee ID','Last Name','First Name','Title','Title Of Courtesy','Birth Date','Hire Date','Address','City','Region1','Postal Code','Country','Home Phone','Extension','Notes','Reports To','Photo Path'],
+                colModel: [
+                    { name: 'EmployeeID', index: 'EmployeeID', align: 'right' },
+                    { name: 'LastName', index: 'LastName', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'FirstName', index: 'FirstName', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'Title', index: 'Title', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'TitleOfCourtesy', index: 'TitleOfCourtesy', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'BirthDate', index: 'BirthDate', align: 'left', sorttype: "date" },
+                    { name: 'HireDate', index: 'HireDate', align: 'left', sorttype: "date" },
+                    { name: 'Address', index: 'Address', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'City', index: 'City', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'Region1', index: 'Region1', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'Country', index: 'Country', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'HomePhone', index: 'HomePhone', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'Extension', index: 'Extension', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'Notes', index: 'Notes', align: 'left', search: false  },
+                    { name: 'ReportsTo', index: 'ReportsTo', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: reportsToSelectValues } },
+                    { name: 'PhotoPath', index: 'PhotoPath', align: 'left', searchoptions: { sopt: ['cn']} }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'EmployeeID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Employees',
+                height: '100%',
+                width: '1200',
+                ignoreCase: true
+            }).jqGrid('navGrid', '#list-pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $('#list-grid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, beforeSearch: function () {
+                // verify entered data before searching
+                var postData = $('#list-grid').jqGrid('getGridParam', 'postData');
+                var searchData = $.parseJSON(postData.filters);
+                var isThereValidationErrors = false;
+                var validationErrors = "";
+
+                for (var iRule = 0; iRule < searchData.rules.length; iRule++) {
+                    var enteredValue = searchData.rules[iRule].data;
+
+                    if (searchData.rules[iRule].field == "EmployeeID" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Employee ID must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "BirthDate" && !isDate(enteredValue)) {
+                        validationErrors += "  Birth Date must be a valid date.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "HireDate" && !isDate(enteredValue)) {
+                        validationErrors += "  Hire Date must be a valid date.";
+                        isThereValidationErrors = true;
+                    }
+                }
+
+                if(isThereValidationErrors)
+                    alert($.trim(validationErrors));
+
+                return isThereValidationErrors;
+            }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

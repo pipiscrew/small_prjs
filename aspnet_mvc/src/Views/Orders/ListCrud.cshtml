@@ -1,0 +1,250 @@
+@model north.ViewModels.OrdersViewModel
+@{
+    ViewBag.Title = "List of Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "Orders";
+        var urlAndMethod = "/Orders/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#orderID").attr('disabled', true);
+        }
+
+        function editItem(orderID, customerID, employeeID, orderDate, requiredDate, shippedDate, shipVia, freight, shipName, shipAddress, shipCity, shipRegion, shipPostalCode, shipCountry) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(orderID);
+
+            $("#orderID").attr('disabled', false);
+            $("#orderID").val(orderID);
+            $("#customerID").val(customerID.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#employeeID").val(employeeID);
+            $("#orderDate").val(orderDate);
+            $("#requiredDate").val(requiredDate);
+            $("#shippedDate").val(shippedDate);
+            $("#shipVia").val(shipVia);
+            $("#freight").val(freight);
+            $("#shipName").val(shipName.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#shipAddress").val(shipAddress.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#shipCity").val(shipCity.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#shipRegion").val(shipRegion.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#shipPostalCode").val(shipPostalCode.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#shipCountry").val(shipCountry.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#orderID").val('');
+            $("#customerID").val('');
+            $("#employeeID").val('');
+            $("#orderDate").val('');
+            $("#requiredDate").val('');
+            $("#shippedDate").val('');
+            $("#shipVia").val('');
+            $("#freight").val('');
+            $("#shipName").val('');
+            $("#shipAddress").val('');
+            $("#shipCity").val('');
+            $("#shipRegion").val('');
+            $("#shipPostalCode").val('');
+            $("#shipCountry").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/OrdersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Customer ID','Employee ID','Order Date','Required Date','Shipped Date','Ship Via','Freight','Ship Name','Ship Address','Ship City','Ship Region','Ship Postal Code','Ship Country', '', ''],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'right' },
+                    { name: 'CustomerID', index: 'CustomerID', align: 'left' },
+                    { name: 'EmployeeID', index: 'EmployeeID', align: 'right' },
+                    { name: 'OrderDate', index: 'OrderDate', align: 'left', sorttype: "date" },
+                    { name: 'RequiredDate', index: 'RequiredDate', align: 'left', sorttype: "date" },
+                    { name: 'ShippedDate', index: 'ShippedDate', align: 'left', sorttype: "date" },
+                    { name: 'ShipVia', index: 'ShipVia', align: 'right' },
+                    { name: 'Freight', index: 'Freight', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'ShipName', index: 'ShipName', align: 'left' },
+                    { name: 'ShipAddress', index: 'ShipAddress', align: 'left' },
+                    { name: 'ShipCity', index: 'ShipCity', align: 'left' },
+                    { name: 'ShipRegion', index: 'ShipRegion', align: 'left' },
+                    { name: 'ShipPostalCode', index: 'ShipPostalCode', align: 'left' },
+                    { name: 'ShipCountry', index: 'ShipCountry', align: 'left' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Orders',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var orderID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'OrderID');
+                        var customerID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'CustomerID').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var employeeID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'EmployeeID');
+                        var orderDate = jQuery("#list-grid").jqGrid('getCell', ids[i], 'OrderDate');
+                        var requiredDate = jQuery("#list-grid").jqGrid('getCell', ids[i], 'RequiredDate');
+                        var shippedDate = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShippedDate');
+                        var shipVia = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShipVia');
+                        var freight = jQuery("#list-grid").jqGrid('getCell', ids[i], 'Freight');
+                        var shipName = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShipName').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var shipAddress = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShipAddress').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var shipCity = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShipCity').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var shipRegion = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShipRegion').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var shipPostalCode = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShipPostalCode').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var shipCountry = jQuery("#list-grid").jqGrid('getCell', ids[i], 'ShipCountry').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + orderID + "','" + customerID + "','" + employeeID + "','" + orderDate + "','" + requiredDate + "','" + shippedDate + "','" + shipVia + "','" + freight + "','" + shipName + "','" + shipAddress + "','" + shipCity + "','" + shipRegion + "','" + shipPostalCode + "','" + shipCountry + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New Orders">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr id="trPrimaryKey">
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.OrderID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.OrderID, new { @id = "orderID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.OrderID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.CustomerID):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.DropDownListFor(vm => vm.OrdersModel.CustomerID, new SelectList(Model.CustomersDropDownListData, "CustomerID", "CompanyName"), "Select One", new { @id = "customerID" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.CustomerID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.EmployeeID):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.DropDownListFor(vm => vm.OrdersModel.EmployeeID, new SelectList(Model.EmployeesDropDownListData, "EmployeeID", "LastName"), "Select One", new { @id = "employeeID" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.EmployeeID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.OrderDate):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.OrderDate, new { @class = "datetextbox", @id = "orderDate" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.OrderDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.RequiredDate):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.RequiredDate, new { @class = "datetextbox", @id = "requiredDate" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.RequiredDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.ShippedDate):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.ShippedDate, new { @class = "datetextbox", @id = "shippedDate" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.ShippedDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.ShipVia):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.DropDownListFor(vm => vm.OrdersModel.ShipVia, new SelectList(Model.ShippersDropDownListData, "ShipperID", "CompanyName"), "Select One", new { @id = "shipVia" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.ShipVia)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.Freight):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.Freight, new { @id = "freight" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.Freight)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.ShipName):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.ShipName, new { @id = "shipName" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.ShipName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.ShipAddress):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.ShipAddress, new { @id = "shipAddress" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.ShipAddress)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.ShipCity):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.ShipCity, new { @id = "shipCity" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.ShipCity)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.ShipRegion):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.ShipRegion, new { @id = "shipRegion" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.ShipRegion)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.ShipPostalCode):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.ShipPostalCode, new { @id = "shipPostalCode" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.ShipPostalCode)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.OrdersModel.ShipCountry):</td>
+                    <td></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.OrdersModel.ShipCountry, new { @id = "shipCountry" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.OrdersModel.ShipCountry)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Orders" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New Orders</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

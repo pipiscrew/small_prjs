@@ -1,0 +1,133 @@
+@using System.Text.RegularExpressions;
+@model north.ViewModels.SuppliersViewModel
+@{
+    ViewBag.Title = "List of Suppliers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listinline.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/Suppliers/Delete/';
+        var errorMessage = '';
+
+        function getSerializedData(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+
+            var serializedData =
+                "'SupplierID':'" + rowData.SupplierID + "'," +
+                "'CompanyName':'" + $('#' + currentId + '_CompanyName').val() + "'," +
+                "'ContactName':'" + $('#' + currentId + '_ContactName').val() + "'," +
+                "'ContactTitle':'" + $('#' + currentId + '_ContactTitle').val() + "'," +
+                "'Address':'" + $('#' + currentId + '_Address').val() + "'," +
+                "'City':'" + $('#' + currentId + '_City').val() + "'," +
+                "'Region1':'" + $('#' + currentId + '_Region1').val() + "'," +
+                "'PostalCode':'" + $('#' + currentId + '_PostalCode').val() + "'," +
+                "'Country':'" + $('#' + currentId + '_Country').val() + "'," +
+                "'Phone':'" + $('#' + currentId + '_Phone').val() + "'," +
+                "'Fax':'" + $('#' + currentId + '_Fax').val() + "'," +
+                "'HomePage':'" + $('#' + currentId + '_HomePage').val() + "'";
+
+            return serializedData;
+        }
+
+        function isDataValid(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+        
+            var companyName = $('#' + currentId + '_CompanyName').val();
+            var contactName = $('#' + currentId + '_ContactName').val();
+            var contactTitle = $('#' + currentId + '_ContactTitle').val();
+            var address = $('#' + currentId + '_Address').val();
+            var city = $('#' + currentId + '_City').val();
+            var region1 = $('#' + currentId + '_Region1').val();
+            var postalCode = $('#' + currentId + '_PostalCode').val();
+            var country = $('#' + currentId + '_Country').val();
+            var phone = $('#' + currentId + '_Phone').val();
+            var fax = $('#' + currentId + '_Fax').val();
+
+            // validation
+            if (companyName == '') errorMessage += '- Company Name is required.<br/>';
+            if (companyName.length > 40) errorMessage += '- Company Name must be 40 characters or less.<br/>';
+            if (contactName.length > 30) errorMessage += '- Contact Name must be 30 characters or less.<br/>';
+            if (contactTitle.length > 30) errorMessage += '- Contact Title must be 30 characters or less.<br/>';
+            if (address.length > 60) errorMessage += '- Address must be 60 characters or less.<br/>';
+            if (city.length > 15) errorMessage += '- City must be 15 characters or less.<br/>';
+            if (region1.length > 15) errorMessage += '- Region1 must be 15 characters or less.<br/>';
+            if (postalCode.length > 10) errorMessage += '- Postal Code must be 10 characters or less.<br/>';
+            if (country.length > 15) errorMessage += '- Country must be 15 characters or less.<br/>';
+            if (phone.length > 24) errorMessage += '- Phone must be 24 characters or less.<br/>';
+            if (fax.length > 24) errorMessage += '- Fax must be 24 characters or less.<br/>';
+
+            if (errorMessage == '')
+                return true;
+            else
+                return false;
+        }
+
+        $(function () {
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/SuppliersApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Supplier ID','Company Name','Contact Name','Contact Title','Address','City','Region1','Postal Code','Country','Phone','Fax','Home Page', '', ''],
+                colModel: [
+                    { name: 'SupplierID', index: 'SupplierID', align: 'right' },
+                    { name: 'CompanyName', index: 'CompanyName', align: 'left', editable: true },
+                    { name: 'ContactName', index: 'ContactName', align: 'left', editable: true },
+                    { name: 'ContactTitle', index: 'ContactTitle', align: 'left', editable: true },
+                    { name: 'Address', index: 'Address', align: 'left', editable: true },
+                    { name: 'City', index: 'City', align: 'left', editable: true },
+                    { name: 'Region1', index: 'Region1', align: 'left', editable: true },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left', editable: true },
+                    { name: 'Country', index: 'Country', align: 'left', editable: true },
+                    { name: 'Phone', index: 'Phone', align: 'left', editable: true },
+                    { name: 'Fax', index: 'Fax', align: 'left', editable: true },
+                    { name: 'HomePage', index: 'HomePage', align: 'left', editable: true },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'SupplierID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Suppliers',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        editLink = "<a id='editLink" + currentid + "' href='#' onclick=\"editRow('" + currentid + "');\"><img src='/Content/Images/Edit.gif' style='border:none;' /></a>" +
+                                "<a id='saveLink" + currentid + "' style='display:none;' href='#' onclick=\"saveRow('" + currentid + "', 'Suppliers');\"><img src='/Content/Images/Checked.gif' style='border:none;' /></a>";
+
+                        deleteLink = "<a href='#' id='deleteLink" + currentid + "' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>" +
+                            "<a id='cancelLink" + currentid + "' style='display:none;' href='#' onclick=\"cancelRow('" + currentid + "');\"><img src='/Content/Images/Unchecked.gif' style='border:none;' /></a>";
+
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" id="addLink1" onclick="addRow()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Suppliers" style="border: none;" /></a>&nbsp;<a href="#" id="addLink2" onclick="addRow()">Add New Suppliers</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

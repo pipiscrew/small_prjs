@@ -1,0 +1,82 @@
+@{
+    ViewBag.Title = "List of Order Details By Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/ProductsApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Product ID','Product Name','Supplier ID','Category ID','Quantity Per Unit','Unit Price','Units In Stock','Units On Order','Reorder Level','Discontinued'],
+                colModel: [
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'ProductName', index: 'ProductName', align: 'left' },
+                    { name: 'SupplierID', index: 'SupplierID', align: 'right' },
+                    { name: 'CategoryID', index: 'CategoryID', align: 'right' },
+                    { name: 'QuantityPerUnit', index: 'QuantityPerUnit', align: 'left' },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'UnitsInStock', index: 'UnitsInStock', align: 'right', formatter: 'integer' },
+                    { name: 'UnitsOnOrder', index: 'UnitsOnOrder', align: 'right', formatter: 'integer' },
+                    { name: 'ReorderLevel', index: 'ReorderLevel', align: 'right', formatter: 'integer' },
+                    { name: 'Discontinued', index: 'Discontinued', align: 'center', formatter: 'checkbox' },
+                ],
+                pager: $('#list-pager'),
+                rowNum: 5,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ProductID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Order Details By Products',
+                height: '100%',
+                width: '1200',
+                multiselect: false,
+                subGrid: true,
+                subGridRowExpanded: SubGridDetail
+            });
+        });
+
+        function SubGridDetail(subgrid_id, row_id) {
+            var subgrid_table_id, pager_id;
+            subgrid_table_id = subgrid_id + '_t';
+            pager_id = 'p_' + subgrid_table_id;
+
+            $('#' + subgrid_id).html("<div style='padding: 20px;'><table id='" + subgrid_table_id + "'></table><div id='" + pager_id + "'></div></div>");
+
+            $('#' + subgrid_table_id).jqGrid({
+                url: "http://localhost:27229/api/OrderDetailsApi/SelectOrderDetailsCollectionByProductID/?id=" + row_id,
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Product ID','Unit Price','Quantity','Discount'],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'right' },
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'Quantity', index: 'Quantity', align: 'right', formatter: 'integer' },
+                    { name: 'Discount', index: 'Discount', align: 'left', formatter: 'currency', formatoptions: { decimalPlaces: 2 } },
+                ],
+                pager: pager_id,
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                height: '100%',
+                width: '1130'
+            });
+        }
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

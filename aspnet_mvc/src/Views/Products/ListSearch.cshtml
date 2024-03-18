@@ -1,0 +1,109 @@
+@model north.ViewModels.ProductsViewModel
+@{
+    ViewBag.Title = "List of Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string supplierIDSelectValues = ":";
+    string categoryIDSelectValues = ":";
+
+    foreach (var item in Model.SuppliersDropDownListData.OrderBy(s => s.SupplierID))
+    {
+        supplierIDSelectValues += ";" + item.SupplierID + ":" + item.SupplierID;
+    }
+
+    foreach (var item in Model.CategoriesDropDownListData.OrderBy(c => c.CategoryID))
+    {
+        categoryIDSelectValues += ";" + item.CategoryID + ":" + item.CategoryID;
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listsearch.js")
+    @Scripts.Render("~/Scripts/jquery.searchFilter.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var checkBoxSelectValues = ":;True:<input type='checkbox' checked disabled /> True;False:<input type='checkbox' disabled /> False";
+            var supplierIDSelectValues = "@supplierIDSelectValues";
+            var categoryIDSelectValues = "@categoryIDSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/ProductsApi/SelectSkipTakeWithFilters/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Product ID','Product Name','Supplier ID','Category ID','Quantity Per Unit','Unit Price','Units In Stock','Units On Order','Reorder Level','Discontinued'],
+                colModel: [
+                    { name: 'ProductID', index: 'ProductID', align: 'right' },
+                    { name: 'ProductName', index: 'ProductName', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'SupplierID', index: 'SupplierID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: supplierIDSelectValues } },
+                    { name: 'CategoryID', index: 'CategoryID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: categoryIDSelectValues } },
+                    { name: 'QuantityPerUnit', index: 'QuantityPerUnit', align: 'left', searchoptions: { sopt: ['cn']} },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'UnitsInStock', index: 'UnitsInStock', align: 'right', formatter: 'integer' },
+                    { name: 'UnitsOnOrder', index: 'UnitsOnOrder', align: 'right', formatter: 'integer' },
+                    { name: 'ReorderLevel', index: 'ReorderLevel', align: 'right', formatter: 'integer' },
+                    { name: 'Discontinued', index: 'Discontinued', align: 'center', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: checkBoxSelectValues } }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'ProductID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Products',
+                height: '100%',
+                width: '1200',
+                ignoreCase: true
+            }).jqGrid('navGrid', '#list-pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $('#list-grid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, beforeSearch: function () {
+                // verify entered data before searching
+                var postData = $('#list-grid').jqGrid('getGridParam', 'postData');
+                var searchData = $.parseJSON(postData.filters);
+                var isThereValidationErrors = false;
+                var validationErrors = "";
+
+                for (var iRule = 0; iRule < searchData.rules.length; iRule++) {
+                    var enteredValue = searchData.rules[iRule].data;
+
+                    if (searchData.rules[iRule].field == "ProductID" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Product ID must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "UnitPrice" && !isDecimal(enteredValue)) {
+                        validationErrors += "  Unit Price must be a valid decimal number.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "UnitsInStock" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Units In Stock must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "UnitsOnOrder" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Units On Order must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "ReorderLevel" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Reorder Level must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                }
+
+                if(isThereValidationErrors)
+                    alert($.trim(validationErrors));
+
+                return isThereValidationErrors;
+            }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>

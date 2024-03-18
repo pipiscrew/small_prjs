@@ -1,0 +1,97 @@
+@model north.ViewModels.EmployeesViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Record Details</h2>
+<div>
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.EmployeeID):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.EmployeeID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.LastName):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.LastName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.FirstName):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.FirstName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.Title):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.Title)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.TitleOfCourtesy):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.TitleOfCourtesy)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.BirthDate):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.BirthDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.HireDate):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.HireDate)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.Address):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.Address)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.City):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.City)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.Region1):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.Region1)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.PostalCode):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.PostalCode)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.Country):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.Country)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.HomePhone):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.HomePhone)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.Extension):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.Extension)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.Notes):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.Notes)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.ReportsTo):</td>
+                    <td class="editor-field">@Html.DisplayFor(vm => vm.EmployeesModel.ReportsTo)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.EmployeesModel.PhotoPath):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.EmployeesModel.PhotoPath)</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <a href="@Request.UrlReferrer.ToString()">Return</a>
+                        }
+                        else
+                        {
+                            <a href="/Home/Index">Return</a>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</div>

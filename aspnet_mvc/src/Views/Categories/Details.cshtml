@@ -1,0 +1,41 @@
+@model north.ViewModels.CategoriesViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Record Details</h2>
+<div>
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CategoriesModel.CategoryID):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CategoriesModel.CategoryID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CategoriesModel.CategoryName):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CategoriesModel.CategoryName)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label-bold">@Html.LabelFor(vm => vm.CategoriesModel.Description):</td>
+                    <td class="editor-label">@Html.DisplayFor(vm => vm.CategoriesModel.Description)</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br />
+
+                        @if (Request.UrlReferrer != null)
+                        {
+                            <a href="@Request.UrlReferrer.ToString()">Return</a>
+                        }
+                        else
+                        {
+                            <a href="/Home/Index">Return</a>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</div>

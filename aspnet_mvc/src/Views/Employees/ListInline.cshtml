@@ -1,0 +1,160 @@
+@using System.Text.RegularExpressions;
+@model north.ViewModels.EmployeesViewModel
+@{
+    ViewBag.Title = "List of Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string reportsToSelectValues = ":";
+
+    foreach (var item in Model.EmployeesDropDownListData.OrderBy(e1 => e1.EmployeeID))
+    {
+        reportsToSelectValues += ";" + item.EmployeeID + ":" + item.EmployeeID + " - " + Regex.Replace(item.LastName == null ? "" : item.LastName, "[^a-zA-Z0-9 -]", "");
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listinline.js")
+
+    <script type="text/javascript">
+        var urlAndMethod = '/Employees/Delete/';
+        var errorMessage = '';
+
+        function getSerializedData(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+
+            var serializedData =
+                "'EmployeeID':'" + rowData.EmployeeID + "'," +
+                "'LastName':'" + $('#' + currentId + '_LastName').val() + "'," +
+                "'FirstName':'" + $('#' + currentId + '_FirstName').val() + "'," +
+                "'Title':'" + $('#' + currentId + '_Title').val() + "'," +
+                "'TitleOfCourtesy':'" + $('#' + currentId + '_TitleOfCourtesy').val() + "'," +
+                "'BirthDate':'" + $('#' + currentId + '_BirthDate').val() + "'," +
+                "'HireDate':'" + $('#' + currentId + '_HireDate').val() + "'," +
+                "'Address':'" + $('#' + currentId + '_Address').val() + "'," +
+                "'City':'" + $('#' + currentId + '_City').val() + "'," +
+                "'Region1':'" + $('#' + currentId + '_Region1').val() + "'," +
+                "'PostalCode':'" + $('#' + currentId + '_PostalCode').val() + "'," +
+                "'Country':'" + $('#' + currentId + '_Country').val() + "'," +
+                "'HomePhone':'" + $('#' + currentId + '_HomePhone').val() + "'," +
+                "'Extension':'" + $('#' + currentId + '_Extension').val() + "'," +
+                "'Notes':'" + $('#' + currentId + '_Notes').val() + "'," +
+                "'ReportsTo':'" + $('#' + currentId + '_ReportsTo').val() + "'," +
+                "'PhotoPath':'" + $('#' + currentId + '_PhotoPath').val() + "'";
+
+            return serializedData;
+        }
+
+        function isDataValid(currentId) {
+            var rowData = $('#list-grid').jqGrid('getRowData', currentId);
+        
+            var lastName = $('#' + currentId + '_LastName').val();
+            var firstName = $('#' + currentId + '_FirstName').val();
+            var title = $('#' + currentId + '_Title').val();
+            var titleOfCourtesy = $('#' + currentId + '_TitleOfCourtesy').val();
+            var birthDate = $('#' + currentId + '_BirthDate').val();
+            var hireDate = $('#' + currentId + '_HireDate').val();
+            var address = $('#' + currentId + '_Address').val();
+            var city = $('#' + currentId + '_City').val();
+            var region1 = $('#' + currentId + '_Region1').val();
+            var postalCode = $('#' + currentId + '_PostalCode').val();
+            var country = $('#' + currentId + '_Country').val();
+            var homePhone = $('#' + currentId + '_HomePhone').val();
+            var extension = $('#' + currentId + '_Extension').val();
+            var photoPath = $('#' + currentId + '_PhotoPath').val();
+
+            // validation
+            if (lastName == '') errorMessage += '- Last Name is required.<br/>';
+            if (lastName.length > 20) errorMessage += '- Last Name must be 20 characters or less.<br/>';
+            if (firstName == '') errorMessage += '- First Name is required.<br/>';
+            if (firstName.length > 10) errorMessage += '- First Name must be 10 characters or less.<br/>';
+            if (title.length > 30) errorMessage += '- Title must be 30 characters or less.<br/>';
+            if (titleOfCourtesy.length > 25) errorMessage += '- Title Of Courtesy must be 25 characters or less.<br/>';
+            if (birthDate != '' && !isDate(birthDate)) errorMessage += '- Birth Date must be a valid date.<br/>';
+            if (hireDate != '' && !isDate(hireDate)) errorMessage += '- Hire Date must be a valid date.<br/>';
+            if (address.length > 60) errorMessage += '- Address must be 60 characters or less.<br/>';
+            if (city.length > 15) errorMessage += '- City must be 15 characters or less.<br/>';
+            if (region1.length > 15) errorMessage += '- Region1 must be 15 characters or less.<br/>';
+            if (postalCode.length > 10) errorMessage += '- Postal Code must be 10 characters or less.<br/>';
+            if (country.length > 15) errorMessage += '- Country must be 15 characters or less.<br/>';
+            if (homePhone.length > 24) errorMessage += '- Home Phone must be 24 characters or less.<br/>';
+            if (extension.length > 4) errorMessage += '- Extension must be 4 characters or less.<br/>';
+            if (photoPath.length > 255) errorMessage += '- Photo Path must be 255 characters or less.<br/>';
+
+            if (errorMessage == '')
+                return true;
+            else
+                return false;
+        }
+
+        $(function () {
+            var reportsToSelectValues = "@reportsToSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/EmployeesApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Employee ID','Last Name','First Name','Title','Title Of Courtesy','Birth Date','Hire Date','Address','City','Region1','Postal Code','Country','Home Phone','Extension','Notes','Reports To','Photo Path', '', ''],
+                colModel: [
+                    { name: 'EmployeeID', index: 'EmployeeID', align: 'right' },
+                    { name: 'LastName', index: 'LastName', align: 'left', editable: true },
+                    { name: 'FirstName', index: 'FirstName', align: 'left', editable: true },
+                    { name: 'Title', index: 'Title', align: 'left', editable: true },
+                    { name: 'TitleOfCourtesy', index: 'TitleOfCourtesy', align: 'left', editable: true },
+                    { name: 'BirthDate', index: 'BirthDate', align: 'left', editable: true, sorttype: "date", editoptions: { size: 20,  dataInit: function (el) { $(el).datepicker({ dateFormat: 'm/d/yy' }); }} },
+                    { name: 'HireDate', index: 'HireDate', align: 'left', editable: true, sorttype: "date", editoptions: { size: 20,  dataInit: function (el) { $(el).datepicker({ dateFormat: 'm/d/yy' }); }} },
+                    { name: 'Address', index: 'Address', align: 'left', editable: true },
+                    { name: 'City', index: 'City', align: 'left', editable: true },
+                    { name: 'Region1', index: 'Region1', align: 'left', editable: true },
+                    { name: 'PostalCode', index: 'PostalCode', align: 'left', editable: true },
+                    { name: 'Country', index: 'Country', align: 'left', editable: true },
+                    { name: 'HomePhone', index: 'HomePhone', align: 'left', editable: true },
+                    { name: 'Extension', index: 'Extension', align: 'left', editable: true },
+                    { name: 'Notes', index: 'Notes', align: 'left', editable: true },
+                    { name: 'ReportsTo', index: 'ReportsTo', align: 'left', editable: true, formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: reportsToSelectValues } },
+                    { name: 'PhotoPath', index: 'PhotoPath', align: 'left', editable: true },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'EmployeeID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Employees',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        editLink = "<a id='editLink" + currentid + "' href='#' onclick=\"editRow('" + currentid + "');\"><img src='/Content/Images/Edit.gif' style='border:none;' /></a>" +
+                                "<a id='saveLink" + currentid + "' style='display:none;' href='#' onclick=\"saveRow('" + currentid + "', 'Employees');\"><img src='/Content/Images/Checked.gif' style='border:none;' /></a>";
+
+                        deleteLink = "<a href='#' id='deleteLink" + currentid + "' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>" +
+                            "<a id='cancelLink" + currentid + "' style='display:none;' href='#' onclick=\"cancelRow('" + currentid + "');\"><img src='/Content/Images/Unchecked.gif' style='border:none;' /></a>";
+
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" id="addLink1" onclick="addRow()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Employees" style="border: none;" /></a>&nbsp;<a href="#" id="addLink2" onclick="addRow()">Add New Employees</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

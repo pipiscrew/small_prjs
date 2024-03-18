@@ -1,0 +1,140 @@
+@model north.ViewModels.TerritoriesViewModel
+@{
+    ViewBag.Title = "List of Territories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jqgrid-listcrud.js")
+
+    <script type="text/javascript">
+        var addEditTitle = "Territories";
+        var urlAndMethod = "/Territories/Delete/";
+
+        function addItem() {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(null);
+            $("#territoryID").attr('readonly', false);
+        }
+
+        function editItem(territoryID, territoryDescription, regionID) {
+            clearFields();
+            resetValidationErrors();
+            showHideItem(territoryID);
+
+            $("#territoryID").attr('readonly', true);
+            $("#territoryID").val(territoryID.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#territoryDescription").val(territoryDescription.replace(/~APOS/g, "'").replace(/~QUOT/g, '"').replace(/~NEWL/g, '\n'));
+            $("#regionID").val(regionID);
+ 
+            return false;
+        }
+
+        function clearFields() {
+            $("#territoryID").val('');
+            $("#territoryDescription").val('');
+            $("#regionID").val('');
+        }
+
+        $(function () {
+            InitializeAddUpdateRecordDialog();
+            $('.datetextbox').datepicker({ dateFormat: "m/d/yy" });
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/TerritoriesApi/SelectSkipTake/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Territory ID','Territory Description','Region ID', '', ''],
+                colModel: [
+                    { name: 'TerritoryID', index: 'TerritoryID', align: 'left' },
+                    { name: 'TerritoryDescription', index: 'TerritoryDescription', align: 'left' },
+                    { name: 'RegionID', index: 'RegionID', align: 'right' },
+                    { name: 'editoperation', index: 'editoperation', align: 'center', width: 40, sortable: false },
+                    { name: 'deleteoperation', index: 'deleteoperation', align: 'center', width: 40, sortable: false }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'TerritoryID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Territories',
+                height: '100%',
+                width: '1200',
+                gridComplete: function () {
+                    var ids = jQuery("#list-grid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var currentid = ids[i];
+                        var territoryID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'TerritoryID').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var territoryDescription = jQuery("#list-grid").jqGrid('getCell', ids[i], 'TerritoryDescription').replace(/'/g, '~APOS').replace(/"/g, '~QUOT').replace(/\n/g, '~NEWL');
+                        var regionID = jQuery("#list-grid").jqGrid('getCell', ids[i], 'RegionID');
+
+                        editLink = "<a href='#' onclick=\"editItem('" + territoryID + "','" + territoryDescription + "','" + regionID + "')\"><img src='/Content/images/Edit.gif' style='border:none;' /></a>";
+                        deleteLink = "<a href='#' onclick=\"deleteItem('" + currentid + "')\"><img src='/Content/Images/Delete.png' style='border:none;' /></a>";
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { editoperation: editLink });
+                        jQuery("#list-grid").jqGrid('setRowData', ids[i], { deleteoperation: deleteLink });
+                    }
+                }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<div id="addUpdateRecordDialog" title="Add New Territories">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.TerritoriesModel.TerritoryID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.TerritoriesModel.TerritoryID, new { @id = "territoryID", @readonly = "readonly" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.TerritoriesModel.TerritoryID)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.TerritoriesModel.TerritoryDescription):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.TextBoxFor(vm => vm.TerritoriesModel.TerritoryDescription, new { @id = "territoryDescription" })</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.TerritoriesModel.TerritoryDescription)</td>
+                </tr>
+                <tr>
+                    <td class="editor-label">@Html.LabelFor(vm => vm.TerritoriesModel.RegionID):</td>
+                    <td>&nbsp;<span style="color: red;">*</span></td>
+                    <td class="editor-field">@Html.DropDownListFor(vm => vm.TerritoriesModel.RegionID, new SelectList(Model.RegionDropDownListData, "RegionID", "RegionDescription"), "Select One", new Dictionary<string, object> {{ "data-val", "true" }, { "data-val-required", "Region ID is required!" }})</td>
+                    <td class="editor-field">@Html.ValidationMessageFor(vm => vm.TerritoriesModel.RegionID)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <br />
+                        <input id="inputSubmit" name="inputSubmit" type="submit" value="Add" class="button-150" />
+                        <input type="button" value="Cancel" onclick="closeDialog(); return false;" class="button-100" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}
+</div>
+
+<div id="errorConfirmationDialog"></div>
+<div id="errorDialog"></div>
+
+<a href="#" onclick="addItem()"><img src="@Url.Content("~/Content/Images/Add.gif")" alt="Add New Territories" style="border: none;" /></a>&nbsp;<a href="#" onclick="addItem()">Add New Territories</a>
+<br /><br />
+
+<table id="list-grid"></table>
+<div id="list-pager"></div>

@@ -1,0 +1,96 @@
+@model north.ViewModels.OrderDetailsViewModel
+@{
+    ViewBag.Title = "List of Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string orderIDSelectValues = ":";
+    string productIDSelectValues = ":";
+
+    foreach (var item in Model.OrdersDropDownListData.OrderBy(o => o.OrderID))
+    {
+        orderIDSelectValues += ";" + item.OrderID + ":" + item.OrderID;
+    }
+
+    foreach (var item in Model.ProductsDropDownListData.OrderBy(p => p.ProductID))
+    {
+        productIDSelectValues += ";" + item.ProductID + ":" + item.ProductID;
+    }
+}
+
+@section AdditionalCss {
+    @Styles.Render("~/Content/Styles/ui.jqgrid.min.css")
+}
+
+@section AdditionalJavaScript {
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/Scripts/jqgrid-listsearch.js")
+    @Scripts.Render("~/Scripts/jquery.searchFilter.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var checkBoxSelectValues = ":;True:<input type='checkbox' checked disabled /> True;False:<input type='checkbox' disabled /> False";
+            var orderIDSelectValues = "@orderIDSelectValues";
+            var productIDSelectValues = "@productIDSelectValues";
+
+            $('#list-grid').jqGrid({
+                url: 'http://localhost:27229/api/OrderDetailsApi/SelectSkipTakeWithFilters/',
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['Order ID','Product ID','Unit Price','Quantity','Discount'],
+                colModel: [
+                    { name: 'OrderID', index: 'OrderID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: orderIDSelectValues } },
+                    { name: 'ProductID', index: 'ProductID', align: 'left', formatter: 'select', stype: 'select', edittype: 'select', editoptions: { value: productIDSelectValues } },
+                    { name: 'UnitPrice', index: 'UnitPrice', align: 'right', formatter: 'currency', formatoptions: { decimalPlaces: 2, prefix: "$"} },
+                    { name: 'Quantity', index: 'Quantity', align: 'right', formatter: 'integer' },
+                    { name: 'Discount', index: 'Discount', align: 'left', formatter: 'currency', formatoptions: { decimalPlaces: 2 } }
+                ],
+                pager: $('#list-pager'),
+                rowNum: 10,
+                rowList: [5, 10, 20, 50],
+                sortname: 'OrderID',
+                sortorder: "asc",
+                viewrecords: true,
+                caption: 'List of Order Details',
+                height: '100%',
+                width: '1200',
+                ignoreCase: true
+            }).jqGrid('navGrid', '#list-pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $('#list-grid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, beforeSearch: function () {
+                // verify entered data before searching
+                var postData = $('#list-grid').jqGrid('getGridParam', 'postData');
+                var searchData = $.parseJSON(postData.filters);
+                var isThereValidationErrors = false;
+                var validationErrors = "";
+
+                for (var iRule = 0; iRule < searchData.rules.length; iRule++) {
+                    var enteredValue = searchData.rules[iRule].data;
+
+                    if (searchData.rules[iRule].field == "UnitPrice" && !isDecimal(enteredValue)) {
+                        validationErrors += "  Unit Price must be a valid decimal number.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "Quantity" && !isNumeric(enteredValue)) {
+                        validationErrors += "  Quantity must be a valid number.";
+                        isThereValidationErrors = true;
+                    }
+                    if (searchData.rules[iRule].field == "Discount" && !isDecimal(enteredValue)) {
+                        validationErrors += "  Discount must be a valid decimal number.";
+                        isThereValidationErrors = true;
+                    }
+                }
+
+                if(isThereValidationErrors)
+                    alert($.trim(validationErrors));
+
+                return isThereValidationErrors;
+            }
+            });
+        });
+    </script> 
+}
+
+<h2>@ViewBag.Title</h2>
+<br /><br />
+<table id="list-grid"></table>
+<div id="list-pager"></div>
