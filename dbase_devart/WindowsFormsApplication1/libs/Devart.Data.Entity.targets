@@ -1,0 +1,47 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+   <ImportDevartEntityDeploy>false</ImportDevartEntityDeploy>
+  </PropertyGroup>
+
+  <UsingTask TaskName="DevartEntityDeploy" Condition="Exists('$(MSBuildThisFileDirectory)\Devart.Data.Entity.Build.Tasks.dll')"
+        AssemblyFile="$(MSBuildThisFileDirectory)\Devart.Data.Entity.Build.Tasks.dll">
+  </UsingTask>
+
+  <Choose>
+    <When Condition="Exists('$(MSBuildThisFileDirectory)\Devart.Data.Entity.Build.Tasks.dll')">
+      <!-- The below ensures that "DevartEntityDeploy" is available in the VS Build Action dropdown -->
+      <ItemGroup>
+        <AvailableItemName Include="DevartEntityDeploy" />
+      </ItemGroup>
+
+      <PropertyGroup>
+        <!-- DevartEntityDeployDependsOn deliberately left empty so others can override this -->
+        <DevartEntityDeployDependsOn></DevartEntityDeployDependsOn>
+        <BuildDependsOn>
+          DevartEntityDeploy;
+          $(BuildDependsOn);
+        </BuildDependsOn>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Target Name="DevartEntityDeploy"  Condition="Exists('$(MSBuildThisFileDirectory)\Devart.Data.Entity.Build.Tasks.dll')"
+              DependsOnTargets="$(DevartEntityDeployDependsOn)" >
+
+    <DevartEntityDeploy
+          Sources="@(DevartEntityDeploy)"
+          OutputPath="$(OutputPath)" 
+          IntermediateOutputPath="$(IntermediateOutputPath)">
+
+      <Output TaskParameter="EntityDataModelEmbeddedResources"
+              ItemName="EmbeddedResource" />
+      <Output TaskParameter="OutputFiles"
+              ItemName="FileWrites" />
+
+    </DevartEntityDeploy>
+
+  </Target>
+
+</Project>
+
