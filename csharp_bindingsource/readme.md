@@ -1,0 +1,2 @@
+development abandoned. When on 'UPDATE' state, and user presses 'CANCEL'  
+is not restore the original values - normally must implement https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.ieditableobject
