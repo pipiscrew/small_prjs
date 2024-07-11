@@ -27,3 +27,7 @@ To compile it :
 ![img](assets/06.png)  
 
 ![img](assets/07.png)  
+
+---
+
+ref - [Turbo Pascal PDF](https://bitsavers.org/pdf/borland/turbo_pascal/)
