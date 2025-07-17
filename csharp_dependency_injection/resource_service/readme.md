@@ -41,3 +41,4 @@ references required :
 
 reference :  
 * [Create satellite assemblies for .NET apps](https://learn.microsoft.com/en-us/dotnet/core/extensions/create-satellite-assemblies)
+* [All you wanted to know about Satellite Assemblies](https://www.codeproject.com/Articles/801343/All-you-wanted-to-know-about-Satellite-Assemblies)
