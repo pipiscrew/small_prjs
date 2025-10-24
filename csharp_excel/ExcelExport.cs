@@ -70,6 +70,9 @@ namespace Calendar
 
                 //make EXCEL window visible
                 excelApp.GetType().InvokeMember("Visible", System.Reflection.BindingFlags.SetProperty, null, excelApp, new object[] { true });
+				
+				// Save the workbook ( tested & working )
+				//objSheet_Late.GetType().InvokeMember("SaveAs", BindingFlags.InvokeMethod, null, objSheet_Late, new object[] { filePath });
 
                 //release the objects - when user closes the EXCEL remove it also the process (othewrwise stays) - https://stackoverflow.com/a/59639192
                 Marshal.ReleaseComObject(objBooks_Late);
