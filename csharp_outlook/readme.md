@@ -1,8 +1,8 @@
 # send attachment with outlook
 
 * `interop.cs` - interop method to interact with outlook
-* `LateBind.cs` - most confortable way to go
-* `Windows_Explorer_SendBy_MailRecipient_is_using_sendmail_dll.cs` - emulates the common way all users using the windows explorer context menu `Send To` > `Mail recipient` [source](https://learn.microsoft.com/en-us/answers/questions/1162850/opening-the-default-e-email-app)
+* `LateBind.cs` - most comfortable way to go
+* `Windows_Explorer_SendBy_MailRecipient_is_using_sendmail_dll.cs` - emulates the common way all users using the windows explorer context menu `Send To` > `Mail recipient` [[source by Castorix31](https://learn.microsoft.com/en-us/answers/questions/1162850/opening-the-default-e-email-app)]
 
 be careful :  
 is possible for all of the above implementations to end up that when **outlook is running** doesnt pop the new email window.. Has to do that the existing instance of outlook is running under **another user** or even the same user with `administrator rights`. The error is :
