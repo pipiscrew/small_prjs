@@ -13,7 +13,7 @@ namespace Calendar
         private static object objSheet_Late;
 
         //https://social.msdn.microsoft.com/Forums/vstudio/en-US/694fad12-fcbb-4995-89c5-092e8bb9114a/write-to-excel-multiple-sheet-using-late-binding?forum=vsto
-        public static bool GenerateExcel(string sheetname, DataTable dt)
+        public static bool GenerateExcel(string sheetname, DataTable dt, string filePath, bool closeAfterSave)
         {
             try
             {
@@ -67,16 +67,30 @@ namespace Calendar
 
                 //
 
+                // Save the workbook
+                objSheet_Late.GetType().InvokeMember("SaveAs", BindingFlags.InvokeMethod, null, objSheet_Late, new object[] { filePath });
 
-                //make EXCEL window visible
-                excelApp.GetType().InvokeMember("Visible", System.Reflection.BindingFlags.SetProperty, null, excelApp, new object[] { true });
-				
-				// Save the workbook ( tested & working )
-				//objSheet_Late.GetType().InvokeMember("SaveAs", BindingFlags.InvokeMethod, null, objSheet_Late, new object[] { filePath });
+                if (!closeAfterSave)
+                {
+                    //make EXCEL window visible
+                    excelApp.GetType().InvokeMember("Visible", System.Reflection.BindingFlags.SetProperty, null, excelApp, new object[] { true });
+                }
+                else
+                {
+                    // Close the workbook
+                    objBook_Late.GetType().InvokeMember("Close", BindingFlags.InvokeMethod, null, objBook_Late, new object[] { false });
 
-                //release the objects - when user closes the EXCEL remove it also the process (othewrwise stays) - https://stackoverflow.com/a/59639192
-                Marshal.ReleaseComObject(objBooks_Late);
-                Marshal.ReleaseComObject(excelApp);
+                    // Quit Excel application
+                    excelApp.GetType().InvokeMember("Quit", BindingFlags.InvokeMethod, null, excelApp, null);
+                }
+
+
+                // Release COM objects - when user closes the EXCEL remove it also the process (othewrwise stays) - https://stackoverflow.com/a/59639192
+                Marshal.ReleaseComObject(objSheet_Late);
+                Marshal.ReleaseComObject(objSheets_Late);
+                Marshal.ReleaseComObject(objBook_Late);
+                Marshal.ReleaseComObject(objBooks_Late); //** required
+                Marshal.ReleaseComObject(excelApp); //** required
 
                 return true;
             }
