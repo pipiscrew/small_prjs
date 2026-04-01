@@ -10,7 +10,7 @@ depend on `product&profile combination` there are `ProfilTypes`, currently is 1-
 
 This application would like to achieve a listing that presents `unique ProfilTypes` product independently.  
 
-Is not so common, now you know more, let me tell it again -- the application actually compares the `ProfilTypes` records (which is 1-n) and lists the unique product independently...  
+Is not so common, now you know more, let me tell it again -- the application actually compares the `ProfilTypes` records (which is 1-n) and lists the unique `ProfilTypes` product independently...  
 
 On exported HTML you will see the `Product Name` then the `ProfilTypes` (1-n) then the `accessories` in each `ProfilType`..  
 
