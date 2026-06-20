@@ -1,3 +1,3 @@
 dbase.db
-sqlite3.dll
-+ all .net references
++ .net references
+* sqlite.dll is embedded in System.Data.SQLite.dll
