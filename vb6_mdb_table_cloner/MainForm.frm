@@ -16,11 +16,21 @@ Begin VB.Form MainForm
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
+   Icon            =   "MainForm.frx":0000
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    ScaleHeight     =   9195
    ScaleWidth      =   12750
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton cmdExportDDL 
+      Caption         =   "export DDL"
+      Height          =   435
+      Left            =   3600
+      TabIndex        =   6
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   1305
+   End
    Begin VB.CheckBox chkDeleteBeforeAddTable 
       Caption         =   "Delete Before AddTable"
       Height          =   255
@@ -161,6 +171,16 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Private Sub cmdExportDDL_Click()
+    Dim myDbPath As String
+    Dim mySavePath As String
+    
+    myDbPath = lstSource.Tag
+    mySavePath = lstSource.Tag & General.GetToday() & ".sql"
+    
+    Call ExportDatabaseSchema(myDbPath, mySavePath)
+End Sub
+
 Private Sub Form_Load()
   Me.Caption = App.Title & " v" & App.Major & "." & App.Minor
 End Sub
@@ -185,15 +205,17 @@ Private Sub btnExecute_Click()
   Call AddTablesToListview(lstDest, lstDest.Tag)
 End Sub
 
-Private Sub lstSource_OLEDragDrop(Data As MSComctlLib.DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstSource_OLEDragDrop(Data As MSComctlLib.DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
   If Data.GetFormat(vbCFFiles) Then
     lstSource.Tag = Data.Files(1)
 
     Call AddTablesToListview(lstSource, Data.Files(1))
+    
+    cmdExportDDL.Visible = True
   End If
 End Sub
 
-Private Sub lstDest_OLEDragDrop(Data As MSComctlLib.DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstDest_OLEDragDrop(Data As MSComctlLib.DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
   If Data.GetFormat(vbCFFiles) Then
     lstDest.Tag = Data.Files(1)
 
