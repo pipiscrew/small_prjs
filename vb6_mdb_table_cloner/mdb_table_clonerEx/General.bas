@@ -1,16 +1,30 @@
 Attribute VB_Name = "General"
 Option Explicit
 
+' file & folder exists
+Private Declare Function GetFileAttributes Lib "kernel32.dll" Alias "GetFileAttributesA" (ByVal lpFileName As String) As Long
+Private Const INVALID_FILE_ATTRIBUTES As Long = -1
+Private Const FILE_ATTRIBUTE_DIRECTORY As Long = &H10
+' file & folder exists
+
 Private masterSchema As Collection
 
-Public Function GetRecordSet(ByVal filepath$, ByVal SQL$) As ADODB.Recordset
+Public Function FileExists(ByVal filepath As String) As Boolean
+    Dim attr As Long
+    attr = GetFileAttributes(filepath)
+    If attr <> INVALID_FILE_ATTRIBUTES Then
+        FileExists = ((attr And FILE_ATTRIBUTE_DIRECTORY) <> FILE_ATTRIBUTE_DIRECTORY)
+    End If
+End Function
+
+Public Function GetRecordSet(ByVal filepath$, ByVal sql$) As ADODB.Recordset
   On Error GoTo ErrLoop
 
   Dim rs As ADODB.Recordset
 
   Set rs = New ADODB.Recordset
 
-  rs.Open SQL, "Data Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filepath, adOpenStatic, adLockOptimistic
+  rs.Open sql, "Data Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filepath, adOpenStatic, adLockOptimistic
 
   Set GetRecordSet = rs
 
@@ -21,11 +35,13 @@ End Function
 
 Public Function CloneTableByTBL1toTBL2(ByVal sourceDbFilepath$, ByVal destDbFilepath$, ByVal deleteIfExists As Boolean, tables As Collection)
   Dim conn As ADODB.Connection
-  Dim TableName As String
+  Dim tableName As String
   Dim sqlCreate As String
   Dim sqlDelete As String
   Dim sourceTableName, destTableName As String
   Dim i%
+  Dim rsCheck As ADODB.Recordset
+  Dim tableExists As Boolean
 
   Set conn = New ADODB.Connection
   conn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & destDbFilepath & ";"
@@ -33,36 +49,92 @@ Public Function CloneTableByTBL1toTBL2(ByVal sourceDbFilepath$, ByVal destDbFile
 
   Dim tInfo As clsTableInfo
   For Each tInfo In tables
-    Debug.Print tInfo.TableName
-    sourceTableName = tInfo.TableName
-    destTableName = tInfo.TableName
+    Debug.Print tInfo.tableName
+    sourceTableName = tInfo.tableName
+    destTableName = tInfo.tableName
 
     If (deleteIfExists) Then
       On Error Resume Next
 
-      sqlDelete = "DROP TABLE [" & sourceTableName & "]"
-      conn.Execute sqlDelete
+      '//
+      Set rsCheck = conn.OpenSchema(adSchemaTables, Array(Empty, Empty, sourceTableName, "TABLE"))
+      tableExists = Not rsCheck.EOF
+      rsCheck.Close
+      Set rsCheck = Nothing
+      '//
 
-      If Err.Number <> 0 Then
+      If tableExists Then
+        sqlDelete = "DROP TABLE [" & sourceTableName & "]"
+        conn.Execute sqlDelete
+      End If
+
+      If (Err.Number <> 0) Then
         Debug.Print "Error deleting table: " & sourceTableName & " - " & Err.Description
+        MsgBox "Error deleting table: " & sourceTableName & " - " & Err.Description & vbCrLf & vbCrLf & "Possible other table reference this table." & vbCrLf & vbCrLf & "Operation aborted!", vbCritical
         Err.Clear  ' Clear the error
+        conn.Close
+        On Error GoTo 0
+        Exit Function
       End If
 
       On Error GoTo 0  ' Resume normal error handling
     Else
-      destTableName = tInfo.TableName & GetToday
+      destTableName = tInfo.tableName & GetToday
     End If
 
     On Error Resume Next
 
     ' COPY ROWS FROM SOURCE DBASE
-    sqlCreate = "SELECT * INTO " & destTableName & " FROM [" & sourceTableName & "] IN '" & sourceDbFilepath & "';"
+    sqlCreate = "SELECT * INTO [" & destTableName & "] FROM [" & sourceTableName & "] IN '" & sourceDbFilepath & "';"
     conn.Execute sqlCreate
 
+    '.............
+
+    '    Dim tInfo As clsTableInfo
+    Dim item As Variant
+    Dim parts() As String
+    Dim sqlText As String
+
     ' ADD PK
-    If (IsNullOrEmpty(tInfo.PK) = False) Then
-      conn.Execute tInfo.PK
+    'If (IsNullOrEmpty(tInfo.PK) = False) Then
+    If tInfo.PKCollection.count > 0 Then
+      Dim pkFields As String: pkFields = ""
+      For Each item In tInfo.PKCollection
+        pkFields = pkFields & "[" & item & "], "
+      Next
+      pkFields = Left(pkFields, Len(pkFields) - 2)
+
+      '      sqlText = sqlText & "ALTER TABLE [" & tInfo.tableName & "] ADD CONSTRAINT [PK_" & tInfo.tableName & "] PRIMARY KEY (" & pkFields & ");" & vbCrLf
+      sqlText = "ALTER TABLE [" & tInfo.tableName & "] ADD CONSTRAINT [PrimaryKey] PRIMARY KEY (" & pkFields & ");"
+      conn.Execute sqlText
     End If
+
+    If Err.Number <> 0 Then
+      MsgBox Err.Description, vbExclamation
+      Err.Clear  ' Clear the error
+    End If
+
+
+    'ADD UNIQUE
+    For Each item In tInfo.UniqueCollection
+      parts = Split(item, "|")  ' parts(0) = Index Name, parts(1) = Column List
+      '            sqlText = sqlText & "ALTER TABLE [" & tInfo.tableName & "] ADD CONSTRAINT [" & parts(0) & "] UNIQUE (" & parts(1) & ");" & vbCrLf
+      sqlText = "ALTER TABLE [" & tInfo.tableName & "] ADD CONSTRAINT [" & parts(0) & "] UNIQUE (" & parts(1) & ");"
+      conn.Execute sqlText
+    Next
+
+    If Err.Number <> 0 Then
+      MsgBox Err.Description, vbExclamation
+      Err.Clear  ' Clear the error
+    End If
+
+    ' C. Regular Performance Indexes DDL (Non-unique lookup keys)
+    For Each item In tInfo.IndexCollection
+      parts = Split(item, "|")  ' parts(0) = Index Name, parts(1) = Column List
+      'sqlText = sqlText & "CREATE INDEX [" & parts(0) & "] ON [" & tInfo.tableName & "] (" & parts(1) & ");" & vbCrLf
+      sqlText = "CREATE INDEX [" & parts(0) & "] ON [" & tInfo.tableName & "] (" & parts(1) & ");"
+      conn.Execute sqlText
+    Next
 
     If Err.Number <> 0 Then
       MsgBox Err.Description, vbExclamation
@@ -70,19 +142,16 @@ Public Function CloneTableByTBL1toTBL2(ByVal sourceDbFilepath$, ByVal destDbFile
     End If
 
     'ADD FK
-    If (IsNullOrEmpty(tInfo.FK) = False) Then
-      conn.Execute tInfo.FK
-    End If
+    ' D. Foreign Keys DDL
+    For Each item In tInfo.FKCollection
+      parts = Split(item, "|")  ' LocalField|RefTable|RefField
+      '            sqlText = sqlText & "ALTER TABLE [" & tInfo.tableName & "] ADD CONSTRAINT [FK_" & tInfo.tableName & "_" & parts(0) & "] " & _
+                   '                      "FOREIGN KEY ([" & parts(0) & "]) REFERENCES [" & parts(1) & "] ([" & parts(2) & "]);" & vbCrLf
+      sqlText = "ALTER TABLE [" & tInfo.tableName & "] ADD CONSTRAINT [" & parts(0) & "] " & _
+                "FOREIGN KEY ([" & parts(1) & "]) REFERENCES [" & parts(2) & "] ([" & parts(3) & "]);"
 
-    If Err.Number <> 0 Then
-      MsgBox Err.Description, vbExclamation
-      Err.Clear  ' Clear the error
-    End If
-
-    'ADD UNIQUE
-    If (IsNullOrEmpty(tInfo.Unique) = False) Then
-      conn.Execute tInfo.Unique
-    End If
+      conn.Execute sqlText
+    Next
 
     If Err.Number <> 0 Then
       MsgBox Err.Description, vbExclamation
@@ -92,49 +161,6 @@ Public Function CloneTableByTBL1toTBL2(ByVal sourceDbFilepath$, ByVal destDbFile
     On Error GoTo 0  ' Resume normal error handling
 
   Next tInfo
-
-  '  For i = LBound(tables) To UBound(tables)
-  '    Debug.Print tables(i, 0)
-  '
-  '    sourceTableName = tables(i, 0)
-  '    destTableName = tables(i, 0)
-  '
-  '    If (deleteIfExists) Then
-  '      On Error Resume Next
-  '
-  '      sqlDelete = "DROP TABLE [" & sourceTableName & "]"
-  '      conn.Execute sqlDelete
-  '
-  '      If Err.Number <> 0 Then
-  '        Debug.Print "Error deleting table: " & sourceTableName & " - " & Err.Description
-  '        Err.Clear  ' Clear the error
-  '      End If
-  '
-  '      On Error GoTo 0  ' Resume normal error handling
-  '    Else
-  '      destTableName = tables(i, 0) & GetToday
-  '    End If
-  '
-  '    On Error Resume Next
-  '
-  '    ' COPY ROWS FROM SOURCE DBASE
-  '    sqlCreate = "SELECT * INTO " & destTableName & " FROM [" & sourceTableName & "] IN '" & sourceDbFilepath & "';"
-  '    conn.Execute sqlCreate
-  '
-  '    ' ADD PK
-  '    If (IsNullOrEmpty(tables(i, 2)) = False) Then
-  '      sqlCreate = "ALTER TABLE [" & destTableName & "] ADD CONSTRAINT [PrimaryKey] PRIMARY KEY ([" & tables(i, 2) & "]);"
-  '
-  '      conn.Execute sqlCreate
-  '    End If
-  '
-  '    If Err.Number <> 0 Then
-  '      MsgBox Err.Description, vbExclamation
-  '      Err.Clear  ' Clear the error
-  '    End If
-  '
-  '    On Error GoTo 0  ' Resume normal error handling
-  '  Next i
 
   conn.Close
   Set conn = Nothing
@@ -152,125 +178,26 @@ Public Sub AddTablesToListview(ByRef lstv As ListView, ByVal filepath$, ByVal st
   If mySchema Is Nothing Then Exit Sub
 
   For Each tInfo In mySchema
-    Debug.Print "========================================"
-    Debug.Print "Table Name: " & tInfo.TableName
-    Debug.Print "Row Count : " & tInfo.RecordCount
-    Debug.Print "PK Field  : " & IIf(tInfo.PK = "", "[None]", tInfo.PK)
-    Debug.Print "FK Field  : " & IIf(tInfo.FK = "", "[None]", tInfo.FK)
-    Debug.Print "Unique    : " & IIf(tInfo.Unique = "", "[None]", tInfo.Unique)
 
-    lstv.ListItems.Add , , tInfo.TableName
+    Dim pk As String
+
+    If tInfo.PKCollection.count > 0 Then
+      pk = tInfo.PKCollection.item(1)
+    End If
+
+    lstv.ListItems.Add , , tInfo.tableName
     lstv.ListItems(lstv.ListItems.count).ListSubItems.Add , , tInfo.RecordCount
-    lstv.ListItems(lstv.ListItems.count).ListSubItems.Add , , tInfo.PK
-
-
+    lstv.ListItems(lstv.ListItems.count).ListSubItems.Add , , pk
+    '
+    '
   Next tInfo
 
   If (store2masterSchema) Then
 
     Set masterSchema = mySchema
   End If
-  '  Dim tableCounts As Variant
-  '  Dim i As Long
-  '
-  '  lstv.ListItems.Clear
-  '
-  '  tableCounts = GetTableNamesAndCounts(filepath)
-  '
-  '  ' Print out the table names and row counts
-  '  For i = LBound(tableCounts, 1) To UBound(tableCounts, 1)
-  '    'If (tableCounts(i, 1) > 0) Then
-  '    lstv.ListItems.Add , , tableCounts(i, 0)
-  '    lstv.ListItems(lstv.ListItems.count).ListSubItems.Add , , tableCounts(i, 1)
-  '    lstv.ListItems(lstv.ListItems.count).ListSubItems.Add , , tableCounts(i, 2)
-  '    'End If
-  '  Next i
+
 End Sub
-
-Private Function GetTableNamesAndCounts(ByVal dbPath As String) As Variant
-  Dim conn As ADODB.Connection
-  Dim rs, tempRS As ADODB.Recordset
-  Dim TableInfo() As Variant
-  Dim tableCount As Long
-  Dim query As String
-  Dim i As Long
-  Dim pkName As String
-
-  ' Initialize the connection
-  Set conn = New ADODB.Connection
-  conn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & dbPath & ";"
-  conn.Open
-
-  ' Open a schema recordset to get table names
-  Set rs = conn.OpenSchema(adSchemaTables)
-
-  ' First, count how many tables there are
-  tableCount = 0
-  Do While Not rs.EOF
-    If rs.Fields("TABLE_TYPE").Value = "TABLE" Then
-      tableCount = tableCount + 1
-    End If
-    rs.MoveNext
-  Loop
-
-  ' Redim the array to hold table names, counts, and PK names
-  ReDim TableInfo(0 To tableCount - 1, 0 To 2)
-
-  ' Reset the recordset to the beginning
-  rs.MoveFirst
-  tableCount = 0
-
-  ' Retrieve table names and row counts
-  Do While Not rs.EOF
-    If rs.Fields("TABLE_TYPE").Value = "TABLE" Then
-      TableInfo(tableCount, 0) = rs.Fields("TABLE_NAME").Value
-
-      ' Count the number of rows in the table
-      query = "SELECT COUNT(*) AS TotalRows FROM [" & TableInfo(tableCount, 0) & "]"
-      Set tempRS = conn.Execute(query)
-      TableInfo(tableCount, 1) = tempRS(0).Value
-      tempRS.Close
-
-      ' Get the primary key name
-      pkName = GetPrimaryKeyName(dbPath, TableInfo(tableCount, 0))
-      TableInfo(tableCount, 2) = pkName
-
-      tableCount = tableCount + 1
-    End If
-    rs.MoveNext
-  Loop
-
-  ' Clean up
-  rs.Close
-  conn.Close
-  Set rs = Nothing
-  Set conn = Nothing
-  Set tempRS = Nothing
-
-  ' Return the 3D array of table names, counts, and PK names
-  GetTableNamesAndCounts = TableInfo
-End Function
-
-Private Function GetPrimaryKeyName(ByVal dbPath As String, ByVal TableName As String) As String
-  Dim conn As ADODB.Connection
-  Dim rs As ADODB.Recordset
-  Dim keyName As String
-
-  Set conn = New ADODB.Connection
-  conn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & dbPath & ";"
-  conn.Open
-
-  Set rs = conn.OpenSchema(adSchemaPrimaryKeys, Array(Empty, Empty, TableName))
-
-  If Not rs.EOF Then
-    keyName = rs.Fields("COLUMN_NAME").Value
-  End If
-
-  rs.Close
-  conn.Close
-
-  GetPrimaryKeyName = keyName
-End Function
 
 Public Function GetCheckListivewItems(ByVal lst As ListView) As Variant
   Dim checkedItems() As Variant
@@ -350,7 +277,7 @@ Public Function IsNullOrEmpty(ByVal str As Variant) As Boolean
   End If
 End Function
 
-Public Function IsArrayEmpty(arr() As Variant) As Boolean
+Public Function IsArrayEmpty(arr() As String) As Boolean
   IsArrayEmpty = ((Not arr) = -1)
 End Function
 
@@ -377,7 +304,7 @@ Public Function GetCheckedTableInfo(ByVal lv As ListView) As Collection
 
         ' Add to our checked output collection if found
         If Not tInfo Is Nothing Then
-          checkedCollection.Add tInfo, tInfo.TableName
+          checkedCollection.Add tInfo, tInfo.tableName
           Set tInfo = Nothing  ' Reset for next iteration
         Else
           MsgBox tblKey & " not found in the collection MASTER, help!"
@@ -407,12 +334,18 @@ Public Function GetDatabaseSchemaCollection(ByVal dbPath As String) As Collectio
   Dim tInfo As clsTableInfo
   Dim currentTable As String
 
+  ' Variables to group composite index/unique fields
+  Dim lastIdxName As String
+  Dim collectedFields As String
+  Dim isLastUnique As Boolean
+  Dim isLastPK As Boolean
+
   On Error GoTo ErrorHandler
 
   conn.Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & dbPath & ";"
   Set tblSchema = New Collection
 
-  ' 1. Step A: Gather all User Tables and calculate Record Counts
+  ' Step A: Gather User Tables and Record Counts
   Set rsTables = conn.OpenSchema(adSchemaTables, Array(Empty, Empty, Empty, "TABLE"))
 
   Do While Not rsTables.EOF
@@ -420,7 +353,7 @@ Public Function GetDatabaseSchemaCollection(ByVal dbPath As String) As Collectio
 
     If Left(currentTable, 4) <> "MSys" Then
       Set tInfo = New clsTableInfo
-      tInfo.TableName = currentTable
+      tInfo.tableName = currentTable
 
       Set rsCount = conn.Execute("SELECT COUNT(*) FROM [" & currentTable & "]")
       If Not rsCount.EOF Then
@@ -435,52 +368,81 @@ Public Function GetDatabaseSchemaCollection(ByVal dbPath As String) As Collectio
   Loop
   rsTables.Close
 
-  ' 2. Step B: Extract Primary Key and Unique fields (First single field only)
-  For Each tInfo In tblSchema
-    currentTable = tInfo.TableName
-    Set rsIdx = conn.OpenSchema(adSchemaIndexes, Array(Empty, Empty, Empty, Empty, currentTable))
 
-    Do While Not rsIdx.EOF
-      ' Assigning to properties instantly generates the ALTER statement strings
-      If rsIdx("PRIMARY_KEY").Value = True And tInfo.PK = "" Then
-        tInfo.PK = rsIdx("COLUMN_NAME").Value
-
-      ElseIf rsIdx("UNIQUE").Value = True And tInfo.Unique = "" And rsIdx("PRIMARY_KEY").Value = False Then
-        If Left(rsIdx("INDEX_NAME").Value, 10) <> "Reference" Then
-          tInfo.Unique = rsIdx("COLUMN_NAME").Value
-        End If
-      End If
-
-      rsIdx.MoveNext
-    Loop
-    rsIdx.Close
-  Next tInfo
-
-  ' 3. Step C: Extract Foreign Keys (First single field only)
+  ' Step B: Extract ALL Foreign Keys FIRST (So we map and blacklist their exact names)
   Set rsFKs = conn.OpenSchema(adSchemaForeignKeys, Array(Empty, Empty, Empty, Empty, Empty, Empty))
 
   Do While Not rsFKs.EOF
     Dim fkTable As String: fkTable = rsFKs("FK_TABLE_NAME").Value
+    Dim fkName As String: fkName = NVL(rsFKs("FK_NAME").Value)
 
+    Set tInfo = Nothing
     On Error Resume Next
     Set tInfo = tblSchema(fkTable)
     On Error GoTo ErrorHandler
 
     If Not tInfo Is Nothing Then
-      If tInfo.FK = "" Then
-        ' Build a temporary piped string to pass the relationship details to the class property
-        Dim pipeDetails As String
-        pipeDetails = rsFKs("FK_COLUMN_NAME").Value & "|" & _
-                      rsFKs("PK_TABLE_NAME").Value & "|" & _
-                      rsFKs("PK_COLUMN_NAME").Value
-
-        tInfo.FK = pipeDetails
-      End If
+      ' Pass original db fkName to store and automatically register to blacklist
+      tInfo.AddFK fkName, _
+                  rsFKs("FK_COLUMN_NAME").Value, _
+                  rsFKs("PK_TABLE_NAME").Value, _
+                  rsFKs("PK_COLUMN_NAME").Value
     End If
 
     rsFKs.MoveNext
   Loop
   rsFKs.Close
+
+  ' Step C: Extract Primary Keys, Unique Constraints, and Database Indexes
+  For Each tInfo In tblSchema
+    currentTable = tInfo.tableName
+    Set rsIdx = conn.OpenSchema(adSchemaIndexes, Array(Empty, Empty, Empty, Empty, currentTable))
+
+    lastIdxName = ""
+    collectedFields = ""
+
+    Do While Not rsIdx.EOF
+      Dim idxName As String: idxName = NVL(rsIdx("INDEX_NAME").Value)
+      Dim colName As String: colName = NVL(rsIdx("COLUMN_NAME").Value)
+      Dim isPK As Boolean: isPK = CBool(rsIdx("PRIMARY_KEY").Value)
+      Dim isUnique As Boolean: isUnique = CBool(rsIdx("UNIQUE").Value)
+
+      ' Safely ignores implicit systems and matches against exact original FK constraint names
+      If idxName <> "" And Left(idxName, 10) <> "Reference" And Not tInfo.IsAnFKName(idxName) Then
+
+        If lastIdxName <> "" And lastIdxName <> idxName Then
+          If isLastPK Then
+            ' Handled inline below
+          Else
+            tInfo.AddIndexOrUnique lastIdxName, collectedFields, isLastUnique
+          End If
+          collectedFields = ""
+        End If
+
+        If collectedFields = "" Then
+          collectedFields = "[" & colName & "]"
+        Else
+          collectedFields = collectedFields & ", [" & colName & "]"
+        End If
+
+        If isPK Then tInfo.AddPK colName
+
+        lastIdxName = idxName
+        isLastUnique = isUnique
+        isLastPK = isPK
+      End If
+
+      rsIdx.MoveNext
+    Loop
+
+    If lastIdxName <> "" And Not tInfo.IsAnFKName(lastIdxName) Then
+      If Not isLastPK Then
+        tInfo.AddIndexOrUnique lastIdxName, collectedFields, isLastUnique
+      End If
+    End If
+
+    rsIdx.Close
+  Next tInfo
 
   conn.Close
   Set conn = Nothing
@@ -492,5 +454,44 @@ ErrorHandler:
   Set GetDatabaseSchemaCollection = Nothing
 End Function
 
+' Clean Null values helper function
+Private Function NVL(ByVal val As Variant) As String
+  If IsNull(val) Then NVL = "" Else NVL = CStr(val)
+End Function
 
 
+Public Function GetListviewCheckedItems(ByVal lstv As ListView) As String()
+    Dim i As Long
+    Dim count As Long
+    Dim checkedArray() As String
+    
+    ' Initialize count
+    count = 0
+    
+    ' Loop through all ListView items
+    For i = 1 To lstv.ListItems.count
+        If lstv.ListItems(i).Checked Then
+            ' Expand the array while keeping existing data
+            ReDim Preserve checkedArray(count) As String
+            
+            ' Store the item text
+            checkedArray(count) = lstv.ListItems(i).Text
+            
+            ' Increment index for the next found item
+            count = count + 1
+        End If
+    Next i
+    
+    ' Return the populated array
+    GetListviewCheckedItems = checkedArray
+End Function
+
+
+Public Sub CheckUncheckLstvItems(ByVal lstv As ListView, isCheck As Boolean)
+  Dim i As Integer
+
+  ' Loop through every item in the ListView
+  For i = 1 To lstv.ListItems.count
+    lstv.ListItems(i).Checked = isCheck
+  Next i
+End Sub

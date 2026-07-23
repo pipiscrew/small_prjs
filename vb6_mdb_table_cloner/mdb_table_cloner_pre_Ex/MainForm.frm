@@ -173,22 +173,6 @@ Begin VB.Form MainForm
       Top             =   225
       Width           =   1185
    End
-   Begin VB.Menu mnuFile 
-      Caption         =   "mnuFile"
-      Visible         =   0   'False
-      Begin VB.Menu mnuCheckAll 
-         Caption         =   "check all"
-      End
-      Begin VB.Menu mnuUncheckAll 
-         Caption         =   "uncheck all"
-      End
-      Begin VB.Menu mnuDash 
-         Caption         =   "-"
-      End
-      Begin VB.Menu mnuExportDDL4selected 
-         Caption         =   "export DDL for selected"
-      End
-   End
 End
 Attribute VB_Name = "MainForm"
 Attribute VB_GlobalNameSpace = False
@@ -197,152 +181,85 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private mouseContextSender As Integer  '1=lstSource 2=lstvDest
-
 Private Sub cmdExportDDL_Click()
-  Dim myDbPath As String
-  Dim mySavePath As String
-
-  myDbPath = lstSource.Tag
-  mySavePath = lstSource.Tag & General.GetToday() & ".sql"
-
-  Call ExportDatabaseSchema(myDbPath, mySavePath)
+    Dim myDbPath As String
+    Dim mySavePath As String
+    
+    myDbPath = lstSource.Tag
+    mySavePath = lstSource.Tag & General.GetToday() & ".sql"
+    
+    Call ExportDatabaseSchema(myDbPath, mySavePath)
 End Sub
 
 Private Sub cmdExportDDLright_Click()
-  Dim myDbPath As String
-  Dim mySavePath As String
-
-  myDbPath = lstDest.Tag
-  mySavePath = lstDest.Tag & General.GetToday() & ".sql"
-
-  Call ExportDatabaseSchema(myDbPath, mySavePath)
+    Dim myDbPath As String
+    Dim mySavePath As String
+    
+    myDbPath = lstDest.Tag
+    mySavePath = lstDest.Tag & General.GetToday() & ".sql"
+    
+    Call ExportDatabaseSchema(myDbPath, mySavePath)
 End Sub
 
 Private Sub Form_Load()
-  Me.Caption = App.Title & " v" & App.Major & "." & App.Minor & "." & App.Revision
+  Me.Caption = App.Title & " v" & App.Major & "." & App.Minor
 End Sub
 
 Private Sub btnExecute_Click()
-  Dim sourceCollection As Collection
-  Dim destCollection As Collection
+Dim sourceCollection As Collection
+Dim destCollection As Collection
 
-  If (Not General.FileExists(lstSource.Tag) Or Not General.FileExists(lstDest.Tag)) Then
-    MsgBox "Add source & destination dbase", vbExclamation
-    Exit Sub
-  End If
-
-
-  Set sourceCollection = General.GetCheckedTableInfo(lstSource)
-  'destCollection = CollectionOperations.GetCheckedTableInfo(lstDest)
-
-
+Set sourceCollection = General.GetCheckedTableInfo(lstSource)
+'destCollection = CollectionOperations.GetCheckedTableInfo(lstDest)
 
   If (sourceCollection.count = 0) Then
-    MsgBox "Please select source tables", vbExclamation
+   MsgBox "Please select source tables", vbExclamation
     Exit Sub
   End If
-
+  
   Call CloneTableByTBL1toTBL2(lstSource.Tag, lstDest.Tag, chkDeleteBeforeAddTable.Value, sourceCollection)
-
+  
   Call AddTablesToListview(lstDest, lstDest.Tag, False)
-
+  
+'  Dim sourceTBL() As Variant
+'  Dim destTBL() As Variant
+'  sourceTBL = GetCheckListivewItems(lstSource)
+'  destTBL = GetCheckListivewItems(lstDest)
+'
+'  if (
+'
+'  If (IsArrayEmpty(sourceTBL)) Then
+'    MsgBox "Please select source tables", vbExclamation
+'    Exit Sub
+'  ElseIf (IsNullOrEmpty(lstDest.Tag)) Then
+'    MsgBox "Please add destination database", vbExclamation
+'    Exit Sub
+'  End If
+'
+'  Call CloneTableByTBL1toTBL2(lstSource.Tag, lstDest.Tag, chkDeleteBeforeAddTable.Value, sourceTBL)
+'
+'  ' refresh destination
+'  Call AddTablesToListview(lstDest, lstDest.Tag)
 End Sub
 
-Private Sub lstSource_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-  If Button = vbRightButton And lstSource.ListItems.count > 0 Then
-    mouseContextSender = 1
-    PopupMenu mnuFile
-  End If
-End Sub
-
-Private Sub lstDest_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-  If Button = vbRightButton And lstDest.ListItems.count > 0 Then
-    mouseContextSender = 2
-    PopupMenu mnuFile
-  End If
-End Sub
-
-Private Sub lstSource_OLEDragDrop(Data As MSComctlLib.DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstSource_OLEDragDrop(Data As MSComctlLib.DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
   If Data.GetFormat(vbCFFiles) Then
     lstSource.Tag = Data.Files(1)
-
-    'Call GetDatabaseSchemaCollection(Data.Files(1))
+    
+'Call GetDatabaseSchemaCollection(Data.Files(1))
 
     Call AddTablesToListview(lstSource, Data.Files(1), True)
-
+    
     cmdExportDDL.Visible = True
   End If
 End Sub
 
-Private Sub lstDest_OLEDragDrop(Data As MSComctlLib.DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstDest_OLEDragDrop(Data As MSComctlLib.DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
   If Data.GetFormat(vbCFFiles) Then
     lstDest.Tag = Data.Files(1)
 
     Call AddTablesToListview(lstDest, Data.Files(1), False)
-
+    
     cmdExportDDLright.Visible = True
   End If
 End Sub
-
-Private Sub mnuCheckAll_Click()
-  If (mouseContextSender = 1) Then
-    General.CheckUncheckLstvItems lstSource, True
-  Else
-    General.CheckUncheckLstvItems lstDest, True
-  End If
-End Sub
-
-Private Sub mnuUncheckAll_Click()
-  If (mouseContextSender = 1) Then
-    General.CheckUncheckLstvItems lstSource, False
-  Else
-    General.CheckUncheckLstvItems lstDest, False
-  End If
-End Sub
-
-Private Sub mnuExportDDL4selected_Click()
-  Dim myDbPath As String
-  Dim mySavePath As String
-
-  If (mouseContextSender = 1) Then
-    myDbPath = lstSource.Tag
-  Else
-    myDbPath = lstDest.Tag
-  End If
-
-  mySavePath = myDbPath & General.GetToday() & ".sql"
-
-  Dim myItems() As String
-  Dim i As Long
-  Dim output As String
-
-  ' Get the array of checked items
-  If (mouseContextSender = 1) Then
-    myItems = General.GetListviewCheckedItems(lstSource)
-  Else
-    myItems = General.GetListviewCheckedItems(lstDest)
-  End If
-
-  If IsArrayEmpty(myItems) Then
-    MsgBox "Please check some tables", vbInformation
-    Exit Sub
-  End If
-  ' Safe check: See if the array contains any elements
-  'On Error Resume Next
-  If UBound(myItems) >= 0 Then
-    ' Loop through your new string array
-    '    For i = 0 To UBound(myItems)
-    '      MsgBox "Checked item text: " & myItems(i)
-    '    Next i
-    output = GetFullCreateTableScript(myDbPath, myItems, mySavePath)
-
-  Else
-    MsgBox "No items are checked!"
-  End If
-  'On Error GoTo 0
-End Sub
-
-
-
-

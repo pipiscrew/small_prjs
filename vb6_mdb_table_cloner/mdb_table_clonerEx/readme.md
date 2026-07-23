@@ -1,15 +1,4 @@
-# MDB_Table_ClonerEx
+# MDB_Table_Cloner
 
-<img width="850" height="638" alt="Image" src="https://github.com/user-attachments/assets/b8f9eb85-f3e1-42f2-8d5d-42f048a439f3" />
+<img width="852" height="640" alt="Image" src="https://github.com/user-attachments/assets/9a0b787d-c170-4000-b6d9-fe7ab4e2570f" />
 
-### MDB_Table_Cloner vs MDB_Table_ClonerEx
-
-All below operations limited on first occurred per table. Example, when has 2 FK will create only the first one and so on.
-
-| Function       | Origin | Ex |
-| -------------- | ------ | -- |
-| Creates PK     | x      | x  |
-| Creates FK     |        | x  |
-| Creates Unique |        | x  |
-| Creates Index  |        |    |
-| Export DDL     |        | x  |
