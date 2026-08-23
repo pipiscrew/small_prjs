@@ -15,6 +15,10 @@ references :
 * <https://stackoverflow.com/a/64875381>  
 * [Bee.UI.WinForms](https://www.nuget.org/packages/Bee.UI.WinForms) - use of webview2
 * [RestSharp](https://www.nuget.org/packages/RestSharp/)
+* [DotNetCoreOauth2](https://github.com/alkampfergit/DotNetCoreOauth2) [[presentation](https://www.youtube.com/watch?v=hOgvTDKKgnY)]  
+
+> **OAuth 2.0**: the authorization framework that obtains and scopes access tokens.  
+> **XOAUTH2**: an email-specific SASL authentication method that presents an OAuth access token to an IMAP, POP3, or SMTP server.  
 
 ---
 
