@@ -16,7 +16,7 @@ namespace sampleOAuth2
     public partial class MainForm : Form
     {
         private const string ClientId = "7f3a9c1d2e8b4a6f"; //UID
-        private const string ClientSecret = "9Kx!4vQ#2mL@8pR$6tY%1zN"; //Secret
+        //private const string ClientSecret = "9Kx!4vQ#2mL@8pR$6tY%1zN"; //Secret
 
         // GET - request authorization
         private const string AuthorizeEndpoint =
@@ -146,13 +146,30 @@ namespace sampleOAuth2
         {
             using (HttpClient client = new HttpClient())
             {
+                /*
+                 * when #OAuth2 provider# setting is 'Confidential' :
+                 * your application must send the #client_secret# (only when is WEB APPLICATION)
+                 * protects the developer API resources from unauthorized apps aka global machine-to-machine trust.
+                 * OTHERWISE (desktop, mobile) must send PKCE #code_challenge# and #code_challenge_method# params.
+                 */
+
+                string codeVerifier = PkceGenerator.CreateCodeVerifier();
+                string codeChallenge = PkceGenerator.CreateCodeChallenge(codeVerifier);
+
+                //Console.WriteLine("code_challenge_method: S256");
+                //Console.WriteLine("code_verifier: " + codeVerifier);
+                //Console.WriteLine("code_challenge: " + codeChallenge);
+                //
+
                 var values = new Dictionary<string, string>();
 
                 values.Add("grant_type", "authorization_code");
                 values.Add("client_id", ClientId);
-                values.Add("client_secret", ClientSecret);
+                //values.Add("client_secret", ClientSecret);
                 values.Add("code", authorizationCode);
                 values.Add("redirect_uri", RedirectUri);
+                values.Add("code_challenge", codeChallenge);
+                values.Add("code_challenge_method", "S256");
 
                 using (FormUrlEncodedContent content =
                     new FormUrlEncodedContent(values))
