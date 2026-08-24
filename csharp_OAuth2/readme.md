@@ -13,7 +13,7 @@ This sample does not use any third-party assemblies.
 references :
 * <https://stackoverflow.com/a/11457719>  
 * <https://stackoverflow.com/a/64875381>  
-* [Bee.UI.WinForms](https://www.nuget.org/packages/Bee.UI.WinForms) - use of webview2
+* [Bee.OAuth2.WinForms](https://www.nuget.org/packages/Bee.OAuth2.WinForms) - OAuth2 + use of webview2
 * [RestSharp](https://www.nuget.org/packages/RestSharp/)
 * [DotNetCoreOauth2](https://github.com/alkampfergit/DotNetCoreOauth2) [[presentation](https://www.youtube.com/watch?v=hOgvTDKKgnY)]  
 
