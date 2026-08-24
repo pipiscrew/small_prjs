@@ -150,6 +150,8 @@ namespace sampleOAuth2
                  * when #OAuth2 provider# setting is 'Confidential' :
                  * your application must send the #client_secret# (only when is WEB APPLICATION)
                  * protects the developer API resources from unauthorized apps aka global machine-to-machine trust.
+				 * https://www.oauth.com/oauth2-servers/client-registration/client-id-secret/
+				 *
                  * OTHERWISE (desktop, mobile) must send PKCE #code_challenge# and #code_challenge_method# params.
                  */
 
