@@ -16,6 +16,7 @@ references :
 * [Bee.OAuth2.WinForms](https://www.nuget.org/packages/Bee.OAuth2.WinForms) - OAuth2 + use of webview2
 * [RestSharp](https://www.nuget.org/packages/RestSharp/)
 * [DotNetCoreOauth2](https://github.com/alkampfergit/DotNetCoreOauth2) [[presentation](https://www.youtube.com/watch?v=hOgvTDKKgnY)]  
+* [Using OAuth2 with Microsoft.Identity.Client on netCore](https://deanhume.com/a-modern-guide-to-using-oauth-2-0-with-c/)
 
 > **OAuth 2.0**: the authorization framework that obtains and scopes access tokens.  
 > **XOAUTH2**: an email-specific SASL authentication method that presents an OAuth access token to an IMAP, POP3, or SMTP server.  
