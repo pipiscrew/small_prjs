@@ -20,6 +20,8 @@ references :
 > **OAuth 2.0**: the authorization framework that obtains and scopes access tokens.  
 > **XOAUTH2**: an email-specific SASL authentication method that presents an OAuth access token to an IMAP, POP3, or SMTP server.  
 
+* [OAuth2 SMTP and Microsoft Graph](https://services.dartmouth.edu/TDClient/1806/Portal/KB/Article/168187/Sending-Email-SMTP-OAuth2-FAQ-for-Application-Teams-Developers)
+
 ---
 
 Switch from HttpListener to **Kestrel** (the modern web server built into .NET Core / .NET 6/8/9), you completely bypass **HTTP.sys** and **netsh**.
