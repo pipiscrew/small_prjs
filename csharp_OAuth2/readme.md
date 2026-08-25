@@ -16,13 +16,15 @@ references :
 * [Bee.OAuth2.WinForms](https://www.nuget.org/packages/Bee.OAuth2.WinForms) - OAuth2 + use of webview2
 * [RestSharp](https://www.nuget.org/packages/RestSharp/)
 * [DotNetCoreOauth2](https://github.com/alkampfergit/DotNetCoreOauth2) [[presentation](https://www.youtube.com/watch?v=hOgvTDKKgnY)]  
-* [Using OAuth2 with Microsoft.Identity.Client on netCore](https://deanhume.com/a-modern-guide-to-using-oauth-2-0-with-c/)
 * [Google.Apis.Auth.dll](https://www.nuget.org/packages/google.apis.auth/) [[use of](https://github.com/xavierfoucrier/inbox-notifier)]
+* [Using OAuth2 with Microsoft.Identity.Client on netCore](https://deanhume.com/a-modern-guide-to-using-oauth-2-0-with-c/)
 
 > **OAuth 2.0**: the authorization framework that obtains and scopes access tokens.  
 > **XOAUTH2**: an email-specific SASL authentication method that presents an OAuth access token to an IMAP, POP3, or SMTP server.  
 
 * [OAuth2 SMTP and Microsoft Graph](https://services.dartmouth.edu/TDClient/1806/Portal/KB/Article/168187/Sending-Email-SMTP-OAuth2-FAQ-for-Application-Teams-Developers)
+* [aembit - Authenticate to Microsoft Graph API using OAuth2](https://aembit.io/blog/authenticate-to-microsoft-graph-api-using-oauth-2-0-client-credentials/) - when free account you have to pay ([2023](https://learn.microsoft.com/en-us/answers/questions/1352059/azure-portal-keeps-throwing-aadsts16000-errors))
+
 
 ---
 
