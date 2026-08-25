@@ -17,6 +17,7 @@ references :
 * [RestSharp](https://www.nuget.org/packages/RestSharp/)
 * [DotNetCoreOauth2](https://github.com/alkampfergit/DotNetCoreOauth2) [[presentation](https://www.youtube.com/watch?v=hOgvTDKKgnY)]  
 * [Using OAuth2 with Microsoft.Identity.Client on netCore](https://deanhume.com/a-modern-guide-to-using-oauth-2-0-with-c/)
+* [Google.Apis.Auth.dll](https://www.nuget.org/packages/google.apis.auth/) [[use of](https://github.com/xavierfoucrier/inbox-notifier)]
 
 > **OAuth 2.0**: the authorization framework that obtains and scopes access tokens.  
 > **XOAUTH2**: an email-specific SASL authentication method that presents an OAuth access token to an IMAP, POP3, or SMTP server.  
